@@ -1,0 +1,65 @@
+{
+  "mobile": {
+    "metrics": {
+      "scrollWidth": 390,
+      "innerWidth": 390,
+      "cardWidth": 346,
+      "inputWidth": 308,
+      "buttonHeight": 60,
+      "disabledInitially": true,
+      "backHref": "identitas.html"
+    },
+    "console_errors": [],
+    "page_errors": []
+  },
+  "desktop": {
+    "metrics": {
+      "scrollWidth": 1440,
+      "innerWidth": 1440,
+      "cardWidth": 464,
+      "inputWidth": 418,
+      "buttonHeight": 60,
+      "disabledInitially": true,
+      "backHref": "identitas.html"
+    },
+    "console_errors": [],
+    "page_errors": []
+  },
+  "behavior": {
+    "cases": [
+      {
+        "raw": "12345",
+        "value": "12345",
+        "disabled": true
+      },
+      {
+        "raw": "123456",
+        "value": "123456",
+        "disabled": false
+      },
+      {
+        "raw": "654321",
+        "value": "654321",
+        "disabled": false
+      },
+      {
+        "raw": "111111",
+        "value": "111111",
+        "disabled": false
+      },
+      {
+        "raw": "9999999",
+        "value": "999999",
+        "disabled": false
+      },
+      {
+        "raw": "12ab!34 typed",
+        "value": "1234",
+        "disabled": true
+      }
+    ],
+    "success_message": "Verifikasi Demo berhasil. Tahap 4 selesai.",
+    "button_text": "Verifikasi Demo Selesai",
+    "page_errors": []
+  }
+}

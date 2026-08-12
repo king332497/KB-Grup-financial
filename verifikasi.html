@@ -6,8 +6,8 @@
   <meta name="color-scheme" content="dark" />
   <meta name="theme-color" content="#16082f" />
   <meta http-equiv="Content-Security-Policy"
-        content="default-src 'self'; img-src 'self' data:; style-src 'unsafe-inline'; script-src 'unsafe-inline'; connect-src 'none'; form-action 'self'; base-uri 'none'; frame-ancestors 'none';">
-  <title>Form Identitas Simulasi — KBSTARFinance</title>
+        content="default-src 'self'; img-src 'self' data:; style-src 'unsafe-inline'; script-src 'unsafe-inline'; connect-src 'none'; form-action 'self'; base-uri 'none';">
+  <title>Verifikasi Demo — KBSTARFinance</title>
   <style>
     :root{
       --bg1:#200c43;--bg2:#14072d;--bg3:#090417;
@@ -99,6 +99,17 @@
     footer{padding:0 28px 34px;text-align:center;color:#8e8499;font-size:11px;line-height:1.5}
     @media(max-width:420px){.content{padding-left:22px;padding-right:22px}.top{padding-left:20px;padding-right:20px}h1{font-size:43px}.card{padding:18px}}
     @media(min-width:760px){body{padding:24px 0}.app{border-radius:34px;min-height:auto}}
+    .code-input{
+      text-align:center;letter-spacing:.32em;font-size:24px;font-weight:800;font-variant-numeric:tabular-nums;
+      padding-left:calc(16px + .32em);
+    }
+    .code-input::placeholder{letter-spacing:.12em;font-size:15px;font-weight:500}
+    .primary.ready:not(:disabled){box-shadow:0 0 0 2px rgba(255,199,38,.14),0 10px 28px rgba(0,0,0,.27),0 0 18px rgba(246,205,84,.08)}
+    .spinner{
+      display:inline-block;width:16px;height:16px;margin-right:9px;vertical-align:-3px;border:2px solid rgba(255,223,99,.28);border-top-color:#ffdf63;border-radius:50%;animation:spin .72s linear infinite;
+    }
+    @keyframes spin{to{transform:rotate(360deg)}}
+    @media(prefers-reduced-motion:reduce){.spinner{animation:none;border-top-color:#ffdf63}}
   </style>
 </head>
 <body>
@@ -113,7 +124,7 @@
     </div>
 
     <div class="top">
-      <a class="back" href="login.html" aria-label="Kembali ke Login Simulasi"></a>
+      <a class="back" href="identitas.html" aria-label="Kembali ke Form Identitas Simulasi"></a>
       <div class="brand">
         <div class="name"><span class="kb">KB</span><span class="star">star</span></div>
         <small>by KB Bank</small>
@@ -121,43 +132,40 @@
     </div>
 
     <section class="content">
-      <p class="eyebrow">TAHAP 3 · IDENTITAS SIMULASI</p>
-      <h1>Form Identitas<strong>Simulasi</strong></h1>
-      <p class="lead">Isi hanya dengan data contoh untuk melanjutkan simulasi. Jangan gunakan identitas pribadi atau data kependudukan asli.</p>
+      <p class="eyebrow">TAHAP 4 · VERIFIKASI DEMO</p>
+      <h1>Verifikasi<strong>Demo</strong></h1>
+      <p class="lead">Masukkan 6 digit angka apa saja untuk melanjutkan simulasi. Tidak ada OTP atau verifikasi nyata pada halaman ini.</p>
 
-      <form class="card" id="identityForm" autocomplete="off" novalidate>
+      <form class="card" id="verificationForm" autocomplete="off" novalidate>
         <div class="safety">
           <div class="shield">◇</div>
-          <div><strong>Data dummy saja.</strong><br>NIK di halaman ini adalah <strong>NIK Demo</strong>. Form tidak mengirim data ke backend/API dan tidak menyimpan isian.</div>
+          <div><strong>Simulasi frontend saja.</strong><br>Tidak ada SMS, WhatsApp, email, API OTP, Telegram, backend verifikasi, atau kode rahasia.</div>
         </div>
 
         <div class="field">
-          <label for="fullName">Nama Lengkap</label>
-          <input id="fullName" name="fullName" type="text" maxlength="80" placeholder="Contoh: Andi Pratama" autocomplete="off" aria-describedby="fullNameHint fullNameError">
-          <p class="hint" id="fullNameHint">Gunakan nama contoh, bukan nama identitas asli.</p>
-          <p class="field-error" id="fullNameError" aria-live="polite"></p>
-        </div>
-
-        <div class="field">
-          <label for="demoNik">NIK Demo</label>
-          <input id="demoNik" name="demoNik" type="text" inputmode="numeric" maxlength="16" placeholder="16 digit angka contoh" autocomplete="off" aria-describedby="demoNikHint demoNikError">
-          <p class="hint" id="demoNikHint">Wajib 16 digit angka dummy. Jangan gunakan NIK asli.</p>
-          <p class="field-error" id="demoNikError" aria-live="polite"></p>
-        </div>
-
-        <div class="field">
-          <label for="motherName">Nama Ibu Kandung</label>
-          <input id="motherName" name="motherName" type="text" maxlength="80" placeholder="Contoh data dummy" autocomplete="off" aria-describedby="motherNameHint motherNameError">
-          <p class="hint" id="motherNameHint">Gunakan nama contoh/dummy saja.</p>
-          <p class="field-error" id="motherNameError" aria-live="polite"></p>
+          <label for="demoCode">Kode Verifikasi Demo</label>
+          <input
+            class="code-input"
+            id="demoCode"
+            name="demoCode"
+            type="text"
+            inputmode="numeric"
+            pattern="[0-9]{6}"
+            maxlength="6"
+            placeholder="000000"
+            autocomplete="off"
+            aria-describedby="demoCodeHint demoCodeError"
+          >
+          <p class="hint" id="demoCodeHint">Masukkan 6 digit angka apa saja untuk melanjutkan simulasi.</p>
+          <p class="field-error" id="demoCodeError" aria-live="polite"></p>
         </div>
 
         <div class="message" id="formMessage" role="status" aria-live="polite"></div>
-        <button class="primary" id="continueButton" type="submit">Lanjutkan</button>
+        <button class="primary" id="verifyButton" type="submit" disabled>Verifikasi Demo</button>
 
         <div class="meta">
-          Tahap 3 hanya menyimpan status selesai <strong>di memori halaman saat ini</strong>.<br>
-          Reload atau menutup halaman akan menghapus state dan seluruh isian.
+          Semua kombinasi <strong>6 digit angka</strong> dianggap valid.<br>
+          Kode tidak disimpan, tidak dikirim, dan tidak dibandingkan dengan nilai rahasia apa pun.
         </div>
       </form>
     </section>
@@ -169,99 +177,75 @@
     (() => {
       "use strict";
 
-      const form = document.getElementById("identityForm");
-      const fullName = document.getElementById("fullName");
-      const demoNik = document.getElementById("demoNik");
-      const motherName = document.getElementById("motherName");
+      const form = document.getElementById("verificationForm");
+      const demoCode = document.getElementById("demoCode");
+      const codeError = document.getElementById("demoCodeError");
       const formMessage = document.getElementById("formMessage");
-      const continueButton = document.getElementById("continueButton");
+      const verifyButton = document.getElementById("verifyButton");
 
-      const errors = {
-        fullName: document.getElementById("fullNameError"),
-        demoNik: document.getElementById("demoNikError"),
-        motherName: document.getElementById("motherNameError")
-      };
+      // Titik navigasi Tahap 5 sengaja belum ditentukan.
+      const NEXT_STAGE_URL = null;
+      let stage4Completed = false;
 
-      let stage3Completed = false;
-
-      function setFieldError(input, output, message) {
-        output.textContent = message;
-        input.setAttribute("aria-invalid", message ? "true" : "false");
+      function isValidCode(value) {
+        return /^\d{6}$/.test(value);
       }
 
-      function clearFormMessage() {
+      function setError(message) {
+        codeError.textContent = message;
+        demoCode.setAttribute("aria-invalid", message ? "true" : "false");
+      }
+
+      function syncButton() {
+        const ready = isValidCode(demoCode.value);
+        verifyButton.disabled = !ready || stage4Completed;
+        verifyButton.classList.toggle("ready", ready && !stage4Completed);
+      }
+
+      demoCode.addEventListener("input", () => {
+        // Karakter nonangka langsung dibuang dan panjang dibatasi ke 6 digit.
+        demoCode.value = demoCode.value.replace(/\D/g, "").slice(0, 6);
+        setError("");
         formMessage.textContent = "";
         formMessage.className = "message";
-      }
-
-      demoNik.addEventListener("input", () => {
-        demoNik.value = demoNik.value.replace(/\D/g, "").slice(0, 16);
-        if (errors.demoNik.textContent) {
-          setFieldError(demoNik, errors.demoNik, "");
-        }
-        clearFormMessage();
-      });
-
-      [fullName, motherName].forEach((input) => {
-        input.addEventListener("input", () => {
-          const output = input === fullName ? errors.fullName : errors.motherName;
-          if (output.textContent) setFieldError(input, output, "");
-          clearFormMessage();
-        });
+        syncButton();
       });
 
       form.addEventListener("submit", (event) => {
         event.preventDefault();
-        clearFormMessage();
+        if (stage4Completed) return;
 
-        const nameValue = fullName.value.trim();
-        const nikValue = demoNik.value.trim();
-        const motherValue = motherName.value.trim();
-
-        let valid = true;
-
-        if (!nameValue) {
-          setFieldError(fullName, errors.fullName, "Nama Lengkap wajib diisi dengan data contoh.");
-          valid = false;
-        } else {
-          setFieldError(fullName, errors.fullName, "");
-        }
-
-        if (!/^\d{16}$/.test(nikValue)) {
-          setFieldError(demoNik, errors.demoNik, "NIK Demo harus terdiri dari tepat 16 digit angka.");
-          valid = false;
-        } else {
-          setFieldError(demoNik, errors.demoNik, "");
-        }
-
-        if (!motherValue) {
-          setFieldError(motherName, errors.motherName, "Nama Ibu Kandung wajib diisi dengan data contoh.");
-          valid = false;
-        } else {
-          setFieldError(motherName, errors.motherName, "");
-        }
-
-        if (!valid) {
+        const value = demoCode.value;
+        if (!isValidCode(value)) {
+          setError("Kode Verifikasi Demo harus terdiri dari tepat 6 digit angka.");
           formMessage.className = "message error";
-          formMessage.textContent = "Periksa kembali field yang ditandai.";
-          const firstInvalid = form.querySelector('[aria-invalid="true"]');
-          firstInvalid?.focus();
+          formMessage.textContent = "Periksa kembali kode demo.";
+          demoCode.focus();
+          syncButton();
           return;
         }
 
-        stage3Completed = true;
-        formMessage.className = "message success";
-        formMessage.textContent = "Tahap 3 selesai. Mengarahkan ke Verifikasi Demo…";
-        continueButton.textContent = "Memuat Verifikasi Demo…";
-        continueButton.disabled = true;
+        setError("");
+        verifyButton.disabled = true;
+        verifyButton.classList.remove("ready");
+        verifyButton.innerHTML = '<span class="spinner" aria-hidden="true"></span>Memverifikasi Demo…';
+        formMessage.className = "message";
+        formMessage.textContent = "Validasi lokal sedang diproses…";
 
-        // Hanya navigasi ant halaman lokal. Tidak ada backend/API atau penyimpanan data.
         window.setTimeout(() => {
-          window.location.href = "verifikasi.html";
-        }, 350);
+          stage4Completed = true;
+          formMessage.className = "message success";
+          formMessage.textContent = "Verifikasi Demo berhasil. Tahap 4 selesai.";
+          verifyButton.textContent = "Verifikasi Demo Selesai";
+          verifyButton.disabled = true;
 
-        void stage3Completed;
+          // NEXT_STAGE_URL tetap null sampai Tahap 5 diinstruksikan.
+          // Tidak ada redirect, request jaringan, atau penyimpanan kode.
+          void NEXT_STAGE_URL;
+        }, 450);
       });
+
+      syncButton();
     })();
   </script>
 </body>

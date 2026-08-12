@@ -1,28 +1,15 @@
-# KBSTARFinance — Simulasi UI v4 / Tahap 3
+# KBSTARFinance — Simulasi UI v5 / Tahap 4
 
-## Baseline
-Tahap 1 (`index.html`) dan Tahap 2 (`login.html`) berasal dari v3.
-- `index.html` tidak diubah.
-- `login.html` hanya diubah pada aksi login sukses agar menuju `identitas.html`.
+Alur saat ini:
+`index.html` → `login.html` → `identitas.html` → `verifikasi.html`
 
-## Alur
-`index.html` → `login.html` → `identitas.html`
-
-Login simulasi:
-- Email: `demo@simulasi.test`
-- Password: `Demo123!`
-
-## Tahap 3
-Field:
-1. Nama Lengkap
-2. NIK Demo — tepat 16 digit angka
-3. Nama Ibu Kandung
-
-Tombol `Lanjutkan` hanya menandai Tahap 3 selesai pada variabel JavaScript in-memory. Tidak ada Tahap 4/redirect lanjutan.
-
-## Keamanan simulasi
-- Tidak ada backend/database/API.
-- CSP: `connect-src 'none'`.
-- Tidak ada fetch/XHR.
+## Tahap 4 — Verifikasi Demo
+- Input hanya angka.
+- Tepat 6 digit.
+- Semua kombinasi 6 digit diterima.
+- Tidak ada OTP nyata, SMS, WhatsApp, email, Telegram, API, atau backend.
 - Tidak ada localStorage/sessionStorage/cookie aplikasi.
-- Form meminta data dummy dan memperingatkan untuk tidak menggunakan NIK/identitas asli.
+- Tidak ada Tahap 5 atau redirect lanjutan.
+- Tombol kembali mengarah ke `identitas.html`.
+
+Tahap 1 dan Tahap 2 disalin byte-for-byte dari baseline v4. Tahap 3 hanya diubah pada aksi sukses agar menuju Tahap 4.
