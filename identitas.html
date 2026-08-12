@@ -7,7 +7,7 @@
   <meta name="theme-color" content="#16082f" />
   <meta http-equiv="Content-Security-Policy"
         content="default-src 'self'; img-src 'self' data:; style-src 'unsafe-inline'; script-src 'unsafe-inline'; connect-src 'none'; form-action 'self'; base-uri 'none'; frame-ancestors 'none';">
-  <title>Login Simulasi — KBSTARFinance</title>
+  <title>Form Identitas Simulasi — KBSTARFinance</title>
   <style>
     :root{
       --bg1:#200c43;--bg2:#14072d;--bg3:#090417;
@@ -15,6 +15,7 @@
       --shell:520px;
     }
     *{box-sizing:border-box}
+    html,body{max-width:100%;overflow-x:hidden}
     body{
       margin:0;min-height:100svh;color:var(--text);
       font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
@@ -77,22 +78,23 @@
     .shield{flex:0 0 34px;width:34px;height:34px;border-radius:11px;border:1px solid rgba(247,205,84,.55);display:grid;place-items:center;color:#ffe36c}
     .field{margin-top:16px}.field:first-of-type{margin-top:0}
     label{display:block;margin-bottom:8px;font-size:13px;font-weight:700}
-    .wrap{position:relative}
     input{
       width:100%;height:58px;border:1px solid rgba(255,255,255,.16);border-radius:17px;outline:none;
-      padding:0 52px 0 16px;background:rgba(8,4,20,.52);color:#fff;caret-color:#ffd95e;font-size:16px;
+      padding:0 16px;background:rgba(8,4,20,.52);color:#fff;caret-color:#ffd95e;font-size:16px;
     }
     input:focus{border-color:#f3cc52;box-shadow:0 0 0 3px rgba(243,204,82,.11)}
     input::placeholder{color:#8f849d}
-    .toggle{position:absolute;right:8px;top:50%;transform:translateY(-50%);width:44px;height:40px;border:0;border-radius:12px;background:transparent;color:#dccc7d;font-size:11px;font-weight:800;cursor:pointer}
+    input[aria-invalid="true"]{border-color:rgba(255,187,181,.80);box-shadow:0 0 0 3px rgba(255,187,181,.08)}
     .hint{margin:8px 2px 0;color:#a99fb5;font-size:11px;line-height:1.4}
-    .message{min-height:20px;margin:14px 2px 0;font-size:12px}.error{color:#ffbbb5}.success{color:#dcffdb}
+    .field-error{min-height:17px;margin:6px 2px 0;color:#ffbbb5;font-size:11px;line-height:1.35}
+    .message{min-height:20px;margin:14px 2px 0;font-size:12px;line-height:1.45}.error{color:#ffbbb5}.success{color:#dcffdb}
     .primary{
       width:100%;min-height:60px;margin-top:4px;border:2px solid #f6d34f;border-radius:17px;
       background:linear-gradient(180deg,rgba(67,30,111,.78),rgba(25,10,55,.88));color:#ffdf63;font-size:17px;font-weight:800;cursor:pointer;
       box-shadow:0 0 0 2px rgba(255,199,38,.10),0 8px 24px rgba(0,0,0,.22);
     }
-    .secondary{width:100%;min-height:48px;margin-top:12px;border:1px solid rgba(255,255,255,.11);border-radius:15px;background:rgba(255,255,255,.045);color:#e9e2f0;font-size:13px;font-weight:700;cursor:pointer}
+    .primary:focus-visible,.back:focus-visible,input:focus-visible{outline:2px solid #fff19a;outline-offset:3px}
+    .primary:disabled{opacity:.72;cursor:default}
     .meta{margin-top:18px;text-align:center;color:#a9a0b4;font-size:11px;line-height:1.55}.meta strong{color:#dfd6e8}
     footer{padding:0 28px 34px;text-align:center;color:#8e8499;font-size:11px;line-height:1.5}
     @media(max-width:420px){.content{padding-left:22px;padding-right:22px}.top{padding-left:20px;padding-right:20px}h1{font-size:43px}.card{padding:18px}}
@@ -111,7 +113,7 @@
     </div>
 
     <div class="top">
-      <a class="back" href="index.html" aria-label="Kembali"></a>
+      <a class="back" href="login.html" aria-label="Kembali ke Login Simulasi"></a>
       <div class="brand">
         <div class="name"><span class="kb">KB</span><span class="star">star</span></div>
         <small>by KB Bank</small>
@@ -119,40 +121,43 @@
     </div>
 
     <section class="content">
-      <p class="eyebrow">AKSES MODE SIMULASI</p>
-      <h1>Selamat Datang<strong>Login Simulasi</strong></h1>
-      <p class="lead">Tampilan login demo dengan tema ungu-emas yang mengikuti halaman depan. Tidak terhubung ke sistem autentikasi bank.</p>
+      <p class="eyebrow">TAHAP 3 · IDENTITAS SIMULASI</p>
+      <h1>Form Identitas<strong>Simulasi</strong></h1>
+      <p class="lead">Isi hanya dengan data contoh untuk melanjutkan simulasi. Jangan gunakan identitas pribadi atau data kependudukan asli.</p>
 
-      <form class="card" id="login" autocomplete="off" novalidate>
+      <form class="card" id="identityForm" autocomplete="off" novalidate>
         <div class="safety">
           <div class="shield">◇</div>
-          <div><strong>Gunakan data contoh saja.</strong><br>Jangan masukkan email, password, PIN, OTP, nomor kartu, atau kredensial akun asli.</div>
+          <div><strong>Data dummy saja.</strong><br>NIK di halaman ini adalah <strong>NIK Demo</strong>. Form tidak mengirim data ke backend/API dan tidak menyimpan isian.</div>
         </div>
 
         <div class="field">
-          <label for="demoEmail">Email Simulasi</label>
-          <div class="wrap">
-            <input id="demoEmail" type="email" maxlength="80" placeholder="Contoh: demo@simulasi.test" autocomplete="off" inputmode="email" spellcheck="false">
-          </div>
-          <p class="hint">Hanya dipakai sementara di browser dan tidak disimpan.</p>
+          <label for="fullName">Nama Lengkap</label>
+          <input id="fullName" name="fullName" type="text" maxlength="80" placeholder="Contoh: Andi Pratama" autocomplete="off" aria-describedby="fullNameHint fullNameError">
+          <p class="hint" id="fullNameHint">Gunakan nama contoh, bukan nama identitas asli.</p>
+          <p class="field-error" id="fullNameError" aria-live="polite"></p>
         </div>
 
         <div class="field">
-          <label for="demoPassword">Password Simulasi</label>
-          <div class="wrap">
-            <input id="demoPassword" type="password" maxlength="64" placeholder="Password demo" autocomplete="new-password">
-            <button type="button" class="toggle" id="toggle">LIHAT</button>
-          </div>
-          <p class="hint">Password contoh: <strong>Demo123!</strong>. Jangan gunakan password akun asli.</p>
+          <label for="demoNik">NIK Demo</label>
+          <input id="demoNik" name="demoNik" type="text" inputmode="numeric" maxlength="16" placeholder="16 digit angka contoh" autocomplete="off" aria-describedby="demoNikHint demoNikError">
+          <p class="hint" id="demoNikHint">Wajib 16 digit angka dummy. Jangan gunakan NIK asli.</p>
+          <p class="field-error" id="demoNikError" aria-live="polite"></p>
         </div>
 
-        <div class="message" id="message" role="status" aria-live="polite"></div>
-        <button class="primary" type="submit">Masuk ke Simulasi</button>
-        <button class="secondary" type="button" id="fill">Gunakan Akun Demo</button>
+        <div class="field">
+          <label for="motherName">Nama Ibu Kandung</label>
+          <input id="motherName" name="motherName" type="text" maxlength="80" placeholder="Contoh data dummy" autocomplete="off" aria-describedby="motherNameHint motherNameError">
+          <p class="hint" id="motherNameHint">Gunakan nama contoh/dummy saja.</p>
+          <p class="field-error" id="motherNameError" aria-live="polite"></p>
+        </div>
+
+        <div class="message" id="formMessage" role="status" aria-live="polite"></div>
+        <button class="primary" id="continueButton" type="submit">Lanjutkan</button>
 
         <div class="meta">
-          Demo credential: <strong>demo@simulasi.test / Demo123!</strong><br>
-          Tanpa backend, database, cookie aplikasi, localStorage, sessionStorage, fetch, atau XHR.
+          Tahap 3 hanya menyimpan status selesai <strong>di memori halaman saat ini</strong>.<br>
+          Reload atau menutup halaman akan menghapus state dan seluruh isian.
         </div>
       </form>
     </section>
@@ -163,49 +168,96 @@
   <script>
     (() => {
       "use strict";
-      const DEMO_EMAIL = "demo@simulasi.test";
-      const DEMO_PASSWORD = "Demo123!";
 
-      const form = document.getElementById("login");
-      const email = document.getElementById("demoEmail");
-      const password = document.getElementById("demoPassword");
-      const msg = document.getElementById("message");
-      const toggle = document.getElementById("toggle");
-      const fill = document.getElementById("fill");
+      const form = document.getElementById("identityForm");
+      const fullName = document.getElementById("fullName");
+      const demoNik = document.getElementById("demoNik");
+      const motherName = document.getElementById("motherName");
+      const formMessage = document.getElementById("formMessage");
+      const continueButton = document.getElementById("continueButton");
 
-      toggle.addEventListener("click", () => {
-        const visible = password.type === "text";
-        password.type = visible ? "password" : "text";
-        toggle.textContent = visible ? "LIHAT" : "TUTUP";
+      const errors = {
+        fullName: document.getElementById("fullNameError"),
+        demoNik: document.getElementById("demoNikError"),
+        motherName: document.getElementById("motherNameError")
+      };
+
+      let stage3Completed = false;
+
+      function setFieldError(input, output, message) {
+        output.textContent = message;
+        input.setAttribute("aria-invalid", message ? "true" : "false");
+      }
+
+      function clearFormMessage() {
+        formMessage.textContent = "";
+        formMessage.className = "message";
+      }
+
+      demoNik.addEventListener("input", () => {
+        demoNik.value = demoNik.value.replace(/\D/g, "").slice(0, 16);
+        if (errors.demoNik.textContent) {
+          setFieldError(demoNik, errors.demoNik, "");
+        }
+        clearFormMessage();
       });
 
-      fill.addEventListener("click", () => {
-        email.value = DEMO_EMAIL;
-        password.value = DEMO_PASSWORD;
-        msg.textContent = "";
-        msg.className = "message";
+      [fullName, motherName].forEach((input) => {
+        input.addEventListener("input", () => {
+          const output = input === fullName ? errors.fullName : errors.motherName;
+          if (output.textContent) setFieldError(input, output, "");
+          clearFormMessage();
+        });
       });
-form.addEventListener("submit", (event) => {
+
+      form.addEventListener("submit", (event) => {
         event.preventDefault();
-        const demoEmail = email.value.trim().toLowerCase();
-        const demoPassword = password.value;
+        clearFormMessage();
 
-        if (!demoEmail || !demoPassword) {
-          msg.className = "message error";
-          msg.textContent = "Lengkapi email dan password simulasi.";
+        const nameValue = fullName.value.trim();
+        const nikValue = demoNik.value.trim();
+        const motherValue = motherName.value.trim();
+
+        let valid = true;
+
+        if (!nameValue) {
+          setFieldError(fullName, errors.fullName, "Nama Lengkap wajib diisi dengan data contoh.");
+          valid = false;
+        } else {
+          setFieldError(fullName, errors.fullName, "");
+        }
+
+        if (!/^\d{16}$/.test(nikValue)) {
+          setFieldError(demoNik, errors.demoNik, "NIK Demo harus terdiri dari tepat 16 digit angka.");
+          valid = false;
+        } else {
+          setFieldError(demoNik, errors.demoNik, "");
+        }
+
+        if (!motherValue) {
+          setFieldError(motherName, errors.motherName, "Nama Ibu Kandung wajib diisi dengan data contoh.");
+          valid = false;
+        } else {
+          setFieldError(motherName, errors.motherName, "");
+        }
+
+        if (!valid) {
+          formMessage.className = "message error";
+          formMessage.textContent = "Periksa kembali field yang ditandai.";
+          const firstInvalid = form.querySelector('[aria-invalid="true"]');
+          firstInvalid?.focus();
           return;
         }
-        if (demoEmail !== DEMO_EMAIL || demoPassword !== DEMO_PASSWORD) {
-          msg.className = "message error";
-          msg.textContent = "Gunakan akun demo demo@simulasi.test dengan password Demo123!.";
-          return;
-        }
 
-        msg.className = "message success";
-        msg.textContent = "Login simulasi berhasil. Mengarahkan ke Form Identitas Simulasi…";
-        window.setTimeout(() => {
-          window.location.href = "identitas.html";
-        }, 350);
+        stage3Completed = true;
+        formMessage.className = "message success";
+        formMessage.textContent = "Tahap 3 selesai dalam mode simulasi. Belum ada halaman berikutnya.";
+        continueButton.textContent = "Tahap 3 Selesai";
+        continueButton.disabled = true;
+
+        // Tidak ada redirect, backend/API, localStorage, sessionStorage, atau cookie.
+        // `stage3Completed` hanya hidup selama halaman ini masih terbuka.
+        void stage3Completed;
       });
     })();
   </script>

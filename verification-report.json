@@ -1,0 +1,100 @@
+{
+  "render_index": {
+    "scrollWidth": 390,
+    "innerWidth": 390,
+    "scrollHeight": 1076,
+    "innerHeight": 844
+  },
+  "render_login": {
+    "scrollWidth": 390,
+    "innerWidth": 390,
+    "scrollHeight": 1137,
+    "innerHeight": 844
+  },
+  "render_identitas": {
+    "scrollWidth": 390,
+    "innerWidth": 390,
+    "scrollHeight": 1269,
+    "innerHeight": 844
+  },
+  "shared_styles_equal": {
+    "body": true,
+    "app": true,
+    "badge": true,
+    "top": true,
+    "brandName": true,
+    "h1": true,
+    "lead": true,
+    "card": true,
+    "input": true,
+    "primary": true
+  },
+  "shared_style_differences": {},
+  "responsive": {
+    "360": {
+      "scrollWidth": 360,
+      "innerWidth": 360,
+      "bodyScrollWidth": 360,
+      "ok": true
+    },
+    "390": {
+      "scrollWidth": 390,
+      "innerWidth": 390,
+      "bodyScrollWidth": 390,
+      "ok": true
+    },
+    "430": {
+      "scrollWidth": 430,
+      "innerWidth": 430,
+      "bodyScrollWidth": 430,
+      "ok": true
+    },
+    "1440": {
+      "scrollWidth": 1440,
+      "innerWidth": 1440,
+      "bodyScrollWidth": 1440,
+      "ok": true
+    }
+  },
+  "login_success": {
+    "message": "Login simulasi berhasil. Mengarahkan ke Form Identitas Simulasi…",
+    "scheduled": {
+      "ms": 350,
+      "code": "() => {\n          window.location.href = \"identitas.html\";\n        }"
+    },
+    "target_ok": true
+  },
+  "empty_validation": {
+    "fullName": "Nama Lengkap wajib diisi dengan data contoh.",
+    "nik": "NIK Demo harus terdiri dari tepat 16 digit angka.",
+    "mother": "Nama Ibu Kandung wajib diisi dengan data contoh.",
+    "form": "Periksa kembali field yang ditandai."
+  },
+  "nik_numeric_filter": "12345678901234",
+  "valid_submit": {
+    "message": "Tahap 3 selesai dalam mode simulasi. Belum ada halaman berikutnya.",
+    "button_text": "Tahap 3 Selesai",
+    "button_disabled": true,
+    "storage_runtime": {
+      "localStorage": "unavailable-about-blank",
+      "sessionStorage": "unavailable-about-blank",
+      "cookie": "unavailable-about-blank"
+    }
+  },
+  "static_security_scan": {
+    "no_fetch_call": true,
+    "no_xhr_constructor": true,
+    "no_localstorage_access": true,
+    "no_sessionstorage_access": true,
+    "no_cookie_write": true,
+    "csp_connect_none": true,
+    "no_form_action_external": true
+  },
+  "baseline_integrity": {
+    "index_unchanged": true,
+    "index_v3_sha256": "f15f24759aa75f4ea16d2aedbf34c48c5c18e04614735a5c04914d4f54d02531",
+    "index_v4_sha256": "f15f24759aa75f4ea16d2aedbf34c48c5c18e04614735a5c04914d4f54d02531",
+    "login_v3_sha256": "263d54dbde5c6dc5953b6eef6714f161825e1d77f428cfc8e617fa3e3f8df05e",
+    "login_v4_sha256": "37c2a9b5a3fd20a4ee0d16299937e4fb84654060c1957c65c5e24d068a7984c4"
+  }
+}
