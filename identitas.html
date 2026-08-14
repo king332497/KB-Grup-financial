@@ -244,6 +244,7 @@
         }
 
         stage3Completed = true;
+        sessionStorage.setItem("kbFullName", nameValue);
         formMessage.className = "message success";
         formMessage.textContent = "Tahap 3 selesai. Mengarahkan ke Verifikasi…";
         continueButton.textContent = "Memuat Verifikasi…";
