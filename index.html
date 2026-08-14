@@ -101,53 +101,20 @@
       white-space:nowrap;
     }
 
+
+
+
+
     
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      padding:28px 24px 8px;
-      font-size:16px;
-      font-weight:700;
-      letter-spacing:.02em;
-    }
 
-    .status-left{
-      display:flex;
-      gap:7px;
-      align-items:center;
-    }
+    
 
-    .user-dot{
-      width:10px;height:10px;border-radius:50%;background:#fff;
-      box-shadow:0 8px 0 -1px #fff;
-      margin-left:2px;
-      transform:translateY(-3px);
-    }
+    
 
-    .status-right{display:flex;gap:10px;align-items:center}
-    .bars{
-      display:flex;gap:2px;align-items:flex-end;height:16px;
-    }
-    .bars i{display:block;width:3px;border-radius:3px;background:#fff}
-    .bars i:nth-child(1){height:6px;opacity:.55}
-    .bars i:nth-child(2){height:9px;opacity:.7}
-    .bars i:nth-child(3){height:12px;opacity:.85}
-    .bars i:nth-child(4){height:15px}
-    .wifi{
-      width:18px;height:12px;border-top:3px solid #fff;border-radius:50%;
-      position:relative;
-    }
-    .wifi::after{
-      content:"";position:absolute;width:6px;height:6px;border-radius:50%;
-      background:#fff;left:4px;top:4px;
-    }
-    .battery{
-      height:14px;width:26px;border:1.8px solid #fff;border-radius:4px;position:relative;
-      display:grid;place-items:center;font-size:9px;font-weight:800;
-    }
-    .battery::after{
-      content:"";position:absolute;right:-4px;width:2px;height:7px;background:#fff;border-radius:0 2px 2px 0;
-    }
+    
+
+    
+
 
     .language{
       margin:28px 22px 0 auto;
@@ -398,7 +365,7 @@
     }
 
     @media (max-width:420px){
-      .statusbar{padding-left:18px;padding-right:18px}
+
       .language{margin-right:18px}
       .logo-wrap{padding-left:30px}
       .hero{padding-left:30px;padding-right:30px;padding-top:66px}
@@ -419,7 +386,7 @@
       html{scroll-behavior:auto}
       .cta{transition:none}
     }
-  
+
     /* Mobile safety patch: mempertahankan baseline, hanya untuk layar <=350px. */
     @media (max-width:350px){
       .demo-badge{font-size:9px;letter-spacing:.045em;padding:6px 9px}
@@ -438,19 +405,7 @@
   <div class="demo-badge" aria-label="Tampilan prototype"></div>
 
   <main class="page">
-    
-      <div class="status-left">
-        <span>23.27</span>
-        <span class="user-dot"></span>
-      </div>
-      <div class="status-right">
-        <span class="bars"><i></i><i></i><i></i><i></i></span>
-        <span class="wifi"></span>
-        <span class="battery">74</span>
-      </div>
-    </header>
-
-    <div class="language" aria-label="Bahasa Indonesia">
+<div class="language" aria-label="Bahasa Indonesia">
       <span class="chev"></span>
       <span>ID</span>
       <span class="flag" aria-hidden="true"></span>

@@ -17,9 +17,9 @@
     .app:before{content:"";position:absolute;width:620px;height:620px;left:-390px;top:-300px;border-radius:50%;border:1px solid rgba(213,174,255,.08);box-shadow:0 0 0 70px rgba(255,255,255,.014),0 0 0 140px rgba(255,255,255,.010),0 0 0 210px rgba(255,255,255,.007);z-index:-2}
     .app:after{content:"";position:absolute;width:420px;height:420px;right:-285px;bottom:55px;border-radius:50%;border:74px solid rgba(219,157,38,.78);box-shadow:inset 0 0 25px rgba(255,245,179,.38),0 0 0 1px rgba(255,235,132,.55),0 0 24px rgba(250,176,35,.18);z-index:-2}
     .badge{position:fixed;z-index:80;top:max(10px,env(safe-area-inset-top));left:50%;transform:translateX(-50%);padding:7px 11px;border-radius:999px;background:#f8db6a;color:#2b1b00;border:1px solid rgba(255,255,255,.35);font-size:11px;font-weight:800;letter-spacing:.08em;white-space:nowrap;box-shadow:0 7px 18px rgba(0,0,0,.26)}
-    .statusbar{display:flex;justify-content:space-between;align-items:center;padding:28px 24px 8px;font-size:16px;font-weight:700}.status-left,.status-right{display:flex;align-items:center;gap:9px}.user{width:10px;height:10px;border-radius:50%;background:#fff;box-shadow:0 8px 0 -1px #fff;transform:translateY(-3px)}
-    .bars{display:flex;gap:2px;align-items:flex-end;height:16px}.bars i{display:block;width:3px;border-radius:3px;background:#fff}.bars i:nth-child(1){height:6px;opacity:.55}.bars i:nth-child(2){height:9px;opacity:.7}.bars i:nth-child(3){height:12px;opacity:.85}.bars i:nth-child(4){height:15px}
-    .wifi{width:18px;height:12px;border-top:3px solid #fff;border-radius:50%;position:relative}.wifi:after{content:"";position:absolute;width:6px;height:6px;border-radius:50%;background:#fff;left:4px;top:4px}.battery{width:26px;height:14px;border:1.8px solid #fff;border-radius:4px;display:grid;place-items:center;font-size:9px;position:relative}.battery:after{content:"";position:absolute;right:-4px;width:2px;height:7px;background:#fff}
+
+    
+
     .top{display:flex;justify-content:space-between;align-items:center;padding:24px 24px 0}.back{width:44px;height:44px;border-radius:15px;border:1px solid rgba(247,205,84,.44);background:rgba(15,7,34,.42);display:grid;place-items:center;color:#ffe879;cursor:pointer}.back:before{content:"";width:11px;height:11px;border-left:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg) translate(2px,-2px)}
     .brand{text-align:right;line-height:1}.brand .name{font-size:30px;letter-spacing:-.055em}.brand .kb{background:linear-gradient(#ffc32d,#ee980b);-webkit-background-clip:text;background-clip:text;color:transparent}.brand .star{color:#f0eef5}.brand small{display:block;margin-top:7px;color:#bcb3ca;font-size:11px;letter-spacing:.04em}
     .content{padding:52px 28px 34px}.eyebrow{margin:0 0 10px;color:#fff18d;font-size:12px;font-weight:700;letter-spacing:.16em}h1{margin:0;font-family:Georgia,"Times New Roman",serif;font-size:48px;font-weight:400;line-height:1.02;letter-spacing:-.035em}h1 strong{display:block;margin-top:6px;font-weight:400;background:linear-gradient(#fff0a0,#ffc846 35%,#f0a02e 60%,#ffe58d);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-stroke:.4px rgba(246,205,84,.65)}.lead{margin:15px 0 28px;max-width:390px;color:#ded8e7;font-size:15px;line-height:1.55}
@@ -39,7 +39,7 @@
     @media(max-width:350px){.pin-box{height:46px;font-size:21px}.pin-grid{gap:5px}}
     @media(min-width:760px){body{padding:24px 0}.app{border-radius:34px;min-height:auto}.modal{place-items:center}}
     @media(prefers-reduced-motion:reduce){.scan-box.running .scan-line{animation:none}.loading-line span{transition:none}}
-  
+
     /* Mobile touch-target patch; tidak mengubah fungsi simulasi. */
     @media (max-width:520px){
       .clear{min-width:48px;min-height:44px;padding:0 8px}
@@ -50,8 +50,7 @@
 <body>
   <div class="badge">PROTOTYPE UI · BUKAN LAYANAN PERBANKAN RESMI</div>
   <main class="app">
-    <div class="statusbar" aria-hidden="true"><div class="status-left"><span>23.27</span><span class="user"></span></div><div class="status-right"><span class="bars"><i></i><i></i><i></i><i></i></span><span class="wifi"></span><span class="battery">74</span></div></div>
-    <div class="top"><button class="back" id="backButton" type="button" aria-label="Kembali"></button><div class="brand"><div class="name"><span class="kb">KB</span><span class="star">star</span></div><small>by KB Bank</small></div></div>
+<div class="top"><button class="back" id="backButton" type="button" aria-label="Kembali"></button><div class="brand"><div class="name"><span class="kb">KB</span><span class="star">star</span></div><small>by KB Bank</small></div></div>
     <section class="content">
       <p class="eyebrow">TAHAP 8 · VERIFIKASI</p>
       <h1>Lengkapi <strong>Verifikasi</strong></h1>

@@ -44,11 +44,11 @@
       border:1px solid rgba(255,255,255,.35);font-size:10px;font-weight:900;letter-spacing:.055em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
       box-shadow:0 7px 18px rgba(0,0,0,.26)
     }
-    .statusbar{display:flex;justify-content:space-between;align-items:center;padding:28px 24px 8px;font-size:16px;font-weight:700}
-    .status-left,.status-right{display:flex;align-items:center;gap:9px}.user{width:10px;height:10px;border-radius:50%;background:#fff;box-shadow:0 8px 0 -1px #fff;transform:translateY(-3px)}
-    .bars{display:flex;gap:2px;align-items:flex-end;height:16px}.bars i{display:block;width:3px;border-radius:3px;background:#fff}.bars i:nth-child(1){height:6px;opacity:.55}.bars i:nth-child(2){height:9px;opacity:.7}.bars i:nth-child(3){height:12px;opacity:.85}.bars i:nth-child(4){height:15px}
-    .wifi{width:18px;height:12px;border-top:3px solid #fff;border-radius:50%;position:relative}.wifi:after{content:"";position:absolute;width:6px;height:6px;border-radius:50%;background:#fff;left:4px;top:4px}
-    .battery{width:26px;height:14px;border:1.8px solid #fff;border-radius:4px;display:grid;place-items:center;font-size:9px;position:relative}.battery:after{content:"";position:absolute;right:-4px;width:2px;height:7px;background:#fff}
+
+    
+
+    
+
     .top{display:flex;justify-content:space-between;align-items:flex-end;padding:24px 28px 0;gap:18px}
     .brand{line-height:1}.brand .name{font-size:30px;letter-spacing:-.055em}.brand .kb{background:linear-gradient(#ffc32d,#ee980b);-webkit-background-clip:text;background-clip:text;color:transparent}.brand .star{color:#f0eef5}.brand small{display:block;margin-top:7px;color:#bcb3ca;font-size:11px;letter-spacing:.04em}
     .demo-mark{font-size:11px;color:#fff18d;text-align:right;line-height:1.45}.demo-mark strong{display:block;font-size:12px}
@@ -79,10 +79,10 @@
     @media(max-width:760px){
       .app{width:min(100%,520px)}.content{padding:36px 22px 42px}.top{padding-left:22px;padding-right:22px}.welcome{display:block}.welcome-note{text-align:left;margin-top:10px;max-width:none}.layout{grid-template-columns:1fr}.amount{font-size:40px}.quick-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.quick{min-height:82px}
     }
-    @media(max-width:420px){.statusbar{padding-left:18px;padding-right:18px}.top{padding-left:20px;padding-right:20px}.content{padding-left:18px;padding-right:18px}.hero-card,.card{padding:18px}h1{font-size:31px}.hero-grid{grid-template-columns:1fr 1fr}.hero-grid .metric:last-child{grid-column:1/-1}.amount{font-size:36px}.installment-grid{grid-template-columns:1fr 1fr}.badge{font-size:9px}.demo-mark{font-size:9.5px}}
+    @media(max-width:420px){.top{padding-left:20px;padding-right:20px}.content{padding-left:18px;padding-right:18px}.hero-card,.card{padding:18px}h1{font-size:31px}.hero-grid{grid-template-columns:1fr 1fr}.hero-grid .metric:last-child{grid-column:1/-1}.amount{font-size:36px}.installment-grid{grid-template-columns:1fr 1fr}.badge{font-size:9px}.demo-mark{font-size:9.5px}}
     @media(min-width:1120px){body{padding:24px 0}.app{border-radius:34px;min-height:auto}}
     @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
-  
+
     /* Mobile safety patch: badge simulasi tetap terbaca penuh pada layar kecil. */
     @media (max-width:360px){
       .badge{
@@ -96,7 +96,7 @@
         letter-spacing:.035em;
         padding:6px 9px;
       }
-      .statusbar{padding-top:48px}
+
       .top{padding-top:12px}
     }
 
@@ -105,8 +105,7 @@
 <body>
   <div class="badge">PROTOTYPE UI · BUKAN LAYANAN PERBANKAN RESMI</div>
   <main class="app">
-    <div class="statusbar" aria-hidden="true"><div class="status-left"><span>23.27</span><span class="user"></span></div><div class="status-right"><span class="bars"><i></i><i></i><i></i><i></i></span><span class="wifi"></span><span class="battery">74</span></div></div>
-    <header class="top">
+<header class="top">
       <div class="brand"><div class="name"><span class="kb">KB</span><span class="star">star</span></div><small>by KB Bank</small></div>
       <div class="demo-mark"><strong>Dashboard Pinjaman</strong>Prototype UI</div>
     </header>

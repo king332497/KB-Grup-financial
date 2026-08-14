@@ -47,13 +47,13 @@
       padding:7px 11px;border-radius:999px;background:#f8db6a;color:#2b1b00;border:1px solid rgba(255,255,255,.35);
       font-size:11px;font-weight:800;letter-spacing:.08em;white-space:nowrap;box-shadow:0 7px 18px rgba(0,0,0,.26);
     }
-    .statusbar{display:flex;justify-content:space-between;align-items:center;padding:28px 24px 8px;font-size:16px;font-weight:700}
-    .status-left,.status-right{display:flex;align-items:center;gap:9px}
-    .user{width:10px;height:10px;border-radius:50%;background:#fff;box-shadow:0 8px 0 -1px #fff;transform:translateY(-3px)}
-    .bars{display:flex;gap:2px;align-items:flex-end;height:16px}.bars i{display:block;width:3px;border-radius:3px;background:#fff}
-    .bars i:nth-child(1){height:6px;opacity:.55}.bars i:nth-child(2){height:9px;opacity:.7}.bars i:nth-child(3){height:12px;opacity:.85}.bars i:nth-child(4){height:15px}
-    .wifi{width:18px;height:12px;border-top:3px solid #fff;border-radius:50%;position:relative}.wifi:after{content:"";position:absolute;width:6px;height:6px;border-radius:50%;background:#fff;left:4px;top:4px}
-    .battery{width:26px;height:14px;border:1.8px solid #fff;border-radius:4px;display:grid;place-items:center;font-size:9px;position:relative}.battery:after{content:"";position:absolute;right:-4px;width:2px;height:7px;background:#fff}
+
+    
+
+    
+
+    
+
     .top{display:flex;justify-content:space-between;align-items:center;padding:24px 24px 0}
     .back{
       width:44px;height:44px;border-radius:15px;border:1px solid rgba(247,205,84,.44);background:rgba(15,7,34,.42);
@@ -145,12 +145,7 @@
   <div class="badge">PROTOTYPE UI · BUKAN LAYANAN PERBANKAN RESMI</div>
 
   <main class="app">
-    <div class="statusbar" aria-hidden="true">
-      <div class="status-left"><span>23.27</span><span class="user"></span></div>
-      <div class="status-right"><span class="bars"><i></i><i></i><i></i><i></i></span><span class="wifi"></span><span class="battery">74</span></div>
-    </div>
-
-    <div class="top">
+<div class="top">
       <button class="back" id="backButton" type="button" aria-label="Kembali"></button>
       <div class="brand"><div class="name"><span class="kb">KB</span><span class="star">star</span></div><small>by KB Bank</small></div>
     </div>
@@ -174,9 +169,24 @@
           </div>
 
           <div class="field">
+            <label for="companyName">Nama Perusahaan / Nama Usaha</label>
+            <input id="companyName" type="text" maxlength="60" placeholder="Contoh: PT Maju Bersama" aria-describedby="companyNameError">
+            <p class="field-error" id="companyNameError"></p>
+          </div>
+
+          <div class="field">
             <label for="jobField">Bidang Pekerjaan / Usaha</label>
             <input id="jobField" type="text" maxlength="60" placeholder="Contoh: Perdagangan" aria-describedby="jobFieldError">
             <p class="field-error" id="jobFieldError"></p>
+          </div>
+
+          <div class="field">
+            <label for="jobPosition">Jabatan / Posisi</label>
+            <select id="jobPosition" aria-describedby="jobPositionError">
+              <option value="">Pilih jabatan / posisi</option>
+              <option>Pemilik Usaha</option><option>Direktur</option><option>Manager</option><option>Supervisor</option><option>Staff</option><option>Profesional</option><option>Lainnya</option>
+            </select>
+            <p class="field-error" id="jobPositionError"></p>
           </div>
 
           <div class="field">
@@ -192,6 +202,42 @@
               <option>&lt; Rp5 juta</option><option>Rp5–10 juta</option><option>Rp10–25 juta</option><option>Rp25–50 juta</option><option>&gt; Rp50 juta</option>
             </select>
             <p class="field-error" id="incomeRangeError"></p>
+          </div>
+
+          <div class="field">
+            <label for="monthlyExpenses">Pengeluaran Rutin per Bulan</label>
+            <select id="monthlyExpenses" aria-describedby="monthlyExpensesError">
+              <option value="">Pilih pengeluaran rutin</option>
+              <option>&lt; Rp3 juta</option><option>Rp3–5 juta</option><option>Rp5–10 juta</option><option>Rp10–20 juta</option><option>&gt; Rp20 juta</option>
+            </select>
+            <p class="field-error" id="monthlyExpensesError"></p>
+          </div>
+
+          <div class="field">
+            <label for="currentInstallment">Cicilan Berjalan per Bulan</label>
+            <select id="currentInstallment" aria-describedby="currentInstallmentError">
+              <option value="">Pilih cicilan berjalan</option>
+              <option>Tidak Ada</option><option>&lt; Rp1 juta</option><option>Rp1–3 juta</option><option>Rp3–5 juta</option><option>Rp5–10 juta</option><option>&gt; Rp10 juta</option>
+            </select>
+            <p class="field-error" id="currentInstallmentError"></p>
+          </div>
+
+          <div class="field">
+            <label for="dependents">Jumlah Tanggungan</label>
+            <select id="dependents" aria-describedby="dependentsError">
+              <option value="">Pilih jumlah tanggungan</option>
+              <option>0</option><option>1</option><option>2</option><option>3</option><option>4+</option>
+            </select>
+            <p class="field-error" id="dependentsError"></p>
+          </div>
+
+          <div class="field">
+            <label for="primaryIncomeSource">Sumber Penghasilan Utama</label>
+            <select id="primaryIncomeSource" aria-describedby="primaryIncomeSourceError">
+              <option value="">Pilih sumber penghasilan utama</option>
+              <option>Gaji</option><option>Pendapatan Usaha</option><option>Penghasilan Profesional</option><option>Pensiun</option><option>Lainnya</option>
+            </select>
+            <p class="field-error" id="primaryIncomeSourceError"></p>
           </div>
 
           <div class="field">
@@ -328,9 +374,15 @@
 
       const profileForm = document.getElementById("profileForm");
       const jobStatus = document.getElementById("jobStatus");
+      const companyName = document.getElementById("companyName");
       const jobField = document.getElementById("jobField");
+      const jobPosition = document.getElementById("jobPosition");
       const jobYears = document.getElementById("jobYears");
       const incomeRange = document.getElementById("incomeRange");
+      const monthlyExpenses = document.getElementById("monthlyExpenses");
+      const currentInstallment = document.getElementById("currentInstallment");
+      const dependents = document.getElementById("dependents");
+      const primaryIncomeSource = document.getElementById("primaryIncomeSource");
       const domicile = document.getElementById("domicile");
       const profileMessage = document.getElementById("profileMessage");
 
@@ -343,9 +395,15 @@
 
       const errors = {
         jobStatus: document.getElementById("jobStatusError"),
+        companyName: document.getElementById("companyNameError"),
         jobField: document.getElementById("jobFieldError"),
+        jobPosition: document.getElementById("jobPositionError"),
         jobYears: document.getElementById("jobYearsError"),
         incomeRange: document.getElementById("incomeRangeError"),
+        monthlyExpenses: document.getElementById("monthlyExpensesError"),
+        currentInstallment: document.getElementById("currentInstallmentError"),
+        dependents: document.getElementById("dependentsError"),
+        primaryIncomeSource: document.getElementById("primaryIncomeSourceError"),
         domicile: document.getElementById("domicileError"),
         loanType: document.getElementById("loanTypeError"),
         loanAmount: document.getElementById("loanAmountError"),
@@ -405,7 +463,7 @@
         return match ? Number(match[1]) : 5;
       }
 
-      [jobStatus, jobField, incomeRange, domicile].forEach((input) => {
+      [jobStatus, companyName, jobField, jobPosition, incomeRange, monthlyExpenses, currentInstallment, dependents, primaryIncomeSource, domicile].forEach((input) => {
         input.addEventListener("input", () => {
           const output = errors[input.id];
           if (output?.textContent) setError(input, output, "");
@@ -425,10 +483,16 @@
         let valid = true;
 
         if (!jobStatus.value) { setError(jobStatus, errors.jobStatus, "Pilih Status Pekerjaan."); valid = false; } else setError(jobStatus, errors.jobStatus, "");
+        if (!companyName.value.trim()) { setError(companyName, errors.companyName, "Nama Perusahaan / Nama Usaha wajib diisi."); valid = false; } else setError(companyName, errors.companyName, "");
         if (!jobField.value.trim()) { setError(jobField, errors.jobField, "Bidang Pekerjaan / Usaha wajib diisi dengan data contoh."); valid = false; } else setError(jobField, errors.jobField, "");
+        if (!jobPosition.value) { setError(jobPosition, errors.jobPosition, "Pilih Jabatan / Posisi."); valid = false; } else setError(jobPosition, errors.jobPosition, "");
         const years = Number(jobYears.value);
         if (!jobYears.value || !Number.isInteger(years) || years < 0 || years > 60) { setError(jobYears, errors.jobYears, "Masukkan lama bekerja/usaha antara 0–60 tahun."); valid = false; } else setError(jobYears, errors.jobYears, "");
         if (!incomeRange.value) { setError(incomeRange, errors.incomeRange, "Pilih rentang Penghasilan Bulanan Contoh."); valid = false; } else setError(incomeRange, errors.incomeRange, "");
+        if (!monthlyExpenses.value) { setError(monthlyExpenses, errors.monthlyExpenses, "Pilih Pengeluaran Rutin per Bulan."); valid = false; } else setError(monthlyExpenses, errors.monthlyExpenses, "");
+        if (!currentInstallment.value) { setError(currentInstallment, errors.currentInstallment, "Pilih Cicilan Berjalan per Bulan."); valid = false; } else setError(currentInstallment, errors.currentInstallment, "");
+        if (!dependents.value) { setError(dependents, errors.dependents, "Pilih Jumlah Tanggungan."); valid = false; } else setError(dependents, errors.dependents, "");
+        if (!primaryIncomeSource.value) { setError(primaryIncomeSource, errors.primaryIncomeSource, "Pilih Sumber Penghasilan Utama."); valid = false; } else setError(primaryIncomeSource, errors.primaryIncomeSource, "");
         if (!domicile.value.trim()) { setError(domicile, errors.domicile, "Domisili Contoh wajib diisi."); valid = false; } else setError(domicile, errors.domicile, "");
 
         if (!valid) {
@@ -440,9 +504,15 @@
 
         state.profile = {
           jobStatus: jobStatus.value,
+          companyName: companyName.value.trim(),
           jobField: jobField.value.trim(),
+          jobPosition: jobPosition.value,
           jobYears: years,
           incomeRange: incomeRange.value,
+          monthlyExpenses: monthlyExpenses.value,
+          currentInstallment: currentInstallment.value,
+          dependents: dependents.value,
+          primaryIncomeSource: primaryIncomeSource.value,
           domicile: domicile.value.trim()
         };
         profileMessage.className = "message success";
