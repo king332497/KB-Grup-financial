@@ -56,7 +56,7 @@
   const ROUTES = Object.freeze({
     HOME:"Halaman Depan",LOGIN:"Login Demo",IDENTITAS:"Tahap 3 — Identitas",VERIFIKASI:"Tahap 4 — Verifikasi Demo",PROFIL:"Tahap 5 — Profil Pengajuan",DETAIL_PINJAMAN:"Tahap 6 — Detail Pinjaman",RINGKASAN:"Tahap 7 — Ringkasan",TAHAP_8:"Tahap 8",PIN_DEMO:"Konfirmasi PIN Demo",TAHAP_9:"Tahap 9 — Analisis",DASHBOARD:"Dashboard Simulasi"
   });
-  let csrf = null, sessions = [], audits = [], source = null, selectedSession = null;
+  let csrf = null, sessions = [], audits = [], selectedSession = null, pollTimer = null, polling = false;
   const $ = id => document.getElementById(id);
   const loginView=$("loginView"), panelView=$("panelView"), usersBody=$("usersBody"), emptyUsers=$("emptyUsers"), auditList=$("auditList"), modal=$("moveModal"), routeSelect=$("routeSelect"), confirmBox=$("confirmBox"), prepareMove=$("prepareMove"), confirmMove=$("confirmMove"), moveError=$("moveError");
 
@@ -65,6 +65,19 @@
   function relativeTime(iso){ const s=Math.max(0,Math.floor((Date.now()-new Date(iso).getTime())/1000)); if(s<4)return"Baru saja";if(s<60)return`${s} detik lalu`;const m=Math.floor(s/60);if(m<60)return`${m} menit lalu`;return`${Math.floor(m/60)} jam lalu`; }
   function setAuthenticated(ok){ loginView.classList.toggle("hidden",ok);panelView.classList.toggle("hidden",!ok); }
   function api(url, options={}){ return fetch(url,{credentials:"same-origin",cache:"no-store",...options}); }
+  async function apiJson(url,options={}){
+    const response=await api(url,options);
+    const type=response.headers.get("content-type")||"";
+    let data=null;
+    if(type.includes("application/json")) data=await response.json();
+    else {
+      const text=await response.text();
+      const hint=response.status===404?"Endpoint backend tidak ditemukan. Pastikan folder /api ikut ter-deploy di Vercel.":`Backend mengembalikan respons non-JSON (${response.status}).`;
+      throw new Error(hint+(text?` ${text.slice(0,90)}`:""));
+    }
+    if(!response.ok) throw new Error(data?.error||`Request gagal (${response.status})`);
+    return data;
+  }
 
   function renderSessions(){
     usersBody.replaceChildren(); emptyUsers.classList.toggle("hidden",sessions.length>0);
@@ -82,7 +95,7 @@
       });
       const action=document.createElement("td");action.dataset.label="Action";const wrap=document.createElement("div");wrap.className="actions";
       const detail=document.createElement("button");detail.className="btn secondary";detail.type="button";detail.textContent="Detail";detail.addEventListener("click",()=>openMove(s,true));
-      const move=document.createElement("button");move.className="btn";move.type="button";move.textContent="Pindahkan";move.disabled=!s.online;move.addEventListener("click",()=>openMove(s,false));
+      const move=document.createElement("button");move.className="btn";move.type="button";move.textContent="Pindahkan";move.disabled=!s.online||s.pendingCommand;move.addEventListener("click",()=>openMove(s,false));
       wrap.append(detail,move);action.appendChild(wrap);tr.appendChild(action);usersBody.appendChild(tr);
     });
     $("totalSessions").textContent=String(sessions.length);$("onlineSessions").textContent=String(online);$("pendingCommands").textContent=String(pending);
@@ -93,26 +106,49 @@
     if(!audits.length){ const e=document.createElement("div");e.className="empty";e.textContent="Belum ada action.";auditList.appendChild(e);return; }
     audits.slice().reverse().slice(0,100).forEach(a=>{
       const item=document.createElement("div");item.className="audit-item";
-      const title=document.createElement("strong");title.textContent=`${a.sessionId} · ${a.status}`;title.className=a.status==="SUCCESS"?"ok":"fail";
+      const title=document.createElement("strong");title.textContent=`${a.sessionId} · ${a.status}`;title.className=a.status==="SUCCESS"?"ok":a.status==="SENT"?"":"fail";
       const meta=document.createElement("small");meta.textContent=`${new Date(a.timestamp).toLocaleTimeString("id-ID")} · ${a.fromLabel||a.fromRoute||"—"} → ${a.toLabel||a.toRoute||"—"} · Admin ${a.adminId}`;
       item.append(title,meta);auditList.appendChild(item);
     });
   }
 
-  function updateSelected(){ if(!selectedSession)return;const fresh=sessions.find(s=>s.sessionId===selectedSession.sessionId);if(fresh)selectedSession=fresh;$("detailSession").textContent=selectedSession.sessionId;$("detailStatus").textContent=selectedSession.online?"Online":"Offline";$("detailPage").textContent=selectedSession.routeLabel||"—";$("detailProgress").textContent=selectedSession.progressLabel||"—";prepareMove.disabled=!selectedSession.online; }
+  function updateSelected(){ if(!selectedSession)return;const fresh=sessions.find(s=>s.sessionId===selectedSession.sessionId);if(fresh)selectedSession=fresh;$("detailSession").textContent=selectedSession.sessionId;$("detailStatus").textContent=selectedSession.online?"Online":"Offline";$("detailPage").textContent=selectedSession.routeLabel||"—";$("detailProgress").textContent=selectedSession.progressLabel||"—";prepareMove.disabled=!selectedSession.online||selectedSession.pendingCommand; }
   function openMove(s,detailOnly){ selectedSession=s;updateSelected();$("moveSubtitle").textContent=detailOnly?"Detail session demo. Anda dapat memilih route tujuan di bawah.":"Pilih route internal yang diizinkan backend.";routeSelect.value=s.routeCode&&ROUTES[s.routeCode]?s.routeCode:"HOME";confirmBox.classList.add("hidden");confirmMove.classList.add("hidden");prepareMove.classList.remove("hidden");moveError.textContent="";modal.hidden=false; }
   function closeMove(){ modal.hidden=true;selectedSession=null; }
 
-  prepareMove.addEventListener("click",()=>{ if(!selectedSession||!selectedSession.online)return;const target=routeSelect.value;confirmBox.textContent=`Pindahkan Demo User #${selectedSession.sessionId} dari ${selectedSession.routeLabel||"halaman saat ini"} ke ${ROUTES[target]}?`;confirmBox.classList.remove("hidden");prepareMove.classList.add("hidden");confirmMove.classList.remove("hidden"); });
-  confirmMove.addEventListener("click",async()=>{ if(!selectedSession)return;moveError.textContent="";confirmMove.disabled=true;try{const r=await api("/api/admin/move",{method:"POST",headers:{"Content-Type":"application/json","X-CSRF-Token":csrf},body:JSON.stringify({sessionId:selectedSession.sessionId,routeCode:routeSelect.value})});const data=await r.json();if(!r.ok)throw new Error(data.error||"Perintah gagal");closeMove();}catch(e){moveError.textContent=e.message;}finally{confirmMove.disabled=false;} });
+  prepareMove.addEventListener("click",()=>{ if(!selectedSession||!selectedSession.online||selectedSession.pendingCommand)return;const target=routeSelect.value;confirmBox.textContent=`Pindahkan Demo User #${selectedSession.sessionId} dari ${selectedSession.routeLabel||"halaman saat ini"} ke ${ROUTES[target]}?`;confirmBox.classList.remove("hidden");prepareMove.classList.add("hidden");confirmMove.classList.remove("hidden"); });
+  confirmMove.addEventListener("click",async()=>{ if(!selectedSession)return;moveError.textContent="";confirmMove.disabled=true;try{await apiJson("/api/admin/move",{method:"POST",headers:{"Content-Type":"application/json","X-CSRF-Token":csrf},body:JSON.stringify({sessionId:selectedSession.sessionId,routeCode:routeSelect.value})});closeMove();await refreshAdminData();}catch(e){moveError.textContent=e.message;}finally{confirmMove.disabled=false;} });
   $("cancelMove").addEventListener("click",closeMove);modal.addEventListener("click",e=>{if(e.target===modal)closeMove();});
 
-  function connectAdminEvents(){ source?.close();source=new EventSource("/api/admin/events",{withCredentials:true});source.addEventListener("snapshot",e=>{const d=JSON.parse(e.data);sessions=d.sessions||[];audits=d.audits||audits;renderSessions();renderAudits();updateSelected();});source.addEventListener("sessions",e=>{sessions=JSON.parse(e.data).sessions||[];renderSessions();updateSelected();});source.addEventListener("audit",e=>{audits.push(JSON.parse(e.data));if(audits.length>200)audits=audits.slice(-200);renderAudits();});source.onerror=()=>{}; }
+  async function refreshAdminData(){
+    if(polling || panelView.classList.contains("hidden")) return;
+    polling=true;
+    try{
+      const [sessionData,auditData]=await Promise.all([apiJson("/api/admin/sessions"),apiJson("/api/admin/audit?limit=100")]);
+      sessions=sessionData.sessions||[];audits=auditData.audits||[];renderSessions();renderAudits();updateSelected();
+    }catch(err){
+      if(/authentication|expired/i.test(err.message)){stopPolling();csrf=null;sessions=[];audits=[];setAuthenticated(false);}
+    }finally{polling=false;}
+  }
+  function startPolling(){ stopPolling();pollTimer=window.setInterval(refreshAdminData,2200); }
+  function stopPolling(){ if(pollTimer){window.clearInterval(pollTimer);pollTimer=null;} }
 
-  async function bootAdmin(){ try{const r=await api("/api/admin/me");if(!r.ok){setAuthenticated(false);return;}const d=await r.json();csrf=d.csrfToken;setAuthenticated(true);const [sr,ar]=await Promise.all([api("/api/admin/sessions"),api("/api/admin/audit?limit=100")]);sessions=(await sr.json()).sessions||[];audits=(await ar.json()).audits||[];renderSessions();renderAudits();connectAdminEvents();}catch(_){setAuthenticated(false);} }
+  async function bootAdmin(){
+    try{
+      const d=await apiJson("/api/admin/me");
+      csrf=d.csrfToken;setAuthenticated(true);await refreshAdminData();startPolling();
+    }catch(_){stopPolling();csrf=null;setAuthenticated(false);}
+  }
 
-  $("loginForm").addEventListener("submit",async e=>{e.preventDefault();$("loginError").textContent="";try{const r=await api("/api/admin/login",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({password:$("password").value})});const d=await r.json();if(!r.ok)throw new Error(d.error||"Login gagal");$("password").value="";await bootAdmin();}catch(err){$("loginError").textContent=err.message;}});
-  $("logoutButton").addEventListener("click",async()=>{try{await api("/api/admin/logout",{method:"POST",headers:{"Content-Type":"application/json","X-CSRF-Token":csrf},body:"{}"});}catch(_){}source?.close();csrf=null;sessions=[];audits=[];setAuthenticated(false);});
+  $("loginForm").addEventListener("submit",async e=>{
+    e.preventDefault();$("loginError").textContent="";
+    try{
+      await apiJson("/api/admin/login",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({password:$("password").value})});
+      $("password").value="";await bootAdmin();
+    }catch(err){$("loginError").textContent=err.message;}
+  });
+  $("logoutButton").addEventListener("click",async()=>{try{await apiJson("/api/admin/logout",{method:"POST",headers:{"Content-Type":"application/json","X-CSRF-Token":csrf},body:"{}"});}catch(_){}stopPolling();csrf=null;sessions=[];audits=[];setAuthenticated(false);});
+  document.addEventListener("visibilitychange",()=>{if(!document.hidden&&!panelView.classList.contains("hidden"))refreshAdminData();});
   window.setInterval(()=>{if(!panelView.classList.contains("hidden"))renderSessions();},1000);
   bootAdmin();
 })();

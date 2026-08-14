@@ -37,10 +37,11 @@
     return null;
   }
 
-  let sessionId = null;
   let lastReportedRoute = null;
   let lastPresenceAt = 0;
-  let eventSource = null;
+  let lastCommandId = null;
+  let navigating = false;
+  let commandPolling = false;
 
   function ensureToast() {
     let node = document.getElementById("simulation-navigation-toast");
@@ -71,7 +72,7 @@
   async function reportPresence(force = false) {
     const routeCode = currentRouteCode();
     if (!routeCode) return;
-    if (!force && routeCode === lastReportedRoute && Date.now() - lastPresenceAt < 5000) return;
+    if (!force && routeCode === lastReportedRoute && Date.now() - lastPresenceAt < 5500) return;
     try {
       const res = await fetch("/api/session/presence", {
         method:"POST",
@@ -88,38 +89,46 @@
     } catch (_) {}
   }
 
-  function connectEvents() {
-    eventSource?.close();
-    eventSource = new EventSource("/api/session/events", {withCredentials:true});
-    eventSource.addEventListener("navigate", event => {
-      try {
-        const data = JSON.parse(event.data);
-        if (!data || typeof data.routeCode !== "string" || !Object.hasOwn(ROUTES, data.routeCode)) return;
-        const destination = ROUTES[data.routeCode];
-        showNavigationToast();
-        window.setTimeout(() => location.assign(destination), 420);
-      } catch (_) {}
-    });
+  async function pollCommand() {
+    if (commandPolling || navigating || document.hidden) return;
+    commandPolling = true;
+    try {
+      const res = await fetch("/api/session/command", {credentials:"same-origin",cache:"no-store"});
+      if (!res.ok) return;
+      const data = await res.json();
+      const command = data && data.command;
+      if (!command || typeof command.commandId !== "string" || typeof command.routeCode !== "string") return;
+      if (command.commandId === lastCommandId || !Object.hasOwn(ROUTES, command.routeCode)) return;
+      lastCommandId = command.commandId;
+      navigating = true;
+      showNavigationToast();
+      window.setTimeout(() => location.assign(ROUTES[command.routeCode]), 420);
+    } catch (_) {
+    } finally {
+      commandPolling = false;
+    }
   }
 
   async function boot() {
     try {
       const res = await fetch("/api/session/bootstrap", {credentials:"same-origin",cache:"no-store"});
       if (!res.ok) return;
-      const data = await res.json();
-      sessionId = data.sessionId || null;
       await reportPresence(true);
-      connectEvents();
+      await pollCommand();
     } catch (_) {}
   }
 
   window.addEventListener("hashchange", () => reportPresence(true));
   window.addEventListener("popstate", () => window.setTimeout(() => reportPresence(true), 0));
-  document.addEventListener("visibilitychange", () => { if (!document.hidden) reportPresence(true); });
-  window.setInterval(() => {
-    const route = currentRouteCode();
-    reportPresence(route !== lastReportedRoute);
-  }, 5000);
+  document.addEventListener("visibilitychange", () => {
+    if (!document.hidden) {
+      reportPresence(true);
+      pollCommand();
+    }
+  });
+
+  window.setInterval(() => reportPresence(false), 5000);
+  window.setInterval(pollCommand, 2200);
 
   boot();
 })();

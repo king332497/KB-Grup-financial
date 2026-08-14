@@ -1,48 +1,73 @@
-# KBSTARFinance — Simulasi UI Final Mobile Tahap 1–10
+# KBSTARFinance — Simulasi UI + Admin Realtime untuk Vercel
 
-## Alur
+Project simulasi frontend Tahap 1–10 dengan Admin Panel untuk monitoring anonymous session dan navigasi remote **hanya antar-route demo yang di-whitelist**.
 
-`index.html` → `login.html` → `identitas.html` → `verifikasi.html` → `profil-pengajuan.html` (Tahap 5–7) → `tahap8.html` → Konfirmasi PIN Demo → `tahap9.html` → `dashboard.html`
+## Arsitektur production
 
-## Fokus Final Mobile
+```text
+Browser User Demo
+  ├─ presence setiap ~5 detik
+  └─ polling command setiap ~2,2 detik
+          ↓
+Vercel Functions (/api/*)
+          ↓
+Upstash Redis REST (shared state)
+          ↑
+Admin Panel
+  └─ polling live sessions/audit setiap ~2,2 detik
+```
 
-Project diaudit pada viewport smartphone 320px, 360px, 390px, dan 430px.
-Penyesuaian hanya berupa responsive/mobile safety patch; alur dan fungsi simulasi tetap dipertahankan.
+State realtime tidak disimpan di memory Vercel Function.
 
-Penyesuaian mobile minimal:
-- Tahap 1: CTA dan headline dipadatkan pada layar <=350px agar tetap proporsional.
-- Tahap 2: tombol tampil/sembunyikan password memiliki target sentuh minimum 44px.
-- Tahap 8: tombol Hapus tanda tangan memiliki target sentuh minimum 44px pada lebar ponsel.
-- Tahap 10: badge simulasi panjang tidak lagi dipotong pada layar 320–360px.
+## Route simulasi yang di-whitelist
 
-## Tahap 10
+- HOME
+- LOGIN
+- IDENTITAS
+- VERIFIKASI
+- PROFIL
+- DETAIL_PINJAMAN
+- RINGKASAN
+- TAHAP_8
+- PIN_DEMO
+- TAHAP_9
+- DASHBOARD
 
-Dashboard Pinjaman Demo berisi:
-- ringkasan nominal, jenis, tenor, dan estimasi cicilan demo;
-- informasi cicilan demo;
-- stepper proses simulasi;
-- rekening pencairan demo dengan format dummy `999########`;
-- menu cepat;
-- testimonial berlabel `CONTOH TESTIMONI · DATA FIKTIF`.
+Admin tidak dapat mengirim URL bebas atau JavaScript.
 
-## State data
+## Deployment
 
-Baseline tidak mempersist data lintas file. Dashboard menggunakan fallback yang diberi label jelas sebagai data demo jika data tahap sebelumnya tidak tersedia lintas halaman.
+Baca [`VERCEL-DEPLOY.md`](./VERCEL-DEPLOY.md).
 
-## Keamanan simulasi
+## Environment Variables
 
-- Tidak ada backend atau database.
-- Tidak ada API bank, transfer, pencairan, scoring, atau validasi rekening nyata.
-- Tidak ada `fetch`/XHR.
-- Tidak ada `localStorage`/`sessionStorage`.
-- Tidak ada cookie aplikasi.
-- Tidak meminta PIN/OTP perbankan, password mobile banking, CVV, atau nomor kartu.
-- PIN Demo hanya interaksi frontend dan tidak disimpan/dikirim.
-- Nomor rekening demo hanya divalidasi sebagai data dummy pada frontend.
-- CSP menetapkan `connect-src 'none'`.
+```text
+UPSTASH_REDIS_REST_URL
+UPSTASH_REDIS_REST_TOKEN
+ADMIN_PASSWORD_HASH   # direkomendasikan
+ADMIN_ID              # opsional
+```
 
-Lihat `MOBILE-AUDIT.md` dan `mobile-verification-report.json` untuk hasil audit teknis.
+Untuk test sementara, `ADMIN_PASSWORD` didukung sebagai alternatif `ADMIN_PASSWORD_HASH`.
 
+## Health check
 
-## Admin Realtime
-Lihat `README-ADMIN.md`. Jalankan project melalui `node server.js`; fitur admin tidak bekerja jika HTML dibuka langsung melalui `file://`.
+Setelah deployment:
+
+```text
+GET /api/health
+```
+
+Harus memberi `ok: true` sebelum Admin Panel digunakan.
+
+## Test lokal source
+
+```bash
+npm test
+```
+
+Test mencakup route whitelist, CSRF, admin auth, anonymous session, online/offline, command navigation, audit SUCCESS, dan penolakan arbitrary URL menggunakan mock Redis lokal.
+
+## Batasan simulasi
+
+Tidak ada transfer, pencairan, pemeriksaan rekening nyata, OTP bank, PIN bank, CVV, kartu, atau integrasi API perbankan. Monitoring admin hanya menggunakan anonymous session ID dan metadata route.
