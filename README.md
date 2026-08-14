@@ -37,3 +37,21 @@ Rentang slider Rp5 juta–Rp500 juta hanya demonstrasi kontrol UI dan bukan bata
 - CSP `connect-src 'none'`
 - Data Tahap 5–7 hanya memori halaman dan hilang saat refresh/keluar halaman
 - Data identitas Tahap 3 tidak dipersist sehingga nama tidak ditarik ke ringkasan
+
+
+## Tahap 8 — Verifikasi Lanjutan Demo
+
+Alur terbaru: Tahap 7 → `tahap8.html`.
+
+Komponen:
+- Scan Wajah Demo: animasi CSS saja; tidak memakai kamera/getUserMedia.
+- Upload Dokumen Demo: tombol berkas dummy + pemilih PDF lokal opsional. Isi file tidak dibaca dan input langsung dikosongkan.
+- Tanda Tangan Demo: coretan canvas lokal; tidak disimpan, tidak diekspor, dan hilang saat refresh/resize.
+- Tidak ada Tahap 9.
+
+Keamanan Tahap 8:
+- `connect-src 'none'`.
+- Tidak ada fetch/XHR/FormData/FileReader/URL.createObjectURL.
+- Tidak ada getUserMedia/mediaDevices.
+- Tidak ada localStorage/sessionStorage/cookie.
+- Tidak ada toDataURL/toBlob untuk tanda tangan.

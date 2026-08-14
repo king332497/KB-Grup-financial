@@ -1,0 +1,424 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="color-scheme" content="dark" />
+  <meta name="theme-color" content="#16082f" />
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; img-src 'self' data:; style-src 'unsafe-inline'; script-src 'unsafe-inline'; connect-src 'none'; form-action 'self'; base-uri 'none';">
+  <title>Tahap 8 — Verifikasi Lanjutan Demo</title>
+  <style>
+    :root{
+      --bg1:#200c43;--bg2:#14072d;--bg3:#090417;
+      --gold:#f6cd54;--gold2:#fff19a;--text:#fff;--muted:#cfc6d9;
+      --shell:520px;
+    }
+    *{box-sizing:border-box}
+    html,body{max-width:100%;overflow-x:hidden}
+    body{
+      margin:0;min-height:100svh;color:var(--text);
+      font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+      background:radial-gradient(circle at 50% -10%,rgba(91,42,153,.34),transparent 35%),linear-gradient(180deg,#090310,#120625);
+    }
+    button,input,select{font:inherit} a{color:inherit;text-decoration:none}
+    .app{
+      width:min(100%,var(--shell));min-height:100svh;margin:auto;position:relative;overflow:hidden;isolation:isolate;
+      background:
+        radial-gradient(circle at 98% 38%,rgba(255,185,36,.09),transparent 22%),
+        radial-gradient(circle at 4% 3%,rgba(108,55,172,.18),transparent 25%),
+        linear-gradient(180deg,var(--bg1),var(--bg2) 42%,var(--bg3));
+      box-shadow:0 26px 70px rgba(0,0,0,.4);
+    }
+    .app:before{
+      content:"";position:absolute;width:620px;height:620px;left:-390px;top:-300px;border-radius:50%;
+      border:1px solid rgba(213,174,255,.08);
+      box-shadow:0 0 0 70px rgba(255,255,255,.014),0 0 0 140px rgba(255,255,255,.010),0 0 0 210px rgba(255,255,255,.007);
+      z-index:-2;
+    }
+    .app:after{
+      content:"";position:absolute;width:420px;height:420px;right:-285px;bottom:55px;border-radius:50%;
+      border:74px solid rgba(219,157,38,.78);
+      box-shadow:inset 0 0 25px rgba(255,245,179,.38),0 0 0 1px rgba(255,235,132,.55),0 0 24px rgba(250,176,35,.18);
+      z-index:-2;
+    }
+    .badge{
+      position:fixed;z-index:50;top:max(10px,env(safe-area-inset-top));left:50%;transform:translateX(-50%);
+      padding:7px 11px;border-radius:999px;background:#f8db6a;color:#2b1b00;border:1px solid rgba(255,255,255,.35);
+      font-size:11px;font-weight:800;letter-spacing:.08em;white-space:nowrap;box-shadow:0 7px 18px rgba(0,0,0,.26);
+    }
+    .statusbar{display:flex;justify-content:space-between;align-items:center;padding:28px 24px 8px;font-size:16px;font-weight:700}
+    .status-left,.status-right{display:flex;align-items:center;gap:9px}
+    .user{width:10px;height:10px;border-radius:50%;background:#fff;box-shadow:0 8px 0 -1px #fff;transform:translateY(-3px)}
+    .bars{display:flex;gap:2px;align-items:flex-end;height:16px}.bars i{display:block;width:3px;border-radius:3px;background:#fff}
+    .bars i:nth-child(1){height:6px;opacity:.55}.bars i:nth-child(2){height:9px;opacity:.7}.bars i:nth-child(3){height:12px;opacity:.85}.bars i:nth-child(4){height:15px}
+    .wifi{width:18px;height:12px;border-top:3px solid #fff;border-radius:50%;position:relative}.wifi:after{content:"";position:absolute;width:6px;height:6px;border-radius:50%;background:#fff;left:4px;top:4px}
+    .battery{width:26px;height:14px;border:1.8px solid #fff;border-radius:4px;display:grid;place-items:center;font-size:9px;position:relative}.battery:after{content:"";position:absolute;right:-4px;width:2px;height:7px;background:#fff}
+    .top{display:flex;justify-content:space-between;align-items:center;padding:24px 24px 0}
+    .back{
+      width:44px;height:44px;border-radius:15px;border:1px solid rgba(247,205,84,.44);background:rgba(15,7,34,.42);
+      display:grid;place-items:center;color:#ffe879;cursor:pointer;
+    }
+    .back:before{content:"";width:11px;height:11px;border-left:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg) translate(2px,-2px)}
+    .brand{text-align:right;line-height:1}
+    .brand .name{font-size:30px;letter-spacing:-.055em}.brand .kb{background:linear-gradient(#ffc32d,#ee980b);-webkit-background-clip:text;background-clip:text;color:transparent}.brand .star{color:#f0eef5}
+    .brand small{display:block;margin-top:7px;color:#bcb3ca;font-size:11px;letter-spacing:.04em}
+    .content{padding:52px 28px 34px}
+    .view[hidden]{display:none!important}
+    .eyebrow{margin:0 0 10px;color:#fff18d;font-size:12px;font-weight:700;letter-spacing:.16em}
+    h1{margin:0;font-family:Georgia,"Times New Roman",serif;font-size:48px;font-weight:400;line-height:1.02;letter-spacing:-.035em}
+    h1 strong{display:block;margin-top:6px;font-weight:400;background:linear-gradient(#fff0a0,#ffc846 35%,#f0a02e 60%,#ffe58d);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-stroke:.4px rgba(246,205,84,.65)}
+    .lead{margin:15px 0 28px;max-width:390px;color:#ded8e7;font-size:15px;line-height:1.55}
+    .card{
+      padding:22px;border-radius:26px;border:1px solid rgba(247,205,84,.36);
+      background:linear-gradient(180deg,rgba(60,28,101,.70),rgba(17,7,39,.84));
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 18px 45px rgba(0,0,0,.27);
+      backdrop-filter:blur(16px);
+    }
+    .safety{display:flex;gap:12px;align-items:flex-start;margin-bottom:20px;padding:13px 14px;border-radius:16px;border:1px solid rgba(255,234,133,.17);background:rgba(255,255,255,.045);color:#e9e3ef;font-size:12px;line-height:1.45}
+    .shield{flex:0 0 34px;width:34px;height:34px;border-radius:11px;border:1px solid rgba(247,205,84,.55);display:grid;place-items:center;color:#ffe36c}
+    .field{margin-top:16px}.field:first-of-type{margin-top:0}
+    label,.label{display:block;margin-bottom:8px;font-size:13px;font-weight:700}
+    input,select{
+      width:100%;height:58px;border:1px solid rgba(255,255,255,.16);border-radius:17px;outline:none;
+      padding:0 16px;background:rgba(8,4,20,.52);color:#fff;caret-color:#ffd95e;font-size:16px;
+    }
+    select{appearance:none;-webkit-appearance:none;background-image:linear-gradient(45deg,transparent 50%,#dccc7d 50%),linear-gradient(135deg,#dccc7d 50%,transparent 50%);background-position:calc(100% - 21px) 24px,calc(100% - 15px) 24px;background-size:6px 6px,6px 6px;background-repeat:no-repeat;padding-right:44px}
+    select option{background:#180b31;color:#fff}
+    input:focus,select:focus{border-color:#f3cc52;box-shadow:0 0 0 3px rgba(243,204,82,.11)}
+    input::placeholder{color:#8f849d}
+    input[aria-invalid="true"],select[aria-invalid="true"]{border-color:rgba(255,187,181,.80);box-shadow:0 0 0 3px rgba(255,187,181,.08)}
+    .hint{margin:8px 2px 0;color:#a99fb5;font-size:11px;line-height:1.4}
+    .field-error{min-height:17px;margin:6px 2px 0;color:#ffbbb5;font-size:11px;line-height:1.35}
+    .message{min-height:20px;margin:14px 2px 0;font-size:12px;line-height:1.45}.error{color:#ffbbb5}.success{color:#dcffdb}
+    .primary{
+      width:100%;min-height:60px;margin-top:4px;border:2px solid #f6d34f;border-radius:17px;
+      background:linear-gradient(180deg,rgba(67,30,111,.78),rgba(25,10,55,.88));color:#ffdf63;font-size:17px;font-weight:800;cursor:pointer;
+      box-shadow:0 0 0 2px rgba(255,199,38,.10),0 8px 24px rgba(0,0,0,.22);
+    }
+    .primary:disabled{opacity:.64;cursor:default}
+    .secondary{width:100%;min-height:50px;margin-top:12px;border:1px solid rgba(255,255,255,.12);border-radius:16px;background:rgba(255,255,255,.045);color:#e7dfed;font-size:14px;font-weight:700;cursor:pointer}
+    .primary:focus-visible,.secondary:focus-visible,.back:focus-visible,input:focus-visible,select:focus-visible,.chip input:focus-visible+span{outline:2px solid #fff19a;outline-offset:3px}
+    .meta{margin-top:18px;text-align:center;color:#a9a0b4;font-size:11px;line-height:1.55}.meta strong{color:#dfd6e8}
+    footer{padding:0 28px 34px;text-align:center;color:#8e8499;font-size:11px;line-height:1.5}
+
+    .chip-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+    .chip{position:relative;display:block;min-width:0}
+    .chip input{position:absolute;opacity:0;pointer-events:none}
+    .chip span{min-height:50px;padding:10px 12px;border:1px solid rgba(255,255,255,.14);border-radius:15px;background:rgba(8,4,20,.44);display:flex;align-items:center;justify-content:center;text-align:center;color:#dcd4e4;font-size:13px;font-weight:700;line-height:1.25;cursor:pointer;transition:border-color .15s ease,background .15s ease,color .15s ease}
+    .chip input:checked+span{border-color:#f3cc52;background:linear-gradient(180deg,rgba(82,39,128,.74),rgba(32,13,62,.88));color:#ffe679;box-shadow:0 0 0 2px rgba(243,204,82,.08)}
+    .chip-wide:last-child:nth-child(odd){grid-column:1/-1}
+
+    .amount-wrap{position:relative}
+    .amount-prefix{position:absolute;left:16px;top:50%;transform:translateY(-50%);color:#ffe06d;font-weight:800;pointer-events:none}
+    .amount-wrap input{padding-left:46px;font-variant-numeric:tabular-nums;font-weight:700}
+    .range{height:auto;padding:0;margin:13px 0 0;appearance:none;background:transparent;border:0;box-shadow:none}
+    .range:focus{box-shadow:none}
+    .range::-webkit-slider-runnable-track{height:5px;border-radius:999px;background:linear-gradient(90deg,rgba(246,205,84,.88),rgba(255,255,255,.13))}
+    .range::-webkit-slider-thumb{appearance:none;width:22px;height:22px;margin-top:-8px;border-radius:50%;border:2px solid #fff2a0;background:#f0b938;box-shadow:0 4px 14px rgba(0,0,0,.35)}
+    .range-scale{display:flex;justify-content:space-between;margin-top:5px;color:#92889d;font-size:10px}
+
+    .summary-hero{padding:18px;border-radius:20px;border:1px solid rgba(246,205,84,.30);background:radial-gradient(circle at 70% 0%,rgba(255,205,60,.09),transparent 38%),rgba(7,3,17,.35);text-align:center}
+    .summary-kicker{color:#bfb5c8;font-size:11px;letter-spacing:.08em;text-transform:uppercase}
+    .summary-amount{margin:7px 0 4px;color:#ffe275;font-family:Georgia,"Times New Roman",serif;font-size:38px;line-height:1.05;font-variant-numeric:tabular-nums}
+    .summary-type{color:#eee8f2;font-size:13px;line-height:1.4}
+    .summary-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:14px}
+    .summary-item{min-width:0;padding:13px;border-radius:16px;border:1px solid rgba(255,255,255,.10);background:rgba(255,255,255,.035)}
+    .summary-item span{display:block;color:#948a9f;font-size:10px;text-transform:uppercase;letter-spacing:.06em}
+    .summary-item strong{display:block;margin-top:5px;color:#f4eff7;font-size:13px;line-height:1.35;overflow-wrap:anywhere}
+    .installment{margin-top:14px;padding:14px;border-radius:17px;border:1px solid rgba(246,205,84,.22);background:rgba(246,205,84,.05)}
+    .installment span{display:block;color:#cbbfd4;font-size:11px}
+    .installment strong{display:block;margin-top:5px;color:#ffe06b;font-size:23px;font-variant-numeric:tabular-nums}
+    .section-title{margin:22px 0 10px;color:#fff0a0;font-size:13px;font-weight:800;letter-spacing:.03em}
+    .data-list{margin:0;padding:0;list-style:none;border-top:1px solid rgba(255,255,255,.08)}
+    .data-list li{display:flex;justify-content:space-between;gap:14px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.08);font-size:12px;line-height:1.4}
+    .data-list span{color:#9e94a8;flex:0 0 39%}.data-list strong{text-align:right;color:#eee8f2;font-weight:700;overflow-wrap:anywhere}
+    .disclaimer{margin-top:14px;padding:13px 14px;border-radius:15px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);color:#bdb3c7;font-size:10.5px;line-height:1.55}
+    .completed{margin-top:14px;padding:13px 14px;border-radius:15px;border:1px solid rgba(174,255,173,.20);background:rgba(124,255,122,.06);color:#dcffdb;font-size:12px;line-height:1.45}
+
+    @media(max-width:420px){.content{padding-left:22px;padding-right:22px}.top{padding-left:20px;padding-right:20px}h1{font-size:43px}.card{padding:18px}.summary-amount{font-size:34px}}
+    @media(max-width:360px){.chip-grid,.summary-grid{grid-template-columns:1fr}.chip-wide:last-child:nth-child(odd){grid-column:auto}.data-list li{display:block}.data-list strong{display:block;text-align:left;margin-top:4px}}
+    @media(min-width:760px){body{padding:24px 0}.app{border-radius:34px;min-height:auto}}
+  
+
+    /* Tahap 8 additions only — shared visual tokens above remain identical to baseline. */
+    .step-stack{display:grid;gap:14px}
+    .demo-panel{padding:16px;border-radius:19px;border:1px solid rgba(255,255,255,.11);background:rgba(8,4,20,.36)}
+    .panel-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:12px}
+    .panel-copy{min-width:0}
+    .panel-title{margin:0;color:#f5eef8;font-size:14px;font-weight:800;line-height:1.35}
+    .panel-sub{margin:4px 0 0;color:#9f94aa;font-size:11px;line-height:1.45}
+    .status-pill{flex:0 0 auto;padding:6px 9px;border-radius:999px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.04);color:#a99fb3;font-size:10px;font-weight:800;letter-spacing:.03em}
+    .status-pill.done{border-color:rgba(174,255,173,.22);background:rgba(124,255,122,.06);color:#dcffdb}
+
+    .face-box{position:relative;display:grid;place-items:center;min-height:220px;overflow:hidden;border-radius:18px;border:1px solid rgba(246,205,84,.20);background:radial-gradient(circle at 50% 30%,rgba(121,61,173,.22),transparent 36%),rgba(5,2,14,.56)}
+    .face-oval{position:relative;width:126px;height:160px;border:2px solid rgba(255,226,117,.72);border-radius:48% 48% 44% 44%/39% 39% 56% 56%;box-shadow:0 0 0 8px rgba(246,205,84,.03),0 0 24px rgba(246,205,84,.08)}
+    .face-oval:before{content:"";position:absolute;width:44px;height:53px;left:50%;top:31px;transform:translateX(-50%);border-radius:50%;background:rgba(232,224,239,.17);border:1px solid rgba(255,255,255,.14)}
+    .face-oval:after{content:"";position:absolute;width:76px;height:55px;left:50%;bottom:18px;transform:translateX(-50%);border-radius:50% 50% 38% 38%;background:rgba(232,224,239,.12);border:1px solid rgba(255,255,255,.10)}
+    .scan-line{position:absolute;left:16%;right:16%;top:22%;height:2px;background:linear-gradient(90deg,transparent,#ffe476,transparent);box-shadow:0 0 14px rgba(255,223,99,.85);opacity:0}
+    .face-box.scanning .scan-line{opacity:1;animation:scanMove 1.35s ease-in-out infinite}
+    @keyframes scanMove{0%{top:20%}50%{top:78%}100%{top:20%}}
+    .corner{position:absolute;width:34px;height:34px;border-color:#f4cf57;border-style:solid;opacity:.8}
+    .c1{left:17px;top:17px;border-width:2px 0 0 2px;border-radius:10px 0 0 0}.c2{right:17px;top:17px;border-width:2px 2px 0 0;border-radius:0 10px 0 0}.c3{left:17px;bottom:17px;border-width:0 0 2px 2px;border-radius:0 0 0 10px}.c4{right:17px;bottom:17px;border-width:0 2px 2px 0;border-radius:0 0 10px 0}
+    .scan-note{position:absolute;left:18px;right:18px;bottom:14px;text-align:center;color:#b7acbf;font-size:10px;line-height:1.4}
+
+    .upload-zone{position:relative;padding:18px;border:1px dashed rgba(246,205,84,.42);border-radius:17px;background:rgba(246,205,84,.035);text-align:center}
+    .upload-icon{width:46px;height:46px;margin:0 auto 10px;border-radius:14px;border:1px solid rgba(246,205,84,.42);display:grid;place-items:center;color:#ffe274;font-size:21px;background:rgba(35,14,65,.64)}
+    .upload-zone strong{display:block;color:#eee8f2;font-size:13px}.upload-zone p{margin:6px auto 0;max-width:310px;color:#9f94aa;font-size:10.5px;line-height:1.5}
+    .upload-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:13px}
+    .mini-action{min-height:46px;padding:9px;border-radius:14px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.045);color:#e7dfed;font-size:11px;font-weight:800;cursor:pointer}
+    .mini-action.gold{border-color:rgba(246,205,84,.34);color:#ffe071;background:rgba(246,205,84,.055)}
+    .file-input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+
+    .signature-shell{padding:10px;border-radius:17px;border:1px solid rgba(246,205,84,.20);background:rgba(5,2,14,.50)}
+    .signature-canvas{display:block;width:100%;height:150px;border-radius:12px;background:rgba(255,255,255,.94);touch-action:none;cursor:crosshair}
+    .signature-guide{margin:7px 3px 0;color:#9b90a5;font-size:10px;line-height:1.4;text-align:center}
+
+    .progress-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:0 0 18px}
+    .progress-item{padding:9px 7px;border-radius:13px;border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.03);text-align:center;color:#908699;font-size:9px;font-weight:800;line-height:1.25}
+    .progress-item.done{border-color:rgba(246,205,84,.25);background:rgba(246,205,84,.05);color:#ffe276}
+
+    @media(max-width:360px){.upload-actions{grid-template-columns:1fr}.face-box{min-height:205px}}
+</style>
+</head>
+<body>
+  <div class="badge">SIMULASI UI · BUKAN SITUS RESMI</div>
+
+  <main class="app">
+    <div class="statusbar" aria-hidden="true">
+      <div class="status-left"><span>23.27</span><span class="user"></span></div>
+      <div class="status-right"><span class="bars"><i></i><i></i><i></i><i></i></span><span class="wifi"></span><span class="battery">74</span></div>
+    </div>
+
+    <div class="top">
+      <button class="back" id="backButton" type="button" aria-label="Kembali ke Ringkasan Simulasi"></button>
+      <div class="brand"><div class="name"><span class="kb">KB</span><span class="star">star</span></div><small>by KB Bank</small></div>
+    </div>
+
+    <section class="content">
+      <p class="eyebrow">TAHAP 8 · VERIFIKASI LANJUTAN DEMO</p>
+      <h1>Verifikasi Lanjutan<strong>Simulasi</strong></h1>
+      <p class="lead">Tiga interaksi di bawah hanya demonstrasi antarmuka. Kamera tidak diakses, dokumen tidak diunggah, dan tanda tangan tidak disimpan atau diekspor.</p>
+
+      <div class="card">
+        <div class="safety"><div class="shield">◇</div><div><strong>Gunakan data fiktif.</strong><br>Jangan gunakan wajah, dokumen identitas, atau tanda tangan asli. Semua proses Tahap 8 berjalan lokal sebagai simulasi UI.</div></div>
+
+        <div class="progress-row" aria-label="Status Tahap 8">
+          <div class="progress-item" id="progressFace">Scan Wajah</div>
+          <div class="progress-item" id="progressDoc">Dokumen</div>
+          <div class="progress-item" id="progressSign">Tanda Tangan</div>
+        </div>
+
+        <div class="step-stack">
+          <section class="demo-panel" aria-labelledby="faceTitle">
+            <div class="panel-head">
+              <div class="panel-copy"><h2 class="panel-title" id="faceTitle">Scan Wajah Demo</h2><p class="panel-sub">Animasi visual saja. Halaman tidak meminta izin kamera dan tidak mengambil gambar wajah.</p></div>
+              <span class="status-pill" id="faceStatus">Belum</span>
+            </div>
+            <div class="face-box" id="faceBox" aria-label="Area animasi scan wajah demo">
+              <i class="corner c1"></i><i class="corner c2"></i><i class="corner c3"></i><i class="corner c4"></i>
+              <div class="face-oval" aria-hidden="true"></div><div class="scan-line" aria-hidden="true"></div>
+              <div class="scan-note">Tidak menggunakan kamera · tidak membuat data biometrik</div>
+            </div>
+            <button class="secondary" id="scanButton" type="button">Mulai Scan Demo</button>
+          </section>
+
+          <section class="demo-panel" aria-labelledby="docTitle">
+            <div class="panel-head">
+              <div class="panel-copy"><h2 class="panel-title" id="docTitle">Upload Dokumen Demo</h2><p class="panel-sub">Untuk pengujian UI, gunakan tombol berkas dummy. Jika memilih PDF lokal, isi berkas tidak dibaca dan input langsung dilepas.</p></div>
+              <span class="status-pill" id="docStatus">Belum</span>
+            </div>
+            <div class="upload-zone">
+              <div class="upload-icon" aria-hidden="true">⇧</div>
+              <strong>Dokumen Pendukung Demo</strong>
+              <p>Jangan memilih KTP, NPWP, rekening koran, atau dokumen pribadi asli. Tidak ada FileReader, FormData, fetch, XHR, maupun backend.</p>
+              <input class="file-input" id="demoDocument" type="file" accept="application/pdf,.pdf" tabindex="-1" aria-hidden="true">
+              <div class="upload-actions">
+                <button class="mini-action gold" id="dummyDocumentButton" type="button">Gunakan Berkas Dummy</button>
+                <button class="mini-action" id="chooseDocumentButton" type="button">Pilih PDF Demo</button>
+              </div>
+            </div>
+            <div class="message" id="documentMessage" role="status" aria-live="polite"></div>
+          </section>
+
+          <section class="demo-panel" aria-labelledby="signTitle">
+            <div class="panel-head">
+              <div class="panel-copy"><h2 class="panel-title" id="signTitle">Tanda Tangan Demo</h2><p class="panel-sub">Buat coretan fiktif di area putih. Jangan menggambar tanda tangan asli.</p></div>
+              <span class="status-pill" id="signStatus">Belum</span>
+            </div>
+            <div class="signature-shell">
+              <canvas class="signature-canvas" id="signatureCanvas" aria-label="Area coretan tanda tangan demo"></canvas>
+              <div class="signature-guide">Coretan hanya berada di memori canvas dan tidak dapat diekspor dari halaman ini.</div>
+            </div>
+            <button class="secondary" id="clearSignature" type="button">Hapus Coretan Demo</button>
+          </section>
+        </div>
+
+        <div class="message" id="finalMessage" role="status" aria-live="polite"></div>
+        <button class="primary" id="completeButton" type="button" disabled>Selesaikan Tahap 8</button>
+        <div class="completed" id="completedState" hidden><strong>Tahap 8 selesai.</strong><br>Hanya state UI lokal yang berubah. Belum ada Tahap 9 atau navigasi berikutnya.</div>
+        <div class="meta">Tidak ada kamera, OCR, pengenalan wajah, penyimpanan biometrik, upload server, atau penyimpanan tanda tangan.</div>
+      </div>
+    </section>
+
+    <footer>Halaman demonstrasi antarmuka. Bukan kanal resmi bank dan bukan halaman transaksi nyata.</footer>
+  </main>
+
+  <script>
+    (() => {
+      "use strict";
+
+      // Hanya boolean state dalam memori. Tidak ada data wajah/dokumen/tanda tangan yang disimpan.
+      const state = { face: false, document: false, signature: false, complete: false };
+      const faceBox = document.getElementById("faceBox");
+      const scanButton = document.getElementById("scanButton");
+      const faceStatus = document.getElementById("faceStatus");
+      const docStatus = document.getElementById("docStatus");
+      const signStatus = document.getElementById("signStatus");
+      const documentMessage = document.getElementById("documentMessage");
+      const docInput = document.getElementById("demoDocument");
+      const chooseDocumentButton = document.getElementById("chooseDocumentButton");
+      const dummyDocumentButton = document.getElementById("dummyDocumentButton");
+      const completeButton = document.getElementById("completeButton");
+      const finalMessage = document.getElementById("finalMessage");
+      const completedState = document.getElementById("completedState");
+      const canvas = document.getElementById("signatureCanvas");
+      const ctx = canvas.getContext("2d", { alpha: false });
+      let drawing = false;
+
+      const progress = {
+        face: document.getElementById("progressFace"),
+        document: document.getElementById("progressDoc"),
+        signature: document.getElementById("progressSign")
+      };
+
+      function updateUI() {
+        const map = [
+          ["face", faceStatus], ["document", docStatus], ["signature", signStatus]
+        ];
+        map.forEach(([key, badge]) => {
+          badge.textContent = state[key] ? "Selesai" : "Belum";
+          badge.classList.toggle("done", state[key]);
+          progress[key].classList.toggle("done", state[key]);
+        });
+        completeButton.disabled = !(state.face && state.document && state.signature) || state.complete;
+      }
+
+      function completeFaceScan() {
+        faceBox.classList.remove("scanning");
+        state.face = true;
+        scanButton.textContent = "Scan Demo Selesai";
+        scanButton.disabled = true;
+        updateUI();
+      }
+
+      scanButton.addEventListener("click", () => {
+        if (state.face) return;
+        scanButton.disabled = true;
+        scanButton.textContent = "Memindai Demo…";
+        faceBox.classList.add("scanning");
+        window.setTimeout(completeFaceScan, 1600);
+      });
+
+      dummyDocumentButton.addEventListener("click", () => {
+        state.document = true;
+        documentMessage.className = "message success";
+        documentMessage.textContent = "Berkas dummy dipilih. Tidak ada dokumen nyata yang digunakan.";
+        updateUI();
+      });
+
+      chooseDocumentButton.addEventListener("click", () => {
+        docInput.click();
+      });
+
+      docInput.addEventListener("change", () => {
+        const selected = docInput.files && docInput.files.length > 0;
+        if (selected) {
+          state.document = true;
+          documentMessage.className = "message success";
+          documentMessage.textContent = "PDF demo terdeteksi secara lokal. Isi berkas tidak dibaca dan input telah dilepas.";
+        } else {
+          documentMessage.className = "message";
+          documentMessage.textContent = "";
+        }
+        // Melepas referensi file segera; tidak ada pembacaan konten maupun penyimpanan.
+        docInput.value = "";
+        updateUI();
+      });
+
+      function resizeCanvas() {
+        const rect = canvas.getBoundingClientRect();
+        const ratio = Math.min(window.devicePixelRatio || 1, 2);
+        canvas.width = Math.max(1, Math.round(rect.width * ratio));
+        canvas.height = Math.max(1, Math.round(rect.height * ratio));
+        ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+        ctx.fillStyle = "#f7f6f3";
+        ctx.fillRect(0, 0, rect.width, rect.height);
+        ctx.strokeStyle = "#241d2c";
+        ctx.lineWidth = 2.2;
+        ctx.lineCap = "round";
+        ctx.lineJoin = "round";
+        state.signature = false;
+        updateUI();
+      }
+
+      function point(event) {
+        const rect = canvas.getBoundingClientRect();
+        return { x: event.clientX - rect.left, y: event.clientY - rect.top };
+      }
+
+      canvas.addEventListener("pointerdown", (event) => {
+        drawing = true;
+        canvas.setPointerCapture(event.pointerId);
+        const p = point(event);
+        ctx.beginPath();
+        ctx.moveTo(p.x, p.y);
+      });
+
+      canvas.addEventListener("pointermove", (event) => {
+        if (!drawing) return;
+        const p = point(event);
+        ctx.lineTo(p.x, p.y);
+        ctx.stroke();
+        if (!state.signature) { state.signature = true; updateUI(); }
+      });
+
+      function endDrawing(event) {
+        if (!drawing) return;
+        drawing = false;
+        try { canvas.releasePointerCapture(event.pointerId); } catch (_) {}
+      }
+      canvas.addEventListener("pointerup", endDrawing);
+      canvas.addEventListener("pointercancel", endDrawing);
+
+      document.getElementById("clearSignature").addEventListener("click", resizeCanvas);
+
+      completeButton.addEventListener("click", () => {
+        if (completeButton.disabled || state.complete) return;
+        state.complete = true;
+        completeButton.disabled = true;
+        completeButton.textContent = "Tahap 8 Selesai";
+        finalMessage.className = "message success";
+        finalMessage.textContent = "Verifikasi lanjutan demo selesai. Tidak ada data yang dikirim atau disimpan.";
+        completedState.hidden = false;
+      });
+
+      document.getElementById("backButton").addEventListener("click", () => {
+        if (history.length > 1) history.back();
+        else window.location.href = "profil-pengajuan.html";
+      });
+
+      window.addEventListener("resize", () => {
+        // Resize menghapus coretan agar tidak ada data visual yang dipertahankan.
+        resizeCanvas();
+      });
+
+      resizeCanvas();
+      updateUI();
+
+      // Hook read-only untuk pengujian lokal. Hanya boolean completion state.
+      window.__stage8Demo = { get state() { return {...state}; } };
+    })();
+  </script>
+</body>
+</html>
