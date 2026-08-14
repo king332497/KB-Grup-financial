@@ -19,5 +19,7 @@ assert(!admin.includes('new EventSource'),"admin Vercel harus memakai shared-sta
 const backend=fs.readFileSync(path.join(root,"lib/realtime-backend.js"),"utf8");
 for(const bad of ["eval(","new Function(","child_process","exec(","spawn("]){assert(!backend.includes(bad),`backend mengandung pola terlarang: ${bad}`);}
 assert(backend.includes('ROUTE_CODES.has(body.routeCode)'),"backend whitelist route harus aktif");
-assert(backend.includes('UPSTASH_REDIS_REST_URL'),"shared Redis config hilang");
+assert(backend.includes('UPSTASH_REDIS_REST_URL'),"direct Upstash Redis config hilang");
+assert(backend.includes('KV_REST_API_URL'),"Vercel Marketplace KV URL fallback hilang");
+assert(backend.includes('KV_REST_API_TOKEN'),"Vercel Marketplace KV token fallback hilang");
 console.log("static-security-test: PASS");

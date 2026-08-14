@@ -49,8 +49,10 @@ async function call(base,path,{method="GET",cookie="",body,csrf}={}){
 (async()=>{
   const mock=createMockRedis();await new Promise(r=>mock.server.listen(0,"127.0.0.1",r));
   const redisPort=mock.server.address().port;
-  process.env.UPSTASH_REDIS_REST_URL=`http://127.0.0.1:${redisPort}`;
-  process.env.UPSTASH_REDIS_REST_TOKEN="test-token";
+  delete process.env.UPSTASH_REDIS_REST_URL;
+  delete process.env.UPSTASH_REDIS_REST_TOKEN;
+  process.env.KV_REST_API_URL=`http://127.0.0.1:${redisPort}`;
+  process.env.KV_REST_API_TOKEN="test-token";
   process.env.ADMIN_PASSWORD="LocalTest#2026";
   process.env.ADMIN_ID="admin-test";
 

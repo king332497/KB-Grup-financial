@@ -11,8 +11,8 @@ Vercel Functions dapat berjalan pada instance yang berbeda. Karena itu session u
 Tambahkan di **Vercel → Project → Settings → Environment Variables**:
 
 ```text
-UPSTASH_REDIS_REST_URL=https://....upstash.io
-UPSTASH_REDIS_REST_TOKEN=...
+KV_REST_API_URL=https://....upstash.io
+KV_REST_API_TOKEN=...
 ADMIN_PASSWORD_HASH=scrypt$...$...
 ```
 
@@ -32,7 +32,7 @@ Jangan commit `.env`, password, token Redis, atau hash yang sedang digunakan ke 
 
 ## Membuat Redis
 
-Gunakan Upstash Redis lalu ambil **REST URL** dan **REST Token**. Jika dibuat melalui integrasi Vercel/Marketplace, pastikan environment variables `UPSTASH_REDIS_REST_URL` dan `UPSTASH_REDIS_REST_TOKEN` masuk ke project yang sama.
+Gunakan Upstash Redis yang terhubung ke project Vercel. Integrasi Marketplace pada project ini menghasilkan `KV_REST_API_URL` dan `KV_REST_API_TOKEN`; backend mendukung nama tersebut secara langsung. Nama `UPSTASH_REDIS_REST_URL` / `UPSTASH_REDIS_REST_TOKEN` juga tetap didukung sebagai fallback.
 
 ## Deploy
 
