@@ -56,3 +56,9 @@ Setelah upload/redeploy, verifikasi:
 ## Batas verifikasi
 
 Environment pembuatan artifact memblokir navigasi Chromium ke URL lokal/file, sehingga render-browser ulang final tidak dapat dijalankan di sini. Perubahan final tidak menyentuh CSS/layout; mobile visual tetap berasal dari baseline yang sebelumnya telah diuji. Pengujian runtime/backend final dilakukan melalui Node integration tests dan syntax/security checks.
+
+## v4 credential hotfix
+- `ADMIN_PASSWORD` sekarang diprioritaskan bila tersedia.
+- `ADMIN_PASSWORD_HASH` hanya menjadi fallback jika `ADMIN_PASSWORD` tidak diset.
+- `/api/health` menampilkan `adminCredentialMode` (`password`, `hash`, atau `none`) tanpa membocorkan nilai credential.
+- Ditambahkan regression test untuk mencegah stale/shared `ADMIN_PASSWORD_HASH` mengalahkan password project yang aktif.
