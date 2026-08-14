@@ -26,7 +26,7 @@
     .card{padding:22px;border-radius:26px;border:1px solid rgba(247,205,84,.36);background:linear-gradient(180deg,rgba(60,28,101,.70),rgba(17,7,39,.84));box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 18px 45px rgba(0,0,0,.27);backdrop-filter:blur(16px)}
     .safety{display:flex;gap:12px;align-items:flex-start;margin-bottom:20px;padding:13px 14px;border-radius:16px;border:1px solid rgba(255,234,133,.17);background:rgba(255,255,255,.045);color:#e9e3ef;font-size:12px;line-height:1.45}.shield{flex:0 0 34px;width:34px;height:34px;border-radius:11px;border:1px solid rgba(247,205,84,.55);display:grid;place-items:center;color:#ffe36c}
     .task{margin-top:14px;padding:16px;border:1px solid rgba(255,255,255,.10);border-radius:18px;background:rgba(7,3,17,.30)}.task:first-of-type{margin-top:0}.task-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.task-title{font-size:14px;font-weight:800}.task-desc{margin:5px 0 0;color:#a99fb5;font-size:11px;line-height:1.45}.status{flex:0 0 auto;padding:5px 8px;border:1px solid rgba(255,255,255,.12);border-radius:999px;color:#aaa0b4;font-size:10px;font-weight:800}.status.ok{border-color:rgba(174,255,173,.25);background:rgba(124,255,122,.06);color:var(--ok)}
-    .scan-box{margin-top:14px;min-height:164px;border-radius:20px;border:1px solid rgba(246,205,84,.28);background:radial-gradient(circle at 50% 42%,rgba(129,72,182,.16),transparent 42%),rgba(7,3,17,.40);display:grid;place-items:center;position:relative;overflow:hidden}.face{width:94px;height:116px;border:2px solid rgba(255,226,112,.72);border-radius:44% 44% 48% 48%;position:relative;box-shadow:0 0 22px rgba(246,205,84,.10)}.face:before,.face:after{content:"";position:absolute;top:44px;width:8px;height:8px;border-radius:50%;background:#ffe375}.face:before{left:25px}.face:after{right:25px}.mouth{position:absolute;width:30px;height:13px;left:50%;bottom:24px;transform:translateX(-50%);border-bottom:2px solid #ffe375;border-radius:50%}.scan-line{position:absolute;left:14%;right:14%;top:20%;height:2px;background:linear-gradient(90deg,transparent,#ffe067,transparent);box-shadow:0 0 13px #ffe067;opacity:0}.scan-box.running .scan-line{opacity:1;animation:scan 1.1s ease-in-out infinite alternate}@keyframes scan{from{top:22%}to{top:77%}}
+    .scan-box{margin-top:14px;min-height:164px;border-radius:20px;border:1px solid rgba(246,205,84,.28);background:radial-gradient(circle at 50% 42%,rgba(129,72,182,.16),transparent 42%),rgba(7,3,17,.40);display:grid;place-items:center;position:relative;overflow:hidden}.face{width:94px;height:116px;border:2px solid rgba(255,226,112,.72);border-radius:44% 44% 48% 48%;position:relative;box-shadow:0 0 22px rgba(246,205,84,.10);transition:transform .38s ease,box-shadow .38s ease}.face.look-right{transform:translateX(18px) rotate(6deg)}.face.look-left{transform:translateX(-18px) rotate(-6deg)}.face.look-up{transform:translateY(-12px)}.face.look-down{transform:translateY(12px)}.face.hold{transform:scale(1.025);box-shadow:0 0 30px rgba(246,205,84,.20)}.face:before,.face:after{content:"";position:absolute;top:44px;width:8px;height:8px;border-radius:50%;background:#ffe375}.face:before{left:25px}.face:after{right:25px}.mouth{position:absolute;width:30px;height:13px;left:50%;bottom:24px;transform:translateX(-50%);border-bottom:2px solid #ffe375;border-radius:50%}.scan-guide{position:absolute;left:16px;right:16px;bottom:12px;text-align:center;color:#ffe889;font-size:11px;font-weight:800;letter-spacing:.02em;opacity:0;transition:opacity .2s ease}.scan-box.running .scan-guide{opacity:1}.scan-line{position:absolute;left:14%;right:14%;top:20%;height:2px;background:linear-gradient(90deg,transparent,#ffe067,transparent);box-shadow:0 0 13px #ffe067;opacity:0}.scan-box.running .scan-line{opacity:1;animation:scan 1.1s ease-in-out infinite alternate}@keyframes scan{from{top:22%}to{top:77%}}
     .action{width:100%;min-height:50px;margin-top:12px;border:1px solid rgba(246,205,84,.35);border-radius:16px;background:rgba(255,255,255,.045);color:#ffe06b;font-size:13px;font-weight:800;cursor:pointer}.action:disabled{opacity:.58;cursor:default}
     .upload{position:relative;margin-top:12px}.upload input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}.upload label{min-height:54px;border:1px dashed rgba(246,205,84,.45);border-radius:16px;background:rgba(255,255,255,.035);display:flex;align-items:center;justify-content:center;text-align:center;padding:10px 14px;color:#ffe06b;font-size:13px;font-weight:800;cursor:pointer}.file-state{margin:8px 2px 0;color:#a99fb5;font-size:11px;line-height:1.4}
     .signature-wrap{margin-top:12px;border-radius:16px;overflow:hidden;border:1px solid rgba(246,205,84,.28);background:rgba(255,255,255,.96)}canvas{display:block;width:100%;height:140px;touch-action:none;cursor:crosshair}.signature-help{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-top:9px;color:#a99fb5;font-size:10.5px;line-height:1.4}.clear{border:0;background:transparent;color:#ffe06b;font-size:11px;font-weight:800;cursor:pointer}
@@ -60,7 +60,7 @@
 
         <section class="task" aria-labelledby="faceTitle">
           <div class="task-head"><div><div class="task-title" id="faceTitle">Scan Wajah Contoh</div><p class="task-desc">Animasi saja. Halaman tidak meminta izin kamera dan tidak melakukan pengenalan wajah.</p></div><span class="status" id="faceStatus">Belum</span></div>
-          <div class="scan-box" id="scanBox" aria-hidden="true"><div class="face"><span class="mouth"></span></div><div class="scan-line"></div></div>
+          <div class="scan-box" id="scanBox" aria-hidden="true"><div class="face" id="scanFace"><span class="mouth"></span></div><div class="scan-line"></div><div class="scan-guide" id="scanGuide"></div></div>
           <button class="action" id="scanButton" type="button">Mulai Scan</button>
         </section>
 
@@ -113,6 +113,8 @@
       const backButton = document.getElementById("backButton");
       const scanButton = document.getElementById("scanButton");
       const scanBox = document.getElementById("scanBox");
+      const scanFace = document.getElementById("scanFace");
+      const scanGuide = document.getElementById("scanGuide");
       const faceStatus = document.getElementById("faceStatus");
       const docInput = document.getElementById("docInput");
       const docStatus = document.getElementById("docStatus");
@@ -148,14 +150,36 @@
         scanButton.disabled = true;
         scanButton.textContent = "Memindai…";
         scanBox.classList.add("running");
-        window.setTimeout(() => {
-          state.face = true;
-          scanBox.classList.remove("running");
-          faceStatus.textContent = "Selesai";
-          faceStatus.classList.add("ok");
-          scanButton.textContent = "Scan Selesai";
-          updateFinishState();
-        }, 1050);
+
+        const steps = [
+          { label:"Arahkan wajah ke kanan", cls:"look-right", delay:700 },
+          { label:"Arahkan wajah ke kiri", cls:"look-left", delay:700 },
+          { label:"Arahkan wajah ke atas", cls:"look-up", delay:700 },
+          { label:"Arahkan wajah ke bawah", cls:"look-down", delay:700 },
+          { label:"Tahan sebentar…", cls:"hold", delay:1000 }
+        ];
+        let index = 0;
+
+        function runNextStep(){
+          scanFace.className = "face";
+          if (index >= steps.length) {
+            state.face = true;
+            scanBox.classList.remove("running");
+            scanGuide.textContent = "Verifikasi selesai";
+            faceStatus.textContent = "Selesai";
+            faceStatus.classList.add("ok");
+            scanButton.textContent = "Scan Selesai";
+            updateFinishState();
+            return;
+          }
+          const step = steps[index++];
+          scanGuide.textContent = step.label;
+          scanButton.textContent = step.label;
+          scanFace.classList.add(step.cls);
+          window.setTimeout(runNextStep, step.delay);
+        }
+
+        runNextStep();
       });
 
       docInput.addEventListener("change", () => {
