@@ -1,89 +1,51 @@
 {
-  "baseline_frozen": {
-    "stage1_index_byte_identical": true,
-    "stage2_login_byte_identical": true,
-    "stage3_diff_scope": "Only success state text/button and local navigation to verifikasi.html were changed."
+  "version": "v6-tahap5-7",
+  "baseline": {
+    "stage1_index_unchanged": true,
+    "stage2_login_unchanged": true,
+    "stage3_identitas_unchanged": true,
+    "stage4_change_scope": "Only NEXT_STAGE_URL and success navigation to Stage 5; visual markup/CSS left unchanged."
   },
-  "stage4": {
-    "file": "verifikasi.html",
-    "stage5_created": false,
-    "next_stage_url": null,
-    "real_otp": false,
-    "sms": false,
-    "whatsapp": false,
-    "email_delivery": false,
-    "telegram": false,
-    "backend_or_api": false,
-    "storage": false,
-    "alerts": false
+  "flow": {
+    "stage4_target": "profil-pengajuan.html#tahap-5",
+    "stage5_to_stage6": true,
+    "stage6_to_stage7": true,
+    "stage8_created": false
   },
-  "browser_tests": {
-    "mobile": {
-      "metrics": {
-        "scrollWidth": 390,
-        "innerWidth": 390,
-        "cardWidth": 346,
-        "inputWidth": 308,
-        "buttonHeight": 60,
-        "disabledInitially": true,
-        "backHref": "identitas.html"
-      },
-      "console_errors": [],
-      "page_errors": []
-    },
-    "desktop": {
-      "metrics": {
-        "scrollWidth": 1440,
-        "innerWidth": 1440,
-        "cardWidth": 464,
-        "inputWidth": 418,
-        "buttonHeight": 60,
-        "disabledInitially": true,
-        "backHref": "identitas.html"
-      },
-      "console_errors": [],
-      "page_errors": []
-    },
-    "behavior": {
-      "cases": [
-        {
-          "raw": "12345",
-          "value": "12345",
-          "disabled": true
-        },
-        {
-          "raw": "123456",
-          "value": "123456",
-          "disabled": false
-        },
-        {
-          "raw": "654321",
-          "value": "654321",
-          "disabled": false
-        },
-        {
-          "raw": "111111",
-          "value": "111111",
-          "disabled": false
-        },
-        {
-          "raw": "9999999",
-          "value": "999999",
-          "disabled": false
-        },
-        {
-          "raw": "12ab!34 typed",
-          "value": "1234",
-          "disabled": true
-        }
-      ],
-      "success_message": "Verifikasi Demo berhasil. Tahap 4 selesai.",
-      "button_text": "Verifikasi Demo Selesai",
-      "page_errors": []
-    }
+  "security": {
+    "backend": false,
+    "api": false,
+    "fetch": false,
+    "xhr": false,
+    "localStorage_call": false,
+    "sessionStorage_call": false,
+    "cookie_write": false,
+    "connect_src_none": true,
+    "state_model": "Stage 5–7 data exists only in JavaScript memory in one document and is lost on refresh/exit."
   },
-  "visual_consistency": {
-    "baseline": "Tahap 3 CSS/design tokens copied directly into Tahap 4.",
-    "comparison_image": "/mnt/data/kbstar-finance-v5-render/comparison-tahap3-4.png"
-  }
+  "responsive": {
+    "mobile_390_no_horizontal_scroll": true,
+    "desktop_1440_no_horizontal_scroll": true,
+    "primary_button_height_mobile_px": 60
+  },
+  "runtime": {
+    "page_errors": [],
+    "console_errors": [],
+    "no_javascript_errors": true
+  },
+  "summary_test": {
+    "amount": "Rp50.000.000",
+    "tenor": "36 Bulan",
+    "type": "Kredit Serba Guna",
+    "job": "Wiraswasta",
+    "income": "Rp10–25 juta / bulan",
+    "installment": "Rp1.388.889 / bulan",
+    "installment_method": "principal-only demo: amount / tenor; no interest/fees assumed"
+  },
+  "render_files": [
+    "/mnt/data/kbstar-finance-v6-render/tahap5-mobile.png",
+    "/mnt/data/kbstar-finance-v6-render/tahap6-mobile.png",
+    "/mnt/data/kbstar-finance-v6-render/tahap7-mobile.png",
+    "/mnt/data/kbstar-finance-v6-render/comparison-tahap4-7.png"
+  ]
 }

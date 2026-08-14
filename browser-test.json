@@ -1,65 +1,52 @@
 {
   "mobile": {
-    "metrics": {
-      "scrollWidth": 390,
-      "innerWidth": 390,
-      "cardWidth": 346,
-      "inputWidth": 308,
-      "buttonHeight": 60,
-      "disabledInitially": true,
-      "backHref": "identitas.html"
-    },
-    "console_errors": [],
-    "page_errors": []
+    "stage5_scrollWidth": 390,
+    "stage5_clientWidth": 390,
+    "stage5_button_height": 60,
+    "stage6_scrollWidth": 390,
+    "stage6_clientWidth": 390,
+    "stage6_button_height": 60,
+    "stage7_scrollWidth": 390,
+    "stage7_clientWidth": 390,
+    "stage7_button_height": 60,
+    "stage4_scrollWidth": 390,
+    "stage4_clientWidth": 390
   },
   "desktop": {
-    "metrics": {
-      "scrollWidth": 1440,
-      "innerWidth": 1440,
-      "cardWidth": 464,
-      "inputWidth": 418,
-      "buttonHeight": 60,
-      "disabledInitially": true,
-      "backHref": "identitas.html"
-    },
-    "console_errors": [],
-    "page_errors": []
+    "stage5_scrollWidth": 1440,
+    "stage5_clientWidth": 1440,
+    "stage7_scrollWidth": 1440,
+    "stage7_clientWidth": 1440
   },
-  "behavior": {
-    "cases": [
-      {
-        "raw": "12345",
-        "value": "12345",
-        "disabled": true
-      },
-      {
-        "raw": "123456",
-        "value": "123456",
-        "disabled": false
-      },
-      {
-        "raw": "654321",
-        "value": "654321",
-        "disabled": false
-      },
-      {
-        "raw": "111111",
-        "value": "111111",
-        "disabled": false
-      },
-      {
-        "raw": "9999999",
-        "value": "999999",
-        "disabled": false
-      },
-      {
-        "raw": "12ab!34 typed",
-        "value": "1234",
-        "disabled": true
-      }
-    ],
-    "success_message": "Verifikasi Demo berhasil. Tahap 4 selesai.",
-    "button_text": "Verifikasi Demo Selesai",
-    "page_errors": []
+  "console_errors": [],
+  "page_errors": [],
+  "checks": {
+    "initial_stage": 5,
+    "stage5_validation_message": "Periksa kembali field yang ditandai.",
+    "stage5_to_stage6": true,
+    "stage6_validation_message": "Periksa kembali detail pengajuan demo.",
+    "stage6_to_stage7": true,
+    "summary_amount": "Rp50.000.000",
+    "summary_tenor": "36 Bulan",
+    "summary_type": "Kredit Serba Guna",
+    "summary_job": "Wiraswasta",
+    "summary_income": "Rp10–25 juta / bulan",
+    "summary_installment": "Rp1.388.889 / bulan",
+    "stage7_confirmed_text": "Konfirmasi simulasi berhasil. Tidak ada data yang dikirim.",
+    "stage7_completed_visible": true,
+    "stage8_absent": true,
+    "edit_returns_stage6": true,
+    "back_returns_stage5": true,
+    "source_contains_fetch(": false,
+    "source_contains_xmlhttprequest": false,
+    "source_contains_document.cookie": false,
+    "source_contains_alert(": false,
+    "has_localstorage_call": false,
+    "has_sessionstorage_call": false,
+    "connect_src_none": true,
+    "stage4_next_stage_url": true,
+    "no_horizontal_mobile": true,
+    "no_horizontal_desktop": true,
+    "no_js_errors": true
   }
 }

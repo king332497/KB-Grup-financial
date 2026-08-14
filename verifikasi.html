@@ -183,8 +183,8 @@
       const formMessage = document.getElementById("formMessage");
       const verifyButton = document.getElementById("verifyButton");
 
-      // Titik navigasi Tahap 5 sengaja belum ditentukan.
-      const NEXT_STAGE_URL = null;
+      // Navigasi lokal menuju Tahap 5. Tidak ada request jaringan atau backend.
+      const NEXT_STAGE_URL = "profil-pengajuan.html#tahap-5";
       let stage4Completed = false;
 
       function isValidCode(value) {
@@ -235,13 +235,14 @@
         window.setTimeout(() => {
           stage4Completed = true;
           formMessage.className = "message success";
-          formMessage.textContent = "Verifikasi Demo berhasil. Tahap 4 selesai.";
-          verifyButton.textContent = "Verifikasi Demo Selesai";
+          formMessage.textContent = "Verifikasi Demo berhasil. Mengarahkan ke Profil Pekerjaan / Usaha…";
+          verifyButton.textContent = "Tahap 4 Selesai";
           verifyButton.disabled = true;
 
-          // NEXT_STAGE_URL tetap null sampai Tahap 5 diinstruksikan.
-          // Tidak ada redirect, request jaringan, atau penyimpanan kode.
-          void NEXT_STAGE_URL;
+          // Hanya navigasi antarhalaman lokal. Kode demo tidak diteruskan atau disimpan.
+          window.setTimeout(() => {
+            window.location.href = NEXT_STAGE_URL;
+          }, 350);
         }, 450);
       });
 

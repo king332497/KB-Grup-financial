@@ -1,15 +1,39 @@
-# KBSTARFinance — Simulasi UI v5 / Tahap 4
+# KBSTARFinance — Simulasi UI v6 (Tahap 5–7)
 
-Alur saat ini:
-`index.html` → `login.html` → `identitas.html` → `verifikasi.html`
+## Alur
 
-## Tahap 4 — Verifikasi Demo
-- Input hanya angka.
-- Tepat 6 digit.
-- Semua kombinasi 6 digit diterima.
-- Tidak ada OTP nyata, SMS, WhatsApp, email, Telegram, API, atau backend.
-- Tidak ada localStorage/sessionStorage/cookie aplikasi.
-- Tidak ada Tahap 5 atau redirect lanjutan.
-- Tombol kembali mengarah ke `identitas.html`.
+`index.html` → `login.html` → `identitas.html` → `verifikasi.html` → `profil-pengajuan.html#tahap-5` → Tahap 6 → Tahap 7
 
-Tahap 1 dan Tahap 2 disalin byte-for-byte dari baseline v4. Tahap 3 hanya diubah pada aksi sukses agar menuju Tahap 4.
+Tahap 5, 6, dan 7 berada dalam satu dokumen dan berpindah sebagai screen internal. Keputusan ini menjaga state demo hanya di memori JavaScript tanpa `localStorage`, `sessionStorage`, cookie, query-string data, API, atau backend.
+
+## Tahap 5
+- Status Pekerjaan
+- Bidang Pekerjaan / Usaha
+- Lama Bekerja / Lama Usaha
+- Penghasilan Bulanan Demo
+- Domisili Demo
+
+## Tahap 6
+- Jenis Pinjaman
+- Nominal Pinjaman Demo (input + slider)
+- Tenor 12/24/36/48/60 bulan
+- Tujuan Pinjaman
+
+Rentang slider Rp5 juta–Rp500 juta hanya demonstrasi kontrol UI dan bukan batas produk nyata.
+
+## Tahap 7
+- Ringkasan nominal, jenis, tenor, tujuan
+- Profil pekerjaan demo
+- Estimasi Cicilan Dasar = nominal ÷ tenor
+- Disclaimer eksplisit bahwa angka belum memasukkan bunga/biaya dan bukan persetujuan kredit
+- Tombol Konfirmasi Simulasi hanya mengubah state UI lokal
+- Tidak ada Tahap 8
+
+## Keamanan demo
+- Tidak ada backend/database
+- Tidak ada fetch/XHR/API
+- Tidak ada Telegram/SMS/WhatsApp/email
+- Tidak ada localStorage/sessionStorage/cookie aplikasi
+- CSP `connect-src 'none'`
+- Data Tahap 5–7 hanya memori halaman dan hilang saat refresh/keluar halaman
+- Data identitas Tahap 3 tidak dipersist sehingga nama tidak ditarik ke ringkasan
