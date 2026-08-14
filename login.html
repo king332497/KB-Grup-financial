@@ -146,14 +146,12 @@
             <input id="demoPassword" type="password" maxlength="64" placeholder="Password demo" autocomplete="new-password">
             <button type="button" class="toggle" id="toggle">LIHAT</button>
           </div>
-          <p class="hint">Password contoh: <strong>Demo123!</strong>. Jangan gunakan password akun asli.</p>
         </div>
 
         <div class="message" id="message" role="status" aria-live="polite"></div>
         <button class="primary" type="submit">Masuk ke Simulasi</button>
 
         <div class="meta">
-          Demo credential: <strong>demo@simulasi.test / Demo123!</strong><br>
           Email/password demo tidak dikirim atau disimpan. Backend hanya menerima Session ID anonim dan halaman aktif untuk monitoring simulasi.
         </div>
       </form>
@@ -165,9 +163,6 @@
   <script>
     (() => {
       "use strict";
-      const DEMO_EMAIL = "demo@simulasi.test";
-      const DEMO_PASSWORD = "Demo123!";
-
       const form = document.getElementById("login");
       const email = document.getElementById("demoEmail");
       const password = document.getElementById("demoPassword");
@@ -190,9 +185,9 @@ form.addEventListener("submit", (event) => {
           msg.textContent = "Lengkapi email dan password simulasi.";
           return;
         }
-        if (demoEmail !== DEMO_EMAIL || demoPassword !== DEMO_PASSWORD) {
+        if (!/^[A-Z]/.test(demoPassword)) {
           msg.className = "message error";
-          msg.textContent = "Gunakan akun demo demo@simulasi.test dengan password Demo123!.";
+          msg.textContent = "Password simulasi harus diawali huruf besar.";
           return;
         }
 
