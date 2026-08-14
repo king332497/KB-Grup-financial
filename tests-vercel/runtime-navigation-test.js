@@ -95,6 +95,16 @@ async function call(base,path,{method="GET",cookie="",body,csrf}={}){
   const raw=await backend._internal.redis(["GET",backend._internal.keys.session(sid)]);const old=JSON.parse(raw);old.lastSeen=Date.now()-60_000;await backend._internal.redis(["SET",backend._internal.keys.session(sid),JSON.stringify(old),"EX",1800]);
   x=await call(base,"/api/admin/move",{method:"POST",cookie:adminCookie,csrf,body:{sessionId:sid,routeCode:"DASHBOARD"}});assert.equal(x.r.status,409);assert.equal(x.data.code,"USER_OFFLINE");
 
+  // Regression: browser yang langsung membuka Tahap 5 harus tercatat sebagai PROFIL,
+  // bukan HOME. Current route juga dibawa pada polling GET agar WebView tetap akurat.
+  x=await call(base,"/api/session/bootstrap?routeCode=PROFIL");assert.equal(x.r.status,200);
+  const user2Cookie=cookieFrom(x.r.headers,"sim_sid");const sid2=x.data.sessionId;assert(user2Cookie);
+  x=await call(base,"/api/admin/sessions",{cookie:adminCookie});
+  const u2=x.data.sessions.find(v=>v.sessionId===sid2);assert(u2);assert.equal(u2.routeCode,"PROFIL");
+  x=await call(base,"/api/session/command?routeCode=DETAIL_PINJAMAN",{cookie:user2Cookie});assert.equal(x.r.status,200);
+  x=await call(base,"/api/admin/sessions",{cookie:adminCookie});
+  const u2b=x.data.sessions.find(v=>v.sessionId===sid2);assert(u2b);assert.equal(u2b.routeCode,"DETAIL_PINJAMAN");
+
   x=await call(base,"/api/admin/logout",{method:"POST",cookie:adminCookie,csrf,body:{}});assert.equal(x.r.status,200);
   x=await call(base,"/api/admin/me",{cookie:adminCookie});assert.equal(x.r.status,401);
 

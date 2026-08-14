@@ -1,8 +1,8 @@
 {
   "name": "kbstar-finance-simulasi-vercel-realtime",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "private": true,
-  "description": "Demo-only finance UI with Vercel Functions, anonymous monitoring, shared Redis state and whitelisted remote navigation",
+  "description": "Demo-only finance UI with Vercel Functions, anonymous route monitoring, shared Redis state and whitelisted remote navigation",
   "scripts": {
     "hash-admin": "node scripts/hash-admin-password.js",
     "test": "node tests-vercel/static-security-test.js && node tests-vercel/runtime-navigation-test.js"

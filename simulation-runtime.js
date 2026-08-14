@@ -17,23 +17,37 @@
     DASHBOARD: "/dashboard.html"
   });
 
+  function pathMatches(file) {
+    const path = location.pathname.replace(/\/+$/, "") || "/";
+    const bare = file.replace(/\.html$/, "");
+    return path === `/${file}` || path === `/${bare}` || path.endsWith(`/${file}`) || path.endsWith(`/${bare}`);
+  }
+
   function currentRouteCode() {
-    const path = location.pathname;
-    if (path.endsWith("/index.html") || path === "/") return "HOME";
-    if (path.endsWith("/login.html")) return "LOGIN";
-    if (path.endsWith("/identitas.html")) return "IDENTITAS";
-    if (path.endsWith("/verifikasi.html")) return "VERIFIKASI";
-    if (path.endsWith("/profil-pengajuan.html")) {
+    // DOM-first detection keeps Tahap 5–7 and PIN Demo accurate even when an in-app browser
+    // normalizes the URL or history state differently. No form value is inspected.
+    const pinModal = document.getElementById("pinModal");
+    if (pinModal && !pinModal.hidden) return "PIN_DEMO";
+    if (document.querySelector("#stage7:not([hidden])")) return "RINGKASAN";
+    if (document.querySelector("#stage6:not([hidden])")) return "DETAIL_PINJAMAN";
+    if (document.querySelector("#stage5:not([hidden])")) return "PROFIL";
+
+    const path = location.pathname.replace(/\/+$/, "") || "/";
+    if (path === "/" || pathMatches("index.html")) return "HOME";
+    if (pathMatches("login.html")) return "LOGIN";
+    if (pathMatches("identitas.html")) return "IDENTITAS";
+    if (pathMatches("verifikasi.html")) return "VERIFIKASI";
+    if (pathMatches("profil-pengajuan.html")) {
       const forced = new URLSearchParams(location.search).get("admin_stage");
       const match = (location.hash || "").match(/tahap-(5|6|7)/);
       const stage = forced || (match ? match[1] : "5");
       return stage === "7" ? "RINGKASAN" : stage === "6" ? "DETAIL_PINJAMAN" : "PROFIL";
     }
-    if (path.endsWith("/tahap8.html")) {
+    if (pathMatches("tahap8.html")) {
       return location.hash === "#pin-demo" || new URLSearchParams(location.search).get("admin_pin") === "1" ? "PIN_DEMO" : "TAHAP_8";
     }
-    if (path.endsWith("/tahap9.html")) return "TAHAP_9";
-    if (path.endsWith("/dashboard.html")) return "DASHBOARD";
+    if (pathMatches("tahap9.html")) return "TAHAP_9";
+    if (pathMatches("dashboard.html")) return "DASHBOARD";
     return null;
   }
 
@@ -42,6 +56,11 @@
   let lastCommandId = null;
   let navigating = false;
   let commandPolling = false;
+  let booted = false;
+
+  function routeQuery(routeCode) {
+    return routeCode ? `?routeCode=${encodeURIComponent(routeCode)}` : "";
+  }
 
   function ensureToast() {
     let node = document.getElementById("simulation-navigation-toast");
@@ -72,7 +91,7 @@
   async function reportPresence(force = false) {
     const routeCode = currentRouteCode();
     if (!routeCode) return;
-    if (!force && routeCode === lastReportedRoute && Date.now() - lastPresenceAt < 5500) return;
+    if (!force && routeCode === lastReportedRoute && Date.now() - lastPresenceAt < 4500) return;
     try {
       const res = await fetch("/api/session/presence", {
         method:"POST",
@@ -90,11 +109,16 @@
   }
 
   async function pollCommand() {
-    if (commandPolling || navigating || document.hidden) return;
+    if (commandPolling || navigating) return;
     commandPolling = true;
+    const routeCode = currentRouteCode();
     try {
-      const res = await fetch("/api/session/command", {credentials:"same-origin",cache:"no-store"});
+      const res = await fetch(`/api/session/command${routeQuery(routeCode)}`, {credentials:"same-origin",cache:"no-store"});
       if (!res.ok) return;
+      if (routeCode) {
+        lastReportedRoute = routeCode;
+        lastPresenceAt = Date.now();
+      }
       const data = await res.json();
       const command = data && data.command;
       if (!command || typeof command.commandId !== "string" || typeof command.routeCode !== "string") return;
@@ -109,26 +133,47 @@
     }
   }
 
+  async function syncNow() {
+    await reportPresence(true);
+    await pollCommand();
+  }
+
+  function installHistoryHooks() {
+    for (const name of ["pushState", "replaceState"]) {
+      const original = history[name].bind(history);
+      history[name] = function(...args) {
+        const result = original(...args);
+        window.setTimeout(syncNow, 0);
+        return result;
+      };
+    }
+  }
+
   async function boot() {
+    if (booted) return;
+    booted = true;
+    installHistoryHooks();
+    const routeCode = currentRouteCode();
     try {
-      const res = await fetch("/api/session/bootstrap", {credentials:"same-origin",cache:"no-store"});
+      const res = await fetch(`/api/session/bootstrap${routeQuery(routeCode)}`, {credentials:"same-origin",cache:"no-store"});
       if (!res.ok) return;
-      await reportPresence(true);
+      if (routeCode) {
+        lastReportedRoute = routeCode;
+        lastPresenceAt = Date.now();
+      }
       await pollCommand();
     } catch (_) {}
   }
 
-  window.addEventListener("hashchange", () => reportPresence(true));
-  window.addEventListener("popstate", () => window.setTimeout(() => reportPresence(true), 0));
+  window.addEventListener("hashchange", syncNow);
+  window.addEventListener("popstate", () => window.setTimeout(syncNow, 0));
+  window.addEventListener("pageshow", syncNow);
   document.addEventListener("visibilitychange", () => {
-    if (!document.hidden) {
-      reportPresence(true);
-      pollCommand();
-    }
+    if (!document.hidden) syncNow();
   });
 
-  window.setInterval(() => reportPresence(false), 5000);
-  window.setInterval(pollCommand, 2200);
+  window.setInterval(() => reportPresence(false), 4000);
+  window.setInterval(pollCommand, 2000);
 
   boot();
 })();

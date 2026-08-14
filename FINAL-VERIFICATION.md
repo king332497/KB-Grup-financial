@@ -1,33 +1,58 @@
-# Final Verification — Admin Realtime
+# FINAL VERIFICATION — KBSTARFinance Simulasi + Admin Realtime
 
-## Verified
+Versi: 3.0.0
 
-- Admin authentication and admin-only authorization are enforced.
-- Admin mutations require CSRF token and same-origin request.
-- Users are identified only by an anonymous 6-character Session ID.
-- Monitoring payload contains only Session ID, route code, last seen, online status, and derived progress.
-- User form inputs, passwords, PIN Demo, OTP, NIK Demo, documents, signature canvas data, and bank-account input are not read by the monitoring runtime.
-- Admin can select only the 11 backend-whitelisted internal route codes.
-- Backend rejects arbitrary route input.
-- Browser runtime maintains its own route whitelist and ignores unknown route codes.
-- Online user navigation commands are delivered through SSE.
-- A command becomes `SUCCESS` only after the session reports presence on the destination route.
-- Admin receives the updated current page over SSE without manual refresh.
-- Offline users are rejected with `User Offline — Tidak dapat dipindahkan`; commands are not queued.
-- Successful and rejected offline move attempts are written to the audit log without sensitive data.
-- Existing user-page CSS is byte-identical at the `<style>` block level to the frozen mobile baseline.
-- 48 mobile layout checks across 320, 360, 390, and 430 px reported no horizontal page overflow and no JavaScript page errors in static render testing.
+## Perbaikan final
 
-## Architecture
+- Presence session tidak lagi bergantung pada POST heartbeat saja.
+- `bootstrap` menerima current `routeCode`, sehingga browser yang langsung berada di Tahap 5 tercatat sebagai **Tahap 5**, bukan default Halaman Depan.
+- Polling command juga membawa `routeCode` aktif dan menjadi heartbeat cadangan.
+- Deteksi Tahap 5/6/7 menggunakan DOM + URL sebagai fallback, sehingga lebih tahan terhadap perbedaan WebView/in-app browser.
+- Perubahan `history.pushState()` / `replaceState()` langsung memicu sinkronisasi current page.
+- Polling remote navigation tidak dihentikan hanya karena tab sedang background.
+- Runtime diberi cache-buster `simulation-runtime.js?v=3` agar browser tidak mempertahankan runtime lama setelah redeploy.
+- Namespace Redis dinaikkan ke `kb-sim:v3`, sehingga daftar session lama dari versi sebelumnya tidak tercampur dengan versi final.
+- Tidak ada perubahan visual terhadap Tahap 1–10 selain query cache-buster pada tag script.
 
-`Admin Panel → Node backend → SSE channel → demo browser → client route whitelist → internal navigation`
+## Pengujian otomatis
 
-Admin session updates use a separate SSE channel so Live Users refresh automatically.
+- `node -c` seluruh JavaScript: PASS
+- `npm test`: PASS
+  - static-security-test: PASS
+  - runtime-navigation-test: PASS
+- Regression test direct Tahap 5 -> Admin route `PROFIL`: PASS
+- Regression polling Tahap 6 -> Admin route `DETAIL_PINJAMAN`: PASS
+- Admin auth + CSRF: PASS
+- Whitelist route: PASS
+- Arbitrary URL rejection: PASS
+- Remote command + acknowledgement `SUCCESS`: PASS
+- Offline user rejection: PASS
+- Audit log tanpa data sensitif: PASS
+- Redis env compatibility `KV_REST_API_URL` / `KV_REST_API_TOKEN`: PASS
 
-## Deployment constraint
+## Baseline visual
 
-This package uses in-memory session/realtime state and is designed for one stateful Node process. For multiple application instances, use shared session/realtime infrastructure (for example Redis pub/sub) and persistent audit storage.
+File HTML Tahap 1–10 dibandingkan dengan baseline sebelumnya. Setelah mengabaikan perubahan query cache-buster `?v=3`, konten HTML seluruh halaman user identik dengan baseline. Tidak ada CSS, layout, card, form, typography, atau responsive rule yang diubah pada perbaikan realtime final.
 
-## Test note
+## Deployment Vercel
 
-This sandbox blocks Chromium from opening localhost/file URLs. Therefore a full browser-to-localhost E2E run could not be executed here. The realtime backend was tested at HTTP/SSE integration level, and the browser navigation whitelist was separately executed in a JavaScript runtime unit test.
+Environment Variables minimum:
+
+- `ADMIN_PASSWORD` **atau** `ADMIN_PASSWORD_HASH`
+- `KV_REST_API_URL`
+- `KV_REST_API_TOKEN`
+
+Variable Redis biasanya sudah dibuat otomatis ketika Upstash for Redis dihubungkan ke project Vercel.
+
+Setelah upload/redeploy, verifikasi:
+
+1. `/api/health` -> `ok:true`, `redisConfigured:true`, `redisReachable:true`, `adminCredentialConfigured:true`.
+2. `/admin` -> login admin.
+3. Buka website user pada browser/HP.
+4. Admin harus melihat current page yang benar, termasuk Tahap 5.
+5. Jalankan `Pindahkan` ke route whitelist.
+6. Browser user berpindah dan Audit Log berubah dari `SENT` menjadi `SUCCESS`.
+
+## Batas verifikasi
+
+Environment pembuatan artifact memblokir navigasi Chromium ke URL lokal/file, sehingga render-browser ulang final tidak dapat dijalankan di sini. Perubahan final tidak menyentuh CSS/layout; mobile visual tetap berasal dari baseline yang sebelumnya telah diuji. Pengujian runtime/backend final dilakukan melalui Node integration tests dan syntax/security checks.

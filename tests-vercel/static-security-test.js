@@ -12,6 +12,12 @@ const runtime=fs.readFileSync(path.join(root,"simulation-runtime.js"),"utf8");
 assert(runtime.includes('/api/session/command'),"runtime harus polling command");
 assert(!runtime.includes('new EventSource'),"runtime Vercel tidak boleh bergantung pada SSE process-local");
 assert(runtime.includes('Object.hasOwn(ROUTES'),"runtime harus memiliki browser-side whitelist");
+
+assert(runtime.includes('routeQuery(routeCode)'),"runtime bootstrap/command harus membawa current route");
+assert(runtime.includes('#stage5:not([hidden])'),"runtime harus dapat mendeteksi Tahap 5 dari DOM");
+assert(runtime.includes('#stage6:not([hidden])'),"runtime harus dapat mendeteksi Tahap 6 dari DOM");
+assert(runtime.includes('#stage7:not([hidden])'),"runtime harus dapat mendeteksi Tahap 7 dari DOM");
+assert(!runtime.includes('document.hidden) return'),"command polling tidak boleh berhenti hanya karena tab background");
 const admin=fs.readFileSync(path.join(root,"admin.html"),"utf8");
 assert(admin.includes('/api/admin/move'),"admin move endpoint hilang");
 assert(admin.includes('/api/admin/sessions'),"admin sessions endpoint hilang");
