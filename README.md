@@ -1,31 +1,44 @@
-# KBSTARFinance — Simulasi UI Tahap 1–9
+# KBSTARFinance — Simulasi UI Final Mobile Tahap 1–10
 
 ## Alur
 
-`index.html` → `login.html` → `identitas.html` → `verifikasi.html` → `profil-pengajuan.html` (Tahap 5–7) → `tahap8.html` → Konfirmasi PIN Demo → `tahap9.html`
+`index.html` → `login.html` → `identitas.html` → `verifikasi.html` → `profil-pengajuan.html` (Tahap 5–7) → `tahap8.html` → Konfirmasi PIN Demo → `tahap9.html` → `dashboard.html`
 
-## Tahap 8
+## Fokus Final Mobile
 
-- Scan wajah **demo**: animasi UI, tanpa akses kamera / biometrik.
-- Upload dokumen **demo**: pilih file dummy; file tidak dibaca, tidak dikirim, dan referensi input segera dilepas.
-- Tanda tangan **demo**: coretan canvas lokal, tidak diekspor/disimpan/dikirim.
-- Tombol **Selesaikan Pengajuan** baru aktif setelah ketiga interaksi demo selesai.
-- Tombol tersebut membuka **Konfirmasi PIN Demo** terlebih dahulu.
+Project diaudit pada viewport smartphone 320px, 360px, 390px, dan 430px.
+Penyesuaian hanya berupa responsive/mobile safety patch; alur dan fungsi simulasi tetap dipertahankan.
 
-## PIN Demo
+Penyesuaian mobile minimal:
+- Tahap 1: CTA dan headline dipadatkan pada layar <=350px agar tetap proporsional.
+- Tahap 2: tombol tampil/sembunyikan password memiliki target sentuh minimum 44px.
+- Tahap 8: tombol Hapus tanda tangan memiliki target sentuh minimum 44px pada lebar ponsel.
+- Tahap 10: badge simulasi panjang tidak lagi dipotong pada layar 320–360px.
 
-- Tepat 6 digit angka.
-- Semua kombinasi 6 digit diterima.
-- Tidak dicocokkan dengan PIN tertentu.
-- Tidak ada backend/API/Telegram.
-- Tidak ada localStorage/sessionStorage/cookie aplikasi.
-- Nilai PIN dikosongkan setelah valid.
-- Jangan menggunakan PIN ATM, kartu debit, atau mobile banking asli.
+## Tahap 10
 
-## Tahap 9
+Dashboard Pinjaman Demo berisi:
+- ringkasan nominal, jenis, tenor, dan estimasi cicilan demo;
+- informasi cicilan demo;
+- stepper proses simulasi;
+- rekening pencairan demo dengan format dummy `999########`;
+- menu cepat;
+- testimonial berlabel `CONTOH TESTIMONI · DATA FIKTIF`.
 
-Halaman **Menganalisis Pengajuan Simulasi** hanya menjalankan animasi frontend. Tidak ada scoring kredit atau keputusan kredit nyata.
+## State data
 
-## Baseline
+Baseline tidak mempersist data lintas file. Dashboard menggunakan fallback yang diberi label jelas sebagai data demo jika data tahap sebelumnya tidak tersedia lintas halaman.
 
-Tahap 1–4 tidak diubah dari paket v6. Perubahan pada `profil-pengajuan.html` hanya pada akhir Tahap 7 agar mengarah ke Tahap 8.
+## Keamanan simulasi
+
+- Tidak ada backend atau database.
+- Tidak ada API bank, transfer, pencairan, scoring, atau validasi rekening nyata.
+- Tidak ada `fetch`/XHR.
+- Tidak ada `localStorage`/`sessionStorage`.
+- Tidak ada cookie aplikasi.
+- Tidak meminta PIN/OTP perbankan, password mobile banking, CVV, atau nomor kartu.
+- PIN Demo hanya interaksi frontend dan tidak disimpan/dikirim.
+- Nomor rekening demo hanya divalidasi sebagai data dummy pada frontend.
+- CSP menetapkan `connect-src 'none'`.
+
+Lihat `MOBILE-AUDIT.md` dan `mobile-verification-report.json` untuk hasil audit teknis.

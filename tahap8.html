@@ -39,6 +39,12 @@
     @media(max-width:350px){.pin-box{height:46px;font-size:21px}.pin-grid{gap:5px}}
     @media(min-width:760px){body{padding:24px 0}.app{border-radius:34px;min-height:auto}.modal{place-items:center}}
     @media(prefers-reduced-motion:reduce){.scan-box.running .scan-line{animation:none}.loading-line span{transition:none}}
+  
+    /* Mobile touch-target patch; tidak mengubah fungsi simulasi. */
+    @media (max-width:520px){
+      .clear{min-width:48px;min-height:44px;padding:0 8px}
+    }
+
   </style>
 </head>
 <body>

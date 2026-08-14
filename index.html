@@ -419,6 +419,19 @@
       html{scroll-behavior:auto}
       .cta{transition:none}
     }
+  
+    /* Mobile safety patch: mempertahankan baseline, hanya untuk layar <=350px. */
+    @media (max-width:350px){
+      .demo-badge{font-size:9px;letter-spacing:.045em;padding:6px 9px}
+      .hero{padding-left:18px;padding-right:18px}
+      .cta-wrap{padding-left:18px;padding-right:18px}
+      .cta{font-size:16px;gap:10px;white-space:nowrap}
+      .cta-arrow{width:13px;height:13px}
+      .title-small{font-size:42px}
+      .title-big{font-size:54px}
+      .subtitle{max-width:94%;font-size:16px}
+    }
+
   </style>
 </head>
 <body>

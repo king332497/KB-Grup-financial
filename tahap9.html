@@ -66,7 +66,12 @@
       function render(){
         const current=states[i]; progress.style.width=current.p+"%"; percent.textContent=current.p+"%"; label.textContent=current.t;
         items.forEach((item,index)=>{item.classList.toggle("done",index<i);item.classList.toggle("active",index===i);});
-        if(i===states.length-1){finish.hidden=false;return;}
+        if(i===states.length-1){
+          finish.hidden=false;
+          label.textContent="Simulasi selesai · membuka dashboard demo…";
+          window.setTimeout(()=>{ window.location.href="dashboard.html"; },900);
+          return;
+        }
         i++; window.setTimeout(render,850);
       }
       window.setTimeout(render,350);
