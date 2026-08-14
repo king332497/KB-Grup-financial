@@ -6,7 +6,7 @@
   <meta name="color-scheme" content="dark" />
   <meta name="theme-color" content="#16082f" />
   <meta http-equiv="Content-Security-Policy"
-        content="default-src 'self'; img-src 'self' data:; style-src 'unsafe-inline'; script-src 'unsafe-inline'; connect-src 'none'; form-action 'self'; base-uri 'none';">
+        content="default-src 'self'; img-src 'self' data:; style-src 'unsafe-inline'; script-src 'unsafe-inline'; connect-src 'self'; form-action 'self'; base-uri 'none';">
   <title>Simulasi Pengajuan — KBSTARFinance</title>
   <style>
     :root{
@@ -385,9 +385,11 @@
         loanAmount.value = formatNumber(numeric);
       }
 
-      function renderStage(stage, pushHistory = true) {
-        if (stage === 6 && !state.profile) stage = 5;
-        if (stage === 7 && (!state.profile || !state.loan)) stage = state.profile ? 6 : 5;
+      function renderStage(stage, pushHistory = true, force = false) {
+        if (!force) {
+          if (stage === 6 && !state.profile) stage = 5;
+          if (stage === 7 && (!state.profile || !state.loan)) stage = state.profile ? 6 : 5;
+        }
 
         state.stage = stage;
         Object.entries(views).forEach(([key, node]) => { node.hidden = Number(key) !== stage; });
@@ -552,13 +554,23 @@
         renderStage(requested, false);
       });
 
-      // Tahap 6/7 memerlukan state memori. Jika halaman direfresh langsung pada hash tersebut,
-      // fallback aman ke Tahap 5 tanpa menyimpan data apa pun.
-      renderStage(requestedStageFromHash(), false);
+      // Navigasi normal tetap memakai state memori. Parameter admin_stage hanya dibuat oleh
+      // whitelist route backend agar admin dapat memindahkan session demo tanpa arbitrary URL.
+      const forcedStageRaw = new URLSearchParams(location.search).get("admin_stage");
+      const forcedStage = /^(5|6|7)$/.test(forcedStageRaw || "") ? Number(forcedStageRaw) : null;
+      if (forcedStage === 6 && !state.profile) {
+        state.profile = {jobStatus:"Data Demo",jobField:"Contoh",jobYears:1,incomeRange:"Rp10–25 juta",domicile:"Domisili Demo"};
+      }
+      if (forcedStage === 7) {
+        if (!state.profile) state.profile = {jobStatus:"Data Demo",jobField:"Contoh",jobYears:1,incomeRange:"Rp10–25 juta",domicile:"Domisili Demo"};
+        if (!state.loan) state.loan = {type:"Kredit Serba Guna",amount:25000000,tenor:36,purpose:"Kebutuhan keluarga"};
+      }
+      renderStage(forcedStage || requestedStageFromHash(), false, Boolean(forcedStage));
 
-      // Hook read-only untuk pengujian browser lokal.
+      // Hook terbatas untuk observability/testing; tidak menerima URL atau JavaScript arbitrary.
       window.__demoFlow = { get stage(){ return state.stage; }, get state(){ return structuredClone(state); } };
     })();
   </script>
+  <script src="/simulation-runtime.js" defer></script>
 </body>
 </html>

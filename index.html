@@ -499,8 +499,7 @@
     <section class="simulasi" id="simulasi" aria-labelledby="simulasi-title">
       <h2 id="simulasi-title">Mode Simulasi</h2>
       <p>
-        Halaman ini tidak memiliki formulir, backend, database, localStorage, cookie aplikasi,
-        atau pengiriman data. Tombol CTA hanya mengarah ke bagian ini. Untuk menghubungkan CTA
+        Halaman ini tidak memiliki formulir data sensitif atau transaksi. Data formulir simulasi tidak dikirim ke backend; hanya metadata sesi anonim dan halaman aktif yang digunakan untuk monitoring demo. Untuk menghubungkan CTA
         ke alur demo milik Anda, ubah nilai <code>NEXT_URL</code> di script paling bawah.
       </p>
     </section>
@@ -530,5 +529,6 @@
       });
     })();
   </script>
+  <script src="/simulation-runtime.js" defer></script>
 </body>
 </html>

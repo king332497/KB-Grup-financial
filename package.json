@@ -1,0 +1,16 @@
+{
+  "name": "kbstar-finance-simulasi-admin-realtime",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Demo-only simulation UI with anonymous session monitoring and whitelisted realtime navigation",
+  "scripts": {
+    "start": "node server.js",
+    "hash-admin": "node scripts/hash-admin-password.js",
+    "test:realtime": "node tests/realtime-integration.js",
+    "test:runtime": "node tests/runtime-navigation-unit.js",
+    "test": "npm run test:runtime && npm run test:realtime"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

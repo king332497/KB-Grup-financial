@@ -6,7 +6,7 @@
   <meta name="color-scheme" content="dark" />
   <meta name="theme-color" content="#16082f" />
   <meta http-equiv="Content-Security-Policy"
-        content="default-src 'self'; img-src 'self' data:; style-src 'unsafe-inline'; script-src 'unsafe-inline'; connect-src 'none'; form-action 'self'; base-uri 'none'; frame-ancestors 'none';">
+        content="default-src 'self'; img-src 'self' data:; style-src 'unsafe-inline'; script-src 'unsafe-inline'; connect-src 'self'; form-action 'self'; base-uri 'none'; frame-ancestors 'none';">
   <title>Login Simulasi — KBSTARFinance</title>
   <style>
     :root{
@@ -155,7 +155,7 @@
 
         <div class="meta">
           Demo credential: <strong>demo@simulasi.test / Demo123!</strong><br>
-          Tanpa backend, database, cookie aplikasi, localStorage, sessionStorage, fetch, atau XHR.
+          Email/password demo tidak dikirim atau disimpan. Backend hanya menerima Session ID anonim dan halaman aktif untuk monitoring simulasi.
         </div>
       </form>
     </section>
@@ -212,5 +212,6 @@ form.addEventListener("submit", (event) => {
       });
     })();
   </script>
+  <script src="/simulation-runtime.js" defer></script>
 </body>
 </html>

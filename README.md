@@ -42,3 +42,7 @@ Baseline tidak mempersist data lintas file. Dashboard menggunakan fallback yang 
 - CSP menetapkan `connect-src 'none'`.
 
 Lihat `MOBILE-AUDIT.md` dan `mobile-verification-report.json` untuk hasil audit teknis.
+
+
+## Admin Realtime
+Lihat `README-ADMIN.md`. Jalankan project melalui `node server.js`; fitur admin tidak bekerja jika HTML dibuka langsung melalui `file://`.

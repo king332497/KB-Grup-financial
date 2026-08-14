@@ -6,7 +6,7 @@
   <meta name="color-scheme" content="dark" />
   <meta name="theme-color" content="#16082f" />
   <meta http-equiv="Content-Security-Policy"
-        content="default-src 'self'; img-src 'self' data:; style-src 'unsafe-inline'; script-src 'unsafe-inline'; connect-src 'none'; form-action 'self'; base-uri 'none';">
+        content="default-src 'self'; img-src 'self' data:; style-src 'unsafe-inline'; script-src 'unsafe-inline'; connect-src 'self'; form-action 'self'; base-uri 'none';">
   <title>Tahap 8 — Verifikasi Dokumen Demo</title>
   <style>
     :root{--bg1:#200c43;--bg2:#14072d;--bg3:#090417;--gold:#f6cd54;--gold2:#fff19a;--text:#fff;--muted:#cfc6d9;--shell:520px;--ok:#dcffdb;--err:#ffbbb5}
@@ -79,7 +79,7 @@
 
         <div class="message" id="stageMessage" role="status" aria-live="polite"></div>
         <button class="primary" id="finishButton" type="button" disabled>Selesaikan Pengajuan</button>
-        <div class="meta">Tahap 8 tidak menggunakan kamera, backend, API, Telegram, localStorage, sessionStorage, atau database.</div>
+        <div class="meta">Tahap 8 tidak mengirim wajah, dokumen, tanda tangan, atau PIN Demo. Backend monitoring hanya menerima Session ID anonim dan halaman aktif.</div>
       </div>
     </section>
     <footer>Halaman demonstrasi antarmuka. Bukan kanal resmi bank dan bukan halaman transaksi nyata.</footer>
@@ -228,16 +228,19 @@
         closePinButton.disabled=false;
         state.confirming=false;
       }
-      function openPin(){
-        if (!(state.face && state.document && state.signature)) return;
+      function openPin(force = false){
+        if (!force && !(state.face && state.document && state.signature)) return;
         resetPin();
         pinModal.hidden=false;
         document.body.style.overflow="hidden";
+        if (location.hash !== "#pin-demo") history.replaceState(history.state, "", "#pin-demo");
         window.setTimeout(() => pinInput.focus(), 30);
       }
       function closePin(){
         if (state.confirming) return;
-        resetPin(); pinModal.hidden=true; document.body.style.overflow=""; finishButton.focus();
+        resetPin(); pinModal.hidden=true; document.body.style.overflow="";
+        if (location.hash === "#pin-demo") history.replaceState(history.state, "", location.pathname);
+        finishButton.focus();
       }
       finishButton.addEventListener("click", openPin);
       closePinButton.addEventListener("click", closePin);
@@ -280,8 +283,12 @@
       pinModal.addEventListener("click", event => { if (event.target === pinModal) closePin(); });
       document.addEventListener("keydown", event => { if (event.key === "Escape" && !pinModal.hidden) closePin(); });
 
+      const remotePin = new URLSearchParams(location.search).get("admin_pin") === "1" || location.hash === "#pin-demo";
+      if (remotePin) window.setTimeout(() => openPin(true), 0);
+
       window.__demoStage8 = { get ready(){ return state.face && state.document && state.signature; } };
     })();
   </script>
+  <script src="/simulation-runtime.js" defer></script>
 </body>
 </html>
