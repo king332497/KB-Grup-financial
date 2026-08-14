@@ -100,6 +100,7 @@
     @media(max-width:420px){.content{padding-left:22px;padding-right:22px}.top{padding-left:20px;padding-right:20px}h1{font-size:43px}.card{padding:18px}}
     @media(min-width:760px){body{padding:24px 0}.app{border-radius:34px;min-height:auto}}
   </style>
+  <script src="/page-transition.js?v=1"></script>
 </head>
 <body>
   <div class="badge">PROTOTYPE UI · BUKAN LAYANAN PERBANKAN RESMI</div>
@@ -250,7 +251,7 @@
 
         // Hanya navigasi ant halaman lokal. Tidak ada backend/API atau penyimpanan data.
         window.setTimeout(() => {
-          window.location.href = "verifikasi.html";
+          window.smoothNavigate ? window.smoothNavigate("verifikasi.html") : (window.location.href = "verifikasi.html");
         }, 350);
 
         void stage3Completed;

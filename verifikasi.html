@@ -111,6 +111,7 @@
     @keyframes spin{to{transform:rotate(360deg)}}
     @media(prefers-reduced-motion:reduce){.spinner{animation:none;border-top-color:#ffdf63}}
   </style>
+  <script src="/page-transition.js?v=1"></script>
 </head>
 <body>
   <div class="badge">PROTOTYPE UI · BUKAN LAYANAN PERBANKAN RESMI</div>
@@ -234,7 +235,7 @@
 
           // Hanya navigasi antarhalaman lokal. Kode demo tidak diteruskan atau disimpan.
           window.setTimeout(() => {
-            window.location.href = NEXT_STAGE_URL;
+            window.smoothNavigate ? window.smoothNavigate(NEXT_STAGE_URL) : (window.location.href = NEXT_STAGE_URL);
           }, 350);
         }, 450);
       });

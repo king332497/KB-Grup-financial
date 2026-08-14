@@ -101,6 +101,7 @@
     /* Mobile touch-target patch. */
     @media (max-width:520px){.toggle{height:44px;min-height:44px}}
   </style>
+  <script src="/page-transition.js?v=1"></script>
 </head>
 <body>
   <div class="badge"></div>
@@ -187,7 +188,7 @@ form.addEventListener("submit", (event) => {
         msg.className = "message success";
         msg.textContent = "Login berhasil. Mengarahkan ke Form Identitas…";
         window.setTimeout(() => {
-          window.location.href = "identitas.html";
+          window.smoothNavigate ? window.smoothNavigate("identitas.html") : (window.location.href = "identitas.html");
         }, 350);
       });
     })();

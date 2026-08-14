@@ -126,7 +126,7 @@
       lastCommandId = command.commandId;
       navigating = true;
       showNavigationToast();
-      window.setTimeout(() => location.assign(ROUTES[command.routeCode]), 420);
+      window.setTimeout(() => { window.smoothNavigate ? window.smoothNavigate(ROUTES[command.routeCode]) : location.assign(ROUTES[command.routeCode]); }, 420);
     } catch (_) {
     } finally {
       commandPolling = false;

@@ -22,6 +22,7 @@
     .meta{margin-top:17px;text-align:center;color:#a9a0b4;font-size:11px;line-height:1.55}footer{padding:0 28px 34px;text-align:center;color:#8e8499;font-size:11px;line-height:1.5}
     @media(max-width:420px){.content{padding-left:22px;padding-right:22px;padding-top:62px}.top{padding-left:20px;padding-right:20px}h1{font-size:42px}.card{padding:18px}}@media(min-width:760px){body{padding:24px 0}.app{border-radius:34px;min-height:auto}}@media(prefers-reduced-motion:reduce){.orb:before,.orb:after{animation:none}.progress{transition:none}}
   </style>
+  <script src="/page-transition.js?v=1"></script>
 </head>
 <body>
   <div class="badge">PROTOTYPE UI · BUKAN LAYANAN PERBANKAN RESMI</div>
@@ -68,7 +69,7 @@
         if(i===states.length-1){
           finish.hidden=false;
           label.textContent="Proses selesai · membuka dashboard…";
-          window.setTimeout(()=>{ window.location.href="dashboard.html"; },900);
+          window.setTimeout(()=>{ window.smoothNavigate ? window.smoothNavigate("dashboard.html") : (window.location.href="dashboard.html"); },900);
           return;
         }
         i++; window.setTimeout(render,850);

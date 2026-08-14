@@ -26,8 +26,9 @@
     .card{padding:22px;border-radius:26px;border:1px solid rgba(247,205,84,.36);background:linear-gradient(180deg,rgba(60,28,101,.70),rgba(17,7,39,.84));box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 18px 45px rgba(0,0,0,.27);backdrop-filter:blur(16px)}
     .safety{display:flex;gap:12px;align-items:flex-start;margin-bottom:20px;padding:13px 14px;border-radius:16px;border:1px solid rgba(255,234,133,.17);background:rgba(255,255,255,.045);color:#e9e3ef;font-size:12px;line-height:1.45}.shield{flex:0 0 34px;width:34px;height:34px;border-radius:11px;border:1px solid rgba(247,205,84,.55);display:grid;place-items:center;color:#ffe36c}
     .task{margin-top:14px;padding:16px;border:1px solid rgba(255,255,255,.10);border-radius:18px;background:rgba(7,3,17,.30)}.task:first-of-type{margin-top:0}.task-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.task-title{font-size:14px;font-weight:800}.task-desc{margin:5px 0 0;color:#a99fb5;font-size:11px;line-height:1.45}.status{flex:0 0 auto;padding:5px 8px;border:1px solid rgba(255,255,255,.12);border-radius:999px;color:#aaa0b4;font-size:10px;font-weight:800}.status.ok{border-color:rgba(174,255,173,.25);background:rgba(124,255,122,.06);color:var(--ok)}
-    .scan-box{margin-top:14px;min-height:164px;border-radius:20px;border:1px solid rgba(246,205,84,.28);background:radial-gradient(circle at 50% 42%,rgba(129,72,182,.16),transparent 42%),rgba(7,3,17,.40);display:grid;place-items:center;position:relative;overflow:hidden}.face{width:94px;height:116px;border:2px solid rgba(255,226,112,.72);border-radius:44% 44% 48% 48%;position:relative;box-shadow:0 0 22px rgba(246,205,84,.10);transition:transform .38s ease,box-shadow .38s ease}.face.look-right{transform:translateX(18px) rotate(6deg)}.face.look-left{transform:translateX(-18px) rotate(-6deg)}.face.look-up{transform:translateY(-12px)}.face.look-down{transform:translateY(12px)}.face.hold{transform:scale(1.025);box-shadow:0 0 30px rgba(246,205,84,.20)}.face:before,.face:after{content:"";position:absolute;top:44px;width:8px;height:8px;border-radius:50%;background:#ffe375}.face:before{left:25px}.face:after{right:25px}.mouth{position:absolute;width:30px;height:13px;left:50%;bottom:24px;transform:translateX(-50%);border-bottom:2px solid #ffe375;border-radius:50%}.scan-guide{position:absolute;left:16px;right:16px;bottom:12px;text-align:center;color:#ffe889;font-size:11px;font-weight:800;letter-spacing:.02em;opacity:0;transition:opacity .2s ease}.scan-box.running .scan-guide{opacity:1}.scan-line{position:absolute;left:14%;right:14%;top:20%;height:2px;background:linear-gradient(90deg,transparent,#ffe067,transparent);box-shadow:0 0 13px #ffe067;opacity:0}.scan-box.running .scan-line{opacity:1;animation:scan 1.1s ease-in-out infinite alternate}@keyframes scan{from{top:22%}to{top:77%}}
+    .scan-box{margin-top:14px;min-height:230px;border-radius:20px;border:1px solid rgba(246,205,84,.28);background:radial-gradient(circle at 50% 42%,rgba(129,72,182,.16),transparent 42%),rgba(7,3,17,.40);display:grid;place-items:center;position:relative;overflow:hidden}.camera-preview{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scaleX(-1);background:#090417;opacity:0;transition:opacity .25s ease}.scan-box.camera-ready .camera-preview{opacity:1}.face{z-index:2;width:118px;height:150px;border:2px solid rgba(255,226,112,.88);border-radius:44% 44% 48% 48%;position:relative;box-shadow:0 0 22px rgba(246,205,84,.18);transition:box-shadow .38s ease}.scan-box.camera-ready .face{background:transparent}.scan-box.camera-ready .face:before,.scan-box.camera-ready .face:after,.scan-box.camera-ready .mouth{display:none}.face:before,.face:after{content:"";position:absolute;top:56px;width:8px;height:8px;border-radius:50%;background:#ffe375}.face:before{left:32px}.face:after{right:32px}.mouth{position:absolute;width:34px;height:14px;left:50%;bottom:30px;transform:translateX(-50%);border-bottom:2px solid #ffe375;border-radius:50%}.scan-guide{z-index:4;position:absolute;left:12px;right:12px;bottom:12px;padding:9px 12px;border-radius:12px;background:rgba(7,3,17,.68);text-align:center;color:#ffe889;font-size:12px;font-weight:800;letter-spacing:.02em;opacity:1;transition:opacity .2s ease}.scan-line{z-index:3;position:absolute;left:14%;right:14%;top:20%;height:2px;background:linear-gradient(90deg,transparent,#ffe067,transparent);box-shadow:0 0 13px #ffe067;opacity:0}.scan-box.running .scan-line{opacity:1;animation:scan 1.1s ease-in-out infinite alternate}@keyframes scan{from{top:22%}to{top:77%}}
     .action{width:100%;min-height:50px;margin-top:12px;border:1px solid rgba(246,205,84,.35);border-radius:16px;background:rgba(255,255,255,.045);color:#ffe06b;font-size:13px;font-weight:800;cursor:pointer}.action:disabled{opacity:.58;cursor:default}
+    .browser-gate[hidden]{display:none}.browser-gate{position:fixed;z-index:95;inset:0;display:grid;place-items:end center;padding:18px;background:rgba(5,2,12,.82);backdrop-filter:blur(9px)}.browser-gate-card{width:min(100%,480px);padding:22px;border-radius:24px;border:1px solid rgba(247,205,84,.43);background:linear-gradient(180deg,rgba(57,25,98,.99),rgba(15,6,35,.99));box-shadow:0 28px 70px rgba(0,0,0,.5)}.browser-gate-kicker{margin:0;color:#fff18d;font-size:11px;font-weight:800;letter-spacing:.13em}.browser-gate-title{margin:8px 0 0;font-family:Georgia,"Times New Roman",serif;font-size:29px;font-weight:400}.browser-gate-desc{margin:10px 0 0;color:#d9d1e1;font-size:13px;line-height:1.5}.browser-gate-message{min-height:18px;margin:10px 2px 0;color:#ffe889;font-size:11px;line-height:1.45}.browser-gate .primary{margin-top:16px}.browser-gate .secondary{margin-top:9px}
     .upload{position:relative;margin-top:12px}.upload input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}.upload label{min-height:54px;border:1px dashed rgba(246,205,84,.45);border-radius:16px;background:rgba(255,255,255,.035);display:flex;align-items:center;justify-content:center;text-align:center;padding:10px 14px;color:#ffe06b;font-size:13px;font-weight:800;cursor:pointer}.file-state{margin:8px 2px 0;color:#a99fb5;font-size:11px;line-height:1.4}
     .signature-wrap{margin-top:12px;border-radius:16px;overflow:hidden;border:1px solid rgba(246,205,84,.28);background:rgba(255,255,255,.96)}canvas{display:block;width:100%;height:140px;touch-action:none;cursor:crosshair}.signature-help{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-top:9px;color:#a99fb5;font-size:10.5px;line-height:1.4}.clear{border:0;background:transparent;color:#ffe06b;font-size:11px;font-weight:800;cursor:pointer}
     .message{min-height:20px;margin:14px 2px 0;font-size:12px;line-height:1.45}.error{color:var(--err)}.success{color:var(--ok)}
@@ -46,9 +47,21 @@
     }
 
   </style>
+  <script src="/page-transition.js?v=1"></script>
 </head>
 <body>
   <div class="badge">PROTOTYPE UI · BUKAN LAYANAN PERBANKAN RESMI</div>
+  <div class="browser-gate" id="browserGate" hidden>
+    <section class="browser-gate-card" role="dialog" aria-modal="true" aria-labelledby="browserGateTitle">
+      <p class="browser-gate-kicker">AKSES KAMERA</p>
+      <h2 class="browser-gate-title" id="browserGateTitle">Buka di Browser Utama</h2>
+      <p class="browser-gate-desc" id="browserGateDesc">Untuk akses kamera yang lebih stabil, lanjutkan halaman ini di browser utama perangkat.</p>
+      <button class="primary" id="openExternalBrowser" type="button">Buka di Browser</button>
+      <button class="secondary" id="copyBrowserLink" type="button">Salin Link</button>
+      <button class="secondary" id="continueInApp" type="button">Coba Kamera di Sini</button>
+      <div class="browser-gate-message" id="browserGateMessage" role="status" aria-live="polite"></div>
+    </section>
+  </div>
   <main class="app">
 <div class="top"><button class="back" id="backButton" type="button" aria-label="Kembali"></button><div class="brand"><div class="name"><span class="kb">KB</span><span class="star">star</span></div><small>by KB Bank</small></div></div>
     <section class="content">
@@ -56,12 +69,12 @@
       <h1>Lengkapi <strong>Verifikasi</strong></h1>
       <p class="lead">Selesaikan tiga interaksi prototype berikut. Tidak ada pemindaian biometrik, unggahan server, atau penyimpanan tanda tangan.</p>
       <div class="card">
-        <div class="safety"><div class="shield">◇</div><div><strong>Gunakan data dummy saja.</strong><br>Jangan gunakan wajah, dokumen identitas, atau tanda tangan asli. Semua interaksi di halaman ini hanya prototype frontend.</div></div>
+        <div class="safety"><div class="shield">◇</div><div><strong>Kamera hanya digunakan pada perangkat ini.</strong><br>Preview kamera tidak direkam, tidak disimpan, dan tidak dikirim ke server. Tidak ada pengenalan wajah atau pemrosesan biometrik.</div></div>
 
         <section class="task" aria-labelledby="faceTitle">
-          <div class="task-head"><div><div class="task-title" id="faceTitle">Scan Wajah Contoh</div><p class="task-desc">Animasi saja. Halaman tidak meminta izin kamera dan tidak melakukan pengenalan wajah.</p></div><span class="status" id="faceStatus">Belum</span></div>
-          <div class="scan-box" id="scanBox" aria-hidden="true"><div class="face" id="scanFace"><span class="mouth"></span></div><div class="scan-line"></div><div class="scan-guide" id="scanGuide"></div></div>
-          <button class="action" id="scanButton" type="button">Mulai Scan</button>
+          <div class="task-head"><div><div class="task-title" id="faceTitle">Scan Wajah</div><p class="task-desc">Kamera depan diprioritaskan. Posisikan wajah di bingkai lalu ikuti instruksi kanan, kiri, atas, bawah, dan tahan sebentar.</p></div><span class="status" id="faceStatus">Belum</span></div>
+          <div class="scan-box" id="scanBox"><video class="camera-preview" id="cameraPreview" autoplay muted playsinline aria-label="Preview kamera depan"></video><div class="face" id="scanFace" aria-hidden="true"><span class="mouth"></span></div><div class="scan-line"></div><div class="scan-guide" id="scanGuide">Mengaktifkan kamera…</div></div>
+          <button class="action" id="scanButton" type="button">Aktifkan Kamera</button>
         </section>
 
         <section class="task" aria-labelledby="docTitle">
@@ -115,7 +128,11 @@
       const scanBox = document.getElementById("scanBox");
       const scanFace = document.getElementById("scanFace");
       const scanGuide = document.getElementById("scanGuide");
+      const cameraPreview = document.getElementById("cameraPreview");
       const faceStatus = document.getElementById("faceStatus");
+      let cameraStream = null;
+      let cameraReady = false;
+      let scanRunning = false;
       const docInput = document.getElementById("docInput");
       const docStatus = document.getElementById("docStatus");
       const fileState = document.getElementById("fileState");
@@ -130,6 +147,12 @@
       const pinStatus = document.getElementById("pinStatus");
       const confirmPinButton = document.getElementById("confirmPinButton");
       const closePinButton = document.getElementById("closePinButton");
+      const browserGate = document.getElementById("browserGate");
+      const browserGateDesc = document.getElementById("browserGateDesc");
+      const browserGateMessage = document.getElementById("browserGateMessage");
+      const openExternalBrowser = document.getElementById("openExternalBrowser");
+      const copyBrowserLink = document.getElementById("copyBrowserLink");
+      const continueInApp = document.getElementById("continueInApp");
 
       function updateFinishState(){
         const ready = state.face && state.document && state.signature;
@@ -142,45 +165,178 @@
 
       backButton.addEventListener("click", () => {
         if (history.length > 1) history.back();
-        else window.location.href = "profil-pengajuan.html";
+        else if (window.smoothNavigate) window.smoothNavigate("profil-pengajuan.html"); else window.location.href = "profil-pengajuan.html";
       });
 
-      scanButton.addEventListener("click", () => {
-        if (state.face) return;
+      function isEmbeddedBrowser(){
+        const ua = navigator.userAgent || "";
+        const isWhatsApp = /WhatsApp/i.test(ua);
+        const isAndroidWebView = /;\s*wv\)/i.test(ua) || /Version\/[\d.]+.*Chrome\/[\d.]+.*Mobile Safari\/[\d.]+/i.test(ua);
+        const isiOS = /iPad|iPhone|iPod/i.test(ua);
+        const isiOSWebView = isiOS && /AppleWebKit/i.test(ua) && !/Safari/i.test(ua);
+        return isWhatsApp || isAndroidWebView || isiOSWebView;
+      }
+
+      function currentPublicUrl(){
+        return window.location.href;
+      }
+
+      function showBrowserGate(){
+        const ua = navigator.userAgent || "";
+        const isAndroid = /Android/i.test(ua);
+        const isiOS = /iPad|iPhone|iPod/i.test(ua);
+        openExternalBrowser.textContent = isAndroid ? "Buka di Chrome" : "Buka di Browser";
+        browserGateDesc.textContent = isiOS
+          ? "Halaman sedang dibuka dari browser dalam aplikasi. Ketuk Buka di Browser. Jika tetap berada di WhatsApp, gunakan menu WhatsApp lalu pilih Buka di Safari."
+          : "Halaman sedang dibuka dari browser dalam aplikasi. Ketuk Buka di Chrome agar izin kamera dapat diberikan melalui browser utama.";
+        browserGate.hidden = false;
+      }
+
+      async function copyCurrentLink(){
+        const url = currentPublicUrl();
+        try {
+          if (navigator.clipboard && window.isSecureContext) {
+            await navigator.clipboard.writeText(url);
+          } else {
+            const helper = document.createElement("textarea");
+            helper.value = url;
+            helper.setAttribute("readonly", "");
+            helper.style.position = "fixed";
+            helper.style.opacity = "0";
+            document.body.appendChild(helper);
+            helper.select();
+            document.execCommand("copy");
+            helper.remove();
+          }
+          browserGateMessage.textContent = "Link disalin. Buka Chrome/Safari lalu tempel link ini.";
+        } catch (_) {
+          browserGateMessage.textContent = "Tidak dapat menyalin otomatis. Gunakan menu WhatsApp lalu pilih Buka di Browser.";
+        }
+      }
+
+      openExternalBrowser.addEventListener("click", () => {
+        const ua = navigator.userAgent || "";
+        const url = currentPublicUrl();
+        if (/Android/i.test(ua)) {
+          const path = `${location.host}${location.pathname}${location.search}`;
+          const fallback = encodeURIComponent(url);
+          window.location.href = `intent://${path}#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=${fallback};end`;
+          window.setTimeout(() => {
+            browserGateMessage.textContent = "Jika Chrome tidak terbuka, gunakan menu WhatsApp lalu pilih Buka di browser, atau salin link.";
+          }, 900);
+          return;
+        }
+
+        const opened = window.open(url, "_blank", "noopener,noreferrer");
+        if (!opened) {
+          browserGateMessage.textContent = "Browser tidak dapat dibuka otomatis. Gunakan menu WhatsApp lalu pilih Buka di Safari, atau salin link.";
+        } else {
+          browserGateMessage.textContent = "Jika halaman tetap terbuka di WhatsApp, gunakan menu WhatsApp lalu pilih Buka di Safari.";
+        }
+      });
+
+      copyBrowserLink.addEventListener("click", copyCurrentLink);
+      continueInApp.addEventListener("click", () => {
+        browserGate.hidden = true;
+        startCamera();
+      });
+
+      function stopCamera(){
+        if (!cameraStream) return;
+        for (const track of cameraStream.getTracks()) track.stop();
+        cameraStream = null;
+        cameraReady = false;
+        cameraPreview.srcObject = null;
+      }
+
+      async function startCamera(){
+        if (cameraReady && cameraStream) return true;
+        if (!navigator.mediaDevices || typeof navigator.mediaDevices.getUserMedia !== "function") {
+          scanGuide.textContent = "Kamera tidak didukung pada browser ini.";
+          scanButton.textContent = "Coba Lagi";
+          return false;
+        }
         scanButton.disabled = true;
-        scanButton.textContent = "Memindai…";
+        scanButton.textContent = "Mengaktifkan Kamera…";
+        scanGuide.textContent = "Izinkan akses kamera depan pada perangkat Anda.";
+        try {
+          cameraStream = await navigator.mediaDevices.getUserMedia({
+            video: { facingMode: { ideal: "user" }, width: { ideal: 720 }, height: { ideal: 960 } },
+            audio: false
+          });
+          cameraPreview.srcObject = cameraStream;
+          await cameraPreview.play().catch(() => {});
+          cameraReady = true;
+          scanBox.classList.add("camera-ready");
+          faceStatus.textContent = "Kamera Siap";
+          scanGuide.textContent = "Posisikan wajah di dalam bingkai.";
+          scanButton.disabled = false;
+          scanButton.textContent = "Mulai Scan";
+          return true;
+        } catch (error) {
+          stopCamera();
+          scanBox.classList.remove("camera-ready");
+          faceStatus.textContent = "Belum";
+          scanButton.disabled = false;
+          scanButton.textContent = "Aktifkan Kamera";
+          scanGuide.textContent = error && error.name === "NotAllowedError"
+            ? "Izin kamera diperlukan. Ketuk Aktifkan Kamera lalu pilih Izinkan."
+            : "Kamera tidak dapat dibuka. Periksa izin kamera atau buka melalui browser utama.";
+          return false;
+        }
+      }
+
+      async function runFaceScan(){
+        if (state.face || scanRunning) return;
+        const ready = await startCamera();
+        if (!ready) return;
+        scanRunning = true;
+        scanButton.disabled = true;
         scanBox.classList.add("running");
+        faceStatus.textContent = "Ikuti Instruksi";
 
         const steps = [
-          { label:"Arahkan wajah ke kanan", cls:"look-right", delay:700 },
-          { label:"Arahkan wajah ke kiri", cls:"look-left", delay:700 },
-          { label:"Arahkan wajah ke atas", cls:"look-up", delay:700 },
-          { label:"Arahkan wajah ke bawah", cls:"look-down", delay:700 },
-          { label:"Tahan sebentar…", cls:"hold", delay:1000 }
+          { label:"Arahkan wajah ke kanan", delay:1400 },
+          { label:"Arahkan wajah ke kiri", delay:1400 },
+          { label:"Arahkan wajah ke atas", delay:1400 },
+          { label:"Arahkan wajah ke bawah", delay:1400 },
+          { label:"Tahan sebentar…", delay:1800 }
         ];
         let index = 0;
 
         function runNextStep(){
-          scanFace.className = "face";
           if (index >= steps.length) {
             state.face = true;
+            scanRunning = false;
             scanBox.classList.remove("running");
             scanGuide.textContent = "Verifikasi selesai";
             faceStatus.textContent = "Selesai";
             faceStatus.classList.add("ok");
             scanButton.textContent = "Scan Selesai";
+            stopCamera();
+            scanBox.classList.remove("camera-ready");
             updateFinishState();
             return;
           }
           const step = steps[index++];
           scanGuide.textContent = step.label;
           scanButton.textContent = step.label;
-          scanFace.classList.add(step.cls);
           window.setTimeout(runNextStep, step.delay);
         }
 
         runNextStep();
+      }
+
+      scanButton.addEventListener("click", runFaceScan);
+      window.addEventListener("pagehide", stopCamera);
+      document.addEventListener("visibilitychange", () => {
+        if (document.hidden && !scanRunning) stopCamera();
       });
+
+      // Jika dibuka dari browser dalam aplikasi (termasuk WhatsApp), prioritaskan
+      // pindah ke browser utama. Akses kamera tetap bisa dicoba di halaman ini sebagai fallback.
+      if (isEmbeddedBrowser()) showBrowserGate();
+      else startCamera();
 
       docInput.addEventListener("change", () => {
         if (!docInput.files || docInput.files.length !== 1) return;
@@ -299,7 +455,7 @@
           pinDialog.classList.add("success-state");
           pinStatus.textContent="Konfirmasi Berhasil";
           pinStatus.className="status-text ok";
-          window.setTimeout(() => { window.location.href="tahap9.html"; }, 650);
+          window.setTimeout(() => { window.smoothNavigate ? window.smoothNavigate("tahap9.html") : (window.location.href="tahap9.html"); }, 650);
         }, 700);
       });
 

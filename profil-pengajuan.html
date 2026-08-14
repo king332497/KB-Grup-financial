@@ -140,6 +140,7 @@
     @media(max-width:360px){.chip-grid,.summary-grid{grid-template-columns:1fr}.chip-wide:last-child:nth-child(odd){grid-column:auto}.data-list li{display:block}.data-list strong{display:block;text-align:left;margin-top:4px}}
     @media(min-width:760px){body{padding:24px 0}.app{border-radius:34px;min-height:auto}}
   </style>
+  <script src="/page-transition.js?v=1"></script>
 </head>
 <body>
   <div class="badge">PROTOTYPE UI · BUKAN LAYANAN PERBANKAN RESMI</div>
@@ -517,7 +518,7 @@
         };
         profileMessage.className = "message success";
         profileMessage.textContent = "Profil lengkap. Membuka Detail Pengajuan…";
-        window.setTimeout(() => renderStage(6), 260);
+        window.setTimeout(() => { window.smoothStageSwap ? window.smoothStageSwap(() => renderStage(6)) : renderStage(6); }, 260);
       });
 
       amountRange.addEventListener("input", () => {
@@ -576,7 +577,7 @@
         };
         loanMessage.className = "message success";
         loanMessage.textContent = "Detail lengkap. Menyiapkan ringkasan…";
-        window.setTimeout(() => renderStage(7), 260);
+        window.setTimeout(() => { window.smoothStageSwap ? window.smoothStageSwap(() => renderStage(7)) : renderStage(7); }, 260);
       });
 
       function renderSummary() {
@@ -594,7 +595,7 @@
         document.getElementById("summaryDomicile").textContent = state.profile.domicile;
       }
 
-      document.getElementById("editLoanButton").addEventListener("click", () => renderStage(6));
+      document.getElementById("editLoanButton").addEventListener("click", () => { window.smoothStageSwap ? window.smoothStageSwap(() => renderStage(6)) : renderStage(6); });
 
       const confirmButton = document.getElementById("confirmButton");
       const summaryMessage = document.getElementById("summaryMessage");
@@ -608,15 +609,15 @@
         summaryMessage.textContent = "Ringkasan dikonfirmasi. Membuka Tahap 8…";
         completedState.hidden = false;
         completedState.innerHTML = "<strong>Tahap 7 selesai.</strong><br>Melanjutkan ke verifikasi dokumen dan interaksi prototype pada Tahap 8.";
-        window.setTimeout(() => { window.location.href = "tahap8.html"; }, 420);
+        window.setTimeout(() => { window.smoothNavigate ? window.smoothNavigate("tahap8.html") : (window.location.href = "tahap8.html"); }, 420);
       });
 
       backButton.addEventListener("click", () => {
         if (state.stage === 5) {
-          window.location.href = "verifikasi.html";
+          window.smoothNavigate ? window.smoothNavigate("verifikasi.html") : (window.location.href = "verifikasi.html");
           return;
         }
-        renderStage(state.stage - 1);
+        window.smoothStageSwap ? window.smoothStageSwap(() => renderStage(state.stage - 1)) : renderStage(state.stage - 1);
       });
 
       window.addEventListener("popstate", (event) => {

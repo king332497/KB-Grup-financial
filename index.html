@@ -400,6 +400,7 @@
     }
 
   </style>
+  <script src="/page-transition.js?v=1"></script>
 </head>
 <body>
   <div class="demo-badge" aria-label="Tampilan prototype"></div>
@@ -478,8 +479,10 @@
           return;
         }
 
-        // Navigasi biasa; tidak mengirim atau menyimpan data.
-        button.setAttribute("href", NEXT_URL);
+        // Navigasi lokal dengan jeda visual singkat.
+        event.preventDefault();
+        if (window.smoothNavigate) window.smoothNavigate(NEXT_URL);
+        else window.location.href = NEXT_URL;
       });
     })();
   </script>
