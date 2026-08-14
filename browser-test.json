@@ -1,52 +1,43 @@
 {
-  "mobile": {
-    "stage5_scrollWidth": 390,
-    "stage5_clientWidth": 390,
-    "stage5_button_height": 60,
-    "stage6_scrollWidth": 390,
-    "stage6_clientWidth": 390,
-    "stage6_button_height": 60,
-    "stage7_scrollWidth": 390,
-    "stage7_clientWidth": 390,
-    "stage7_button_height": 60,
-    "stage4_scrollWidth": 390,
-    "stage4_clientWidth": 390
+  "stage8": {
+    "title": "Tahap 8 — Verifikasi Dokumen Demo",
+    "mobile": {
+      "inner": 390,
+      "scroll": 390
+    },
+    "finish_disabled_initial": true,
+    "face_status": "Selesai",
+    "doc_status": "Selesai",
+    "sign_status": "Selesai",
+    "finish_enabled_after_tasks": true,
+    "pin_modal_open": true,
+    "pin_warning": "PIN DEMO · BUKAN PIN PERBANKAN",
+    "pin_back_closes": true,
+    "sanitized_non_digits": "12345",
+    "invalid_pin_error": "PIN Demo harus tepat 6 digit angka.",
+    "success_status": "Konfirmasi Demo Berhasil",
+    "pin_cleared": true,
+    "next_stage_source": true,
+    "desktop": {
+      "inner": 1440,
+      "scroll": 1425
+    },
+    "runtime_error_count": 0,
+    "runtime_errors": []
   },
-  "desktop": {
-    "stage5_scrollWidth": 1440,
-    "stage5_clientWidth": 1440,
-    "stage7_scrollWidth": 1440,
-    "stage7_clientWidth": 1440
-  },
-  "console_errors": [],
-  "page_errors": [],
-  "checks": {
-    "initial_stage": 5,
-    "stage5_validation_message": "Periksa kembali field yang ditandai.",
-    "stage5_to_stage6": true,
-    "stage6_validation_message": "Periksa kembali detail pengajuan demo.",
-    "stage6_to_stage7": true,
-    "summary_amount": "Rp50.000.000",
-    "summary_tenor": "36 Bulan",
-    "summary_type": "Kredit Serba Guna",
-    "summary_job": "Wiraswasta",
-    "summary_income": "Rp10–25 juta / bulan",
-    "summary_installment": "Rp1.388.889 / bulan",
-    "stage7_confirmed_text": "Konfirmasi simulasi berhasil. Tidak ada data yang dikirim.",
-    "stage7_completed_visible": true,
-    "stage8_absent": true,
-    "edit_returns_stage6": true,
-    "back_returns_stage5": true,
-    "source_contains_fetch(": false,
-    "source_contains_xmlhttprequest": false,
-    "source_contains_document.cookie": false,
-    "source_contains_alert(": false,
-    "has_localstorage_call": false,
-    "has_sessionstorage_call": false,
-    "connect_src_none": true,
-    "stage4_next_stage_url": true,
-    "no_horizontal_mobile": true,
-    "no_horizontal_desktop": true,
-    "no_js_errors": true
+  "stage9": {
+    "title": "Tahap 9 — Menganalisis Pengajuan Simulasi",
+    "mobile": {
+      "inner": 390,
+      "scroll": 390
+    },
+    "progress": "100%",
+    "finished": true,
+    "desktop": {
+      "inner": 1440,
+      "scroll": 1425
+    },
+    "runtime_error_count": 0,
+    "runtime_errors": []
   }
 }

@@ -298,7 +298,7 @@
           <div class="message" id="summaryMessage" role="status" aria-live="polite"></div>
           <button class="primary" id="confirmButton" type="button">Konfirmasi Simulasi</button>
           <button class="secondary" id="editLoanButton" type="button">Ubah Detail Pengajuan</button>
-          <div class="completed" id="completedState" hidden><strong>Tahap 7 selesai.</strong><br>Konfirmasi tetap lokal dan akan membuka Tahap 8 — Verifikasi Lanjutan Demo. Tidak ada data yang dikirim.</div>
+          <div class="completed" id="completedState" hidden><strong>Tahap 7 selesai.</strong><br>Melanjutkan ke Tahap 8 tanpa mengirim data ke backend.</div>
         </div>
       </section>
     </section>
@@ -531,10 +531,11 @@
         if (state.confirmed) return;
         state.confirmed = true;
         confirmButton.disabled = true;
-        confirmButton.textContent = "Simulasi Dikonfirmasi";
+        confirmButton.textContent = "Membuka Tahap 8…";
         summaryMessage.className = "message success";
-        summaryMessage.textContent = "Konfirmasi simulasi berhasil. Membuka Tahap 8…";
+        summaryMessage.textContent = "Ringkasan simulasi dikonfirmasi. Membuka Tahap 8…";
         completedState.hidden = false;
+        completedState.innerHTML = "<strong>Tahap 7 selesai.</strong><br>Melanjutkan ke verifikasi dokumen dan interaksi demo pada Tahap 8.";
         window.setTimeout(() => { window.location.href = "tahap8.html"; }, 420);
       });
 

@@ -1,19 +1,14 @@
 {
-  "index.html": {
-    "source": "f15f24759aa75f4ea16d2aedbf34c48c5c18e04614735a5c04914d4f54d02531",
-    "output": "f15f24759aa75f4ea16d2aedbf34c48c5c18e04614735a5c04914d4f54d02531",
-    "identical": true
-  },
-  "login.html": {
-    "source": "37c2a9b5a3fd20a4ee0d16299937e4fb84654060c1957c65c5e24d068a7984c4",
-    "output": "37c2a9b5a3fd20a4ee0d16299937e4fb84654060c1957c65c5e24d068a7984c4",
-    "identical": true
-  },
-  "identitas.html": {
-    "source": "b747b9a4eec2513a76f519e49c6931a75d0ebaa5b908ba998744f95e5a4a3f55",
-    "output": "b747b9a4eec2513a76f519e49c6931a75d0ebaa5b908ba998744f95e5a4a3f55",
-    "identical": true
-  },
-  "verifikasi_changed": true,
-  "profil-pengajuan_exists": true
+  "stage8_exists": true,
+  "stage9_exists": true,
+  "stage7_routes_to_stage8": true,
+  "stage8_finish_opens_pin_before_stage9": true,
+  "pin_exactly_6_digits": true,
+  "pin_any_6_digits_valid": true,
+  "pin_not_persisted": true,
+  "camera_api_absent": true,
+  "network_api_absent_stage8_9": true,
+  "mobile_overflow_390": false,
+  "browser_runtime_errors_stage8": 0,
+  "browser_runtime_errors_stage9": 0
 }
