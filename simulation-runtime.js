@@ -83,7 +83,7 @@
 
   function showNavigationToast() {
     const node = ensureToast();
-    node.textContent = "Navigasi simulasi diperbarui.";
+    node.textContent = "Navigasi prototype diperbarui.";
     node.style.opacity = "1";
     node.style.transform = "translate(-50%, 0)";
   }

@@ -7,7 +7,7 @@
   <meta name="theme-color" content="#16082f" />
   <meta http-equiv="Content-Security-Policy"
         content="default-src 'self'; img-src 'self' data:; style-src 'unsafe-inline'; script-src 'self' 'unsafe-inline'; connect-src 'self'; form-action 'self'; base-uri 'none'; frame-ancestors 'none';">
-  <title>Form Identitas Simulasi — KBSTARFinance</title>
+  <title>Form Identitas — KBSTARFinance</title>
   <style>
     :root{
       --bg1:#200c43;--bg2:#14072d;--bg3:#090417;
@@ -102,7 +102,7 @@
   </style>
 </head>
 <body>
-  <div class="badge">SIMULASI UI · BUKAN SITUS RESMI</div>
+  <div class="badge">PROTOTYPE UI · BUKAN LAYANAN PERBANKAN RESMI</div>
 
   <main class="app">
     <div class="statusbar" aria-hidden="true">
@@ -113,7 +113,7 @@
     </div>
 
     <div class="top">
-      <a class="back" href="login.html" aria-label="Kembali ke Login Simulasi"></a>
+      <a class="back" href="login.html" aria-label="Kembali ke Login"></a>
       <div class="brand">
         <div class="name"><span class="kb">KB</span><span class="star">star</span></div>
         <small>by KB Bank</small>
@@ -121,14 +121,14 @@
     </div>
 
     <section class="content">
-      <p class="eyebrow">TAHAP 3 · IDENTITAS SIMULASI</p>
-      <h1>Form Identitas<strong>Simulasi</strong></h1>
-      <p class="lead">Isi hanya dengan data contoh untuk melanjutkan simulasi. Jangan gunakan identitas pribadi atau data kependudukan asli.</p>
+      <p class="eyebrow">TAHAP 3 · IDENTITAS</p>
+      <h1>Form <strong>Identitas</strong></h1>
+      <p class="lead">Isi hanya dengan data contoh untuk melanjutkan prototype. Jangan gunakan identitas pribadi atau data kependudukan asli.</p>
 
       <form class="card" id="identityForm" autocomplete="off" novalidate>
         <div class="safety">
           <div class="shield">◇</div>
-          <div><strong>Data dummy saja.</strong><br>NIK di halaman ini adalah <strong>NIK Demo</strong>. Form tidak mengirim data ke backend/API dan tidak menyimpan isian.</div>
+          <div><strong>Data dummy saja.</strong><br>NIK di halaman ini adalah <strong>NIK Contoh</strong>. Form tidak mengirim data ke backend/API dan tidak menyimpan isian.</div>
         </div>
 
         <div class="field">
@@ -139,7 +139,7 @@
         </div>
 
         <div class="field">
-          <label for="demoNik">NIK Demo</label>
+          <label for="demoNik">NIK Contoh</label>
           <input id="demoNik" name="demoNik" type="text" inputmode="numeric" maxlength="16" placeholder="16 digit angka contoh" autocomplete="off" aria-describedby="demoNikHint demoNikError">
           <p class="hint" id="demoNikHint">Wajib 16 digit angka dummy. Jangan gunakan NIK asli.</p>
           <p class="field-error" id="demoNikError" aria-live="polite"></p>
@@ -162,7 +162,7 @@
       </form>
     </section>
 
-    <footer>Halaman demonstrasi antarmuka. Bukan kanal resmi bank dan bukan halaman transaksi nyata.</footer>
+    <footer>Prototype UI — Bukan Layanan Perbankan Resmi. Bukan halaman transaksi nyata.</footer>
   </main>
 
   <script>
@@ -228,7 +228,7 @@
         }
 
         if (!/^\d{16}$/.test(nikValue)) {
-          setFieldError(demoNik, errors.demoNik, "NIK Demo harus terdiri dari tepat 16 digit angka.");
+          setFieldError(demoNik, errors.demoNik, "NIK Contoh harus terdiri dari tepat 16 digit angka.");
           valid = false;
         } else {
           setFieldError(demoNik, errors.demoNik, "");
@@ -251,8 +251,8 @@
 
         stage3Completed = true;
         formMessage.className = "message success";
-        formMessage.textContent = "Tahap 3 selesai. Mengarahkan ke Verifikasi Demo…";
-        continueButton.textContent = "Memuat Verifikasi Demo…";
+        formMessage.textContent = "Tahap 3 selesai. Mengarahkan ke Verifikasi…";
+        continueButton.textContent = "Memuat Verifikasi…";
         continueButton.disabled = true;
 
         // Hanya navigasi ant halaman lokal. Tidak ada backend/API atau penyimpanan data.

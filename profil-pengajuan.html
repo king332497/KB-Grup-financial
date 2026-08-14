@@ -7,7 +7,7 @@
   <meta name="theme-color" content="#16082f" />
   <meta http-equiv="Content-Security-Policy"
         content="default-src 'self'; img-src 'self' data:; style-src 'unsafe-inline'; script-src 'self' 'unsafe-inline'; connect-src 'self'; form-action 'self'; base-uri 'none';">
-  <title>Simulasi Pengajuan — KBSTARFinance</title>
+  <title>Prototype Pengajuan — KBSTARFinance</title>
   <style>
     :root{
       --bg1:#200c43;--bg2:#14072d;--bg3:#090417;
@@ -142,7 +142,7 @@
   </style>
 </head>
 <body>
-  <div class="badge">SIMULASI UI · BUKAN SITUS RESMI</div>
+  <div class="badge">PROTOTYPE UI · BUKAN LAYANAN PERBANKAN RESMI</div>
 
   <main class="app">
     <div class="statusbar" aria-hidden="true">
@@ -158,7 +158,7 @@
     <section class="content">
       <section class="view" id="stage5" data-stage="5">
         <p class="eyebrow">TAHAP 5 · PROFIL PEKERJAAN / USAHA</p>
-        <h1>Profil Pekerjaan<strong>Simulasi</strong></h1>
+        <h1>Profil <strong>Pekerjaan</strong></h1>
         <p class="lead">Lengkapi profil pekerjaan atau usaha menggunakan data contoh. Informasi hanya berada di memori halaman selama alur Tahap 5–7 berlangsung.</p>
 
         <form class="card" id="profileForm" novalidate autocomplete="off">
@@ -186,7 +186,7 @@
           </div>
 
           <div class="field">
-            <label for="incomeRange">Penghasilan Bulanan Demo</label>
+            <label for="incomeRange">Penghasilan Bulanan Contoh</label>
             <select id="incomeRange" aria-describedby="incomeRangeError">
               <option value="">Pilih rentang penghasilan</option>
               <option>&lt; Rp5 juta</option><option>Rp5–10 juta</option><option>Rp10–25 juta</option><option>Rp25–50 juta</option><option>&gt; Rp50 juta</option>
@@ -195,7 +195,7 @@
           </div>
 
           <div class="field">
-            <label for="domicile">Domisili Demo</label>
+            <label for="domicile">Domisili Contoh</label>
             <input id="domicile" type="text" maxlength="60" placeholder="Contoh: Bandung" aria-describedby="domicileError">
             <p class="field-error" id="domicileError"></p>
           </div>
@@ -208,11 +208,11 @@
 
       <section class="view" id="stage6" data-stage="6" hidden>
         <p class="eyebrow">TAHAP 6 · DETAIL PENGAJUAN PINJAMAN</p>
-        <h1>Detail Pengajuan<strong>Simulasi</strong></h1>
-        <p class="lead">Pilih jenis pinjaman, nominal, tenor, dan tujuan untuk membentuk ringkasan simulasi. Seluruh nilai di halaman ini bersifat demonstrasi.</p>
+        <h1>Detail <strong>Pengajuan</strong></h1>
+        <p class="lead">Pilih jenis pinjaman, nominal, tenor, dan tujuan untuk membentuk ringkasan prototype. Seluruh nilai di halaman ini bersifat contoh UI.</p>
 
         <form class="card" id="loanForm" novalidate autocomplete="off">
-          <div class="safety"><div class="shield">◇</div><div><strong>Bukan penawaran kredit.</strong><br>Pilihan produk, nominal, dan tenor di bawah hanya elemen simulasi UI.</div></div>
+          <div class="safety"><div class="shield">◇</div><div><strong>Bukan penawaran kredit.</strong><br>Pilihan produk, nominal, dan tenor di bawah hanya elemen prototype UI.</div></div>
 
           <div class="field">
             <label for="loanType">Jenis Pinjaman</label>
@@ -224,11 +224,11 @@
           </div>
 
           <div class="field">
-            <label for="loanAmount">Nominal Pinjaman Demo</label>
+            <label for="loanAmount">Nominal Pinjaman Contoh</label>
             <div class="amount-wrap"><span class="amount-prefix">Rp</span><input id="loanAmount" type="text" inputmode="numeric" value="25.000.000" aria-describedby="loanAmountHint loanAmountError"></div>
-            <input class="range" id="amountRange" type="range" min="5000000" max="500000000" step="5000000" value="25000000" aria-label="Slider nominal pinjaman demo">
+            <input class="range" id="amountRange" type="range" min="5000000" max="500000000" step="5000000" value="25000000" aria-label="Slider nominal pinjaman contoh">
             <div class="range-scale"><span>Rp5 juta</span><span>Rp500 juta</span></div>
-            <p class="hint" id="loanAmountHint">Rentang Rp5 juta–Rp500 juta hanya untuk demonstrasi kontrol UI, bukan batas produk riil.</p>
+            <p class="hint" id="loanAmountHint">Rentang Rp5 juta–Rp500 juta hanya untuk contoh kontrol UI, bukan batas produk riil.</p>
             <p class="field-error" id="loanAmountError"></p>
           </div>
 
@@ -254,15 +254,15 @@
           </div>
 
           <div class="message" id="loanMessage" role="status" aria-live="polite"></div>
-          <button class="primary" type="submit">Lihat Ringkasan Simulasi</button>
+          <button class="primary" type="submit">Lihat Ringkasan</button>
           <div class="meta">Tidak ada pengajuan yang dikirim. Tahap ini hanya membentuk state sementara untuk ringkasan di Tahap 7.</div>
         </form>
       </section>
 
       <section class="view" id="stage7" data-stage="7" hidden>
-        <p class="eyebrow">TAHAP 7 · RINGKASAN SIMULASI</p>
+        <p class="eyebrow">TAHAP 7 · RINGKASAN</p>
         <h1>Ringkasan<strong>Pengajuan</strong></h1>
-        <p class="lead">Periksa kembali pilihan simulasi sebelum melakukan konfirmasi demonstrasi.</p>
+        <p class="lead">Periksa kembali pilihan prototype sebelum melakukan konfirmasi.</p>
 
         <div class="card">
           <div class="summary-hero">
@@ -281,7 +281,7 @@
             <strong id="summaryInstallment">Rp694.444 / bulan</strong>
           </div>
 
-          <div class="section-title">Data Simulasi</div>
+          <div class="section-title">Data Contoh</div>
           <ul class="data-list">
             <li><span>Nama</span><strong>Tidak dipersist dari Tahap 3</strong></li>
             <li><span>Pekerjaan</span><strong id="summaryJob">—</strong></li>
@@ -292,18 +292,18 @@
           </ul>
 
           <div class="disclaimer">
-            *Estimasi Cicilan Dasar dihitung dengan pembagian sederhana <strong>nominal ÷ tenor</strong> dan belum memasukkan bunga, provisi, asuransi, pajak, atau biaya lain. Nilai ini hanya demonstrasi UI, bukan simulasi harga produk riil, bukan persetujuan kredit, dan bukan jaminan pencairan. Persyaratan, tenor, biaya, serta keputusan kredit pada produk nyata mengikuti ketentuan dan analisis lembaga pemberi kredit.
+            *Estimasi Cicilan Dasar dihitung dengan pembagian sederhana <strong>nominal ÷ tenor</strong> dan belum memasukkan bunga, provisi, asuransi, pajak, atau biaya lain. Nilai ini hanya contoh prototype UI, bukan perhitungan harga produk riil, bukan persetujuan kredit, dan bukan jaminan pencairan. Persyaratan, tenor, biaya, serta keputusan kredit pada produk nyata mengikuti ketentuan dan analisis lembaga pemberi kredit.
           </div>
 
           <div class="message" id="summaryMessage" role="status" aria-live="polite"></div>
-          <button class="primary" id="confirmButton" type="button">Konfirmasi Simulasi</button>
+          <button class="primary" id="confirmButton" type="button">Konfirmasi</button>
           <button class="secondary" id="editLoanButton" type="button">Ubah Detail Pengajuan</button>
           <div class="completed" id="completedState" hidden><strong>Tahap 7 selesai.</strong><br>Melanjutkan ke Tahap 8 tanpa mengirim data ke backend.</div>
         </div>
       </section>
     </section>
 
-    <footer>Halaman demonstrasi antarmuka. Bukan kanal resmi bank dan bukan halaman transaksi nyata.</footer>
+    <footer>Prototype UI — Bukan Layanan Perbankan Resmi. Bukan halaman transaksi nyata.</footer>
   </main>
 
   <script>
@@ -425,11 +425,11 @@
         let valid = true;
 
         if (!jobStatus.value) { setError(jobStatus, errors.jobStatus, "Pilih Status Pekerjaan."); valid = false; } else setError(jobStatus, errors.jobStatus, "");
-        if (!jobField.value.trim()) { setError(jobField, errors.jobField, "Bidang Pekerjaan / Usaha wajib diisi dengan data demo."); valid = false; } else setError(jobField, errors.jobField, "");
+        if (!jobField.value.trim()) { setError(jobField, errors.jobField, "Bidang Pekerjaan / Usaha wajib diisi dengan data contoh."); valid = false; } else setError(jobField, errors.jobField, "");
         const years = Number(jobYears.value);
         if (!jobYears.value || !Number.isInteger(years) || years < 0 || years > 60) { setError(jobYears, errors.jobYears, "Masukkan lama bekerja/usaha antara 0–60 tahun."); valid = false; } else setError(jobYears, errors.jobYears, "");
-        if (!incomeRange.value) { setError(incomeRange, errors.incomeRange, "Pilih rentang Penghasilan Bulanan Demo."); valid = false; } else setError(incomeRange, errors.incomeRange, "");
-        if (!domicile.value.trim()) { setError(domicile, errors.domicile, "Domisili Demo wajib diisi."); valid = false; } else setError(domicile, errors.domicile, "");
+        if (!incomeRange.value) { setError(incomeRange, errors.incomeRange, "Pilih rentang Penghasilan Bulanan Contoh."); valid = false; } else setError(incomeRange, errors.incomeRange, "");
+        if (!domicile.value.trim()) { setError(domicile, errors.domicile, "Domisili Contoh wajib diisi."); valid = false; } else setError(domicile, errors.domicile, "");
 
         if (!valid) {
           profileMessage.className = "message error";
@@ -446,7 +446,7 @@
           domicile: domicile.value.trim()
         };
         profileMessage.className = "message success";
-        profileMessage.textContent = "Profil demo lengkap. Membuka Detail Pengajuan…";
+        profileMessage.textContent = "Profil lengkap. Membuka Detail Pengajuan…";
         window.setTimeout(() => renderStage(6), 260);
       });
 
@@ -487,13 +487,13 @@
         const tenorNode = loanForm.querySelector('input[name="tenor"]:checked');
 
         if (!loanType.value) { setError(loanType, errors.loanType, "Pilih Jenis Pinjaman."); valid = false; } else setError(loanType, errors.loanType, "");
-        if (amount < 5000000 || amount > 500000000) { setError(loanAmount, errors.loanAmount, "Nominal Demo harus berada pada rentang Rp5 juta–Rp500 juta."); valid = false; } else setError(loanAmount, errors.loanAmount, "");
-        if (!tenorNode) { errors.tenor.textContent = "Pilih tenor simulasi."; valid = false; } else errors.tenor.textContent = "";
+        if (amount < 5000000 || amount > 500000000) { setError(loanAmount, errors.loanAmount, "Nominal harus berada pada rentang Rp5 juta–Rp500 juta."); valid = false; } else setError(loanAmount, errors.loanAmount, "");
+        if (!tenorNode) { errors.tenor.textContent = "Pilih tenor."; valid = false; } else errors.tenor.textContent = "";
         if (!loanPurpose.value) { setError(loanPurpose, errors.loanPurpose, "Pilih Tujuan Pinjaman."); valid = false; } else setError(loanPurpose, errors.loanPurpose, "");
 
         if (!valid) {
           loanMessage.className = "message error";
-          loanMessage.textContent = "Periksa kembali detail pengajuan demo.";
+          loanMessage.textContent = "Periksa kembali detail pengajuan.";
           loanForm.querySelector('[aria-invalid="true"]')?.focus();
           return;
         }
@@ -505,7 +505,7 @@
           purpose: loanPurpose.value
         };
         loanMessage.className = "message success";
-        loanMessage.textContent = "Detail demo lengkap. Menyiapkan ringkasan…";
+        loanMessage.textContent = "Detail lengkap. Menyiapkan ringkasan…";
         window.setTimeout(() => renderStage(7), 260);
       });
 
@@ -535,9 +535,9 @@
         confirmButton.disabled = true;
         confirmButton.textContent = "Membuka Tahap 8…";
         summaryMessage.className = "message success";
-        summaryMessage.textContent = "Ringkasan simulasi dikonfirmasi. Membuka Tahap 8…";
+        summaryMessage.textContent = "Ringkasan dikonfirmasi. Membuka Tahap 8…";
         completedState.hidden = false;
-        completedState.innerHTML = "<strong>Tahap 7 selesai.</strong><br>Melanjutkan ke verifikasi dokumen dan interaksi demo pada Tahap 8.";
+        completedState.innerHTML = "<strong>Tahap 7 selesai.</strong><br>Melanjutkan ke verifikasi dokumen dan interaksi prototype pada Tahap 8.";
         window.setTimeout(() => { window.location.href = "tahap8.html"; }, 420);
       });
 
@@ -559,10 +559,10 @@
       const forcedStageRaw = new URLSearchParams(location.search).get("admin_stage");
       const forcedStage = /^(5|6|7)$/.test(forcedStageRaw || "") ? Number(forcedStageRaw) : null;
       if (forcedStage === 6 && !state.profile) {
-        state.profile = {jobStatus:"Data Demo",jobField:"Contoh",jobYears:1,incomeRange:"Rp10–25 juta",domicile:"Domisili Demo"};
+        state.profile = {jobStatus:"Data Contoh",jobField:"Contoh",jobYears:1,incomeRange:"Rp10–25 juta",domicile:"Domisili Contoh"};
       }
       if (forcedStage === 7) {
-        if (!state.profile) state.profile = {jobStatus:"Data Demo",jobField:"Contoh",jobYears:1,incomeRange:"Rp10–25 juta",domicile:"Domisili Demo"};
+        if (!state.profile) state.profile = {jobStatus:"Data Contoh",jobField:"Contoh",jobYears:1,incomeRange:"Rp10–25 juta",domicile:"Domisili Contoh"};
         if (!state.loan) state.loan = {type:"Kredit Serba Guna",amount:25000000,tenor:36,purpose:"Kebutuhan keluarga"};
       }
       renderStage(forcedStage || requestedStageFromHash(), false, Boolean(forcedStage));

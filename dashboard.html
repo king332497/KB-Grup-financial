@@ -6,7 +6,7 @@
   <meta name="color-scheme" content="dark" />
   <meta name="theme-color" content="#16082f" />
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'unsafe-inline'; script-src 'self' 'unsafe-inline'; connect-src 'self'; form-action 'self'; base-uri 'none';" />
-  <title>Tahap 10 — Dashboard Pinjaman Demo</title>
+  <title>Tahap 10 — Dashboard Pinjaman</title>
   <style>
     :root{
       --bg1:#200c43;--bg2:#14072d;--bg3:#090417;
@@ -103,93 +103,93 @@
   </style>
 </head>
 <body>
-  <div class="badge">SIMULASI · DATA DEMO · BUKAN LAYANAN PERBANKAN NYATA</div>
+  <div class="badge">PROTOTYPE UI · BUKAN LAYANAN PERBANKAN RESMI</div>
   <main class="app">
     <div class="statusbar" aria-hidden="true"><div class="status-left"><span>23.27</span><span class="user"></span></div><div class="status-right"><span class="bars"><i></i><i></i><i></i><i></i></span><span class="wifi"></span><span class="battery">74</span></div></div>
     <header class="top">
       <div class="brand"><div class="name"><span class="kb">KB</span><span class="star">star</span></div><small>by KB Bank</small></div>
-      <div class="demo-mark"><strong>Dashboard Pinjaman Demo</strong>Frontend simulation only</div>
+      <div class="demo-mark"><strong>Dashboard Pinjaman</strong>Prototype UI</div>
     </header>
 
     <section class="content">
       <div class="welcome">
-        <div><p class="eyebrow">TAHAP 10 · DASHBOARD SIMULASI</p><h1>Selamat datang, <span id="demoName">Pengguna Demo</span></h1></div>
-        <div class="welcome-note">Ringkasan berikut merupakan data simulasi antarmuka dan bukan keputusan kredit, rekening, pencairan, atau transaksi bank nyata.</div>
+        <div><p class="eyebrow">TAHAP 10 · DASHBOARD</p><h1>Selamat datang, <span id="demoName">Pengguna</span></h1></div>
+        <div class="welcome-note">Ringkasan berikut merupakan contoh antarmuka dan bukan keputusan kredit, rekening, pencairan, atau transaksi bank nyata.</div>
       </div>
 
       <div class="layout">
         <div class="stack">
           <section class="card hero-card" id="ringkasan" aria-labelledby="loanTitle">
-            <div class="hero-top"><div><h2 id="loanTitle">Pinjaman Simulasi Anda</h2><p class="card-sub">Ringkasan fasilitas demo berdasarkan data simulasi yang tersedia.</p></div><span class="tag"><span class="tag-dot"></span>HASIL SIMULASI</span></div>
-            <div class="amount-label">Nominal Pinjaman Demo</div>
+            <div class="hero-top"><div><h2 id="loanTitle">Ringkasan Pengajuan</h2><p class="card-sub">Ringkasan contoh berdasarkan data prototype yang tersedia.</p></div><span class="tag"><span class="tag-dot"></span>PROTOTYPE UI</span></div>
+            <div class="amount-label">Nominal Pinjaman Contoh</div>
             <div class="amount" id="loanAmount">Rp50.000.000</div>
             <div class="hero-grid">
               <div class="metric"><span>Jenis Pinjaman</span><strong id="loanType">Kredit Serba Guna</strong></div>
               <div class="metric"><span>Tenor</span><strong id="loanTenor">36 Bulan</strong></div>
               <div class="metric"><span>Estimasi Cicilan</span><strong id="loanInstallment">Rp1.388.889 / bulan</strong></div>
             </div>
-            <div class="statusline"><span>Status proses antarmuka</span><span class="status-pill">SIMULASI SELESAI</span></div>
-            <div class="data-note"><span aria-hidden="true">◇</span><span><b>Fallback data demo.</b> Tahap sebelumnya tidak menyimpan data lintas halaman, sehingga dashboard memakai contoh yang jelas dan tidak mengklaim data nyata pengguna.</span></div>
+            <div class="statusline"><span>Status proses antarmuka</span><span class="status-pill">PROSES SELESAI</span></div>
+            <div class="data-note"><span aria-hidden="true">◇</span><span><b>Data contoh.</b> Tahap sebelumnya tidak menyimpan data lintas halaman, sehingga dashboard memakai contoh yang jelas dan tidak mengklaim data nyata pengguna.</span></div>
           </section>
 
           <section class="card" id="cicilan" aria-labelledby="installmentTitle">
-            <div class="section-head"><div><h2 id="installmentTitle">Informasi Cicilan Demo</h2><p class="card-sub">Estimasi sederhana untuk presentasi antarmuka.</p></div><span class="tiny-demo">DATA DEMO</span></div>
+            <div class="section-head"><div><h2 id="installmentTitle">Informasi Cicilan Contoh</h2><p class="card-sub">Estimasi sederhana untuk presentasi antarmuka.</p></div><span class="tiny-demo">DATA CONTOH</span></div>
             <div class="installment-grid">
               <div class="info-box"><span>Cicilan per Bulan</span><strong id="monthlyValue">Rp1.388.889</strong></div>
               <div class="info-box"><span>Tenor</span><strong id="tenorValue">36 Bulan</strong></div>
               <div class="info-box"><span>Total Periode</span><strong id="periodValue">3 Tahun</strong></div>
-              <div class="info-box"><span>Jatuh Tempo Pertama</span><strong>Data Simulasi</strong></div>
+              <div class="info-box"><span>Jatuh Tempo Pertama</span><strong>Data Contoh</strong></div>
             </div>
-            <p class="disclaimer"><strong>Estimasi simulasi, bukan penawaran kredit resmi.</strong> Nilai contoh tidak mencakup bunga, provisi, asuransi, pajak, atau biaya lain dan tidak menunjukkan persetujuan kredit.</p>
+            <p class="disclaimer"><strong>Estimasi contoh, bukan penawaran kredit resmi.</strong> Nilai contoh tidak mencakup bunga, provisi, asuransi, pajak, atau biaya lain dan tidak menunjukkan persetujuan kredit.</p>
           </section>
 
           <section class="card" id="menu" aria-labelledby="quickTitle">
-            <div class="section-head"><div><h2 id="quickTitle">Menu Cepat</h2><p class="card-sub">Navigasi ke informasi simulasi di halaman ini.</p></div></div>
+            <div class="section-head"><div><h2 id="quickTitle">Menu Cepat</h2><p class="card-sub">Navigasi ke informasi prototype di halaman ini.</p></div></div>
             <div class="quick-grid">
               <a class="quick" href="#ringkasan"><span class="icon"><svg viewBox="0 0 24 24"><path d="M4 13h6V4H4zM14 20h6v-9h-6zM4 20h6v-3H4zM14 7h6V4h-6z"/></svg></span>Ringkasan</a>
-              <a class="quick" href="#cicilan"><span class="icon"><svg viewBox="0 0 24 24"><path d="M5 4h14v16H5zM8 8h8M8 12h3M8 16h8"/></svg></span>Cicilan Demo</a>
-              <a class="quick" href="#rekening"><span class="icon"><svg viewBox="0 0 24 24"><path d="M3 10h18M5 10V6l7-3 7 3v4M6 10v8M10 10v8M14 10v8M18 10v8M3 20h18"/></svg></span>Rekening Demo</a>
-              <a class="quick" href="#status"><span class="icon"><svg viewBox="0 0 24 24"><path d="M5 12l4 4L19 6"/></svg></span>Simulasi Saya</a>
+              <a class="quick" href="#cicilan"><span class="icon"><svg viewBox="0 0 24 24"><path d="M5 4h14v16H5zM8 8h8M8 12h3M8 16h8"/></svg></span>Cicilan Contoh</a>
+              <a class="quick" href="#rekening"><span class="icon"><svg viewBox="0 0 24 24"><path d="M3 10h18M5 10V6l7-3 7 3v4M6 10v8M10 10v8M14 10v8M18 10v8M3 20h18"/></svg></span>Rekening Contoh</a>
+              <a class="quick" href="#status"><span class="icon"><svg viewBox="0 0 24 24"><path d="M5 12l4 4L19 6"/></svg></span>Ringkasan Saya</a>
             </div>
           </section>
 
           <section class="card" aria-labelledby="testimonialTitle">
-            <div class="section-head"><div><h2 id="testimonialTitle">Cerita Pengguna Demo</h2><p class="card-sub">Contoh konten UI. Seluruh tokoh dan pernyataan bersifat fiktif.</p></div></div>
+            <div class="section-head"><div><h2 id="testimonialTitle">Cerita Pengguna</h2><p class="card-sub">Contoh konten UI. Seluruh tokoh dan pernyataan bersifat fiktif.</p></div></div>
             <div class="testimonials" aria-label="Contoh testimonial fiktif">
-              <article class="testimonial"><span class="fiction">CONTOH TESTIMONI · DATA FIKTIF</span><div class="person"><div class="avatar">AP</div><div><strong>Andi Pratama</strong><small>Wiraswasta · tokoh fiktif</small></div></div><p class="quote">“Alur simulasi pengajuan mudah dipahami dan tampilannya praktis digunakan dari ponsel.”</p></article>
-              <article class="testimonial"><span class="fiction">CONTOH TESTIMONI · DATA FIKTIF</span><div class="person"><div class="avatar">SR</div><div><strong>Siti Rahma</strong><small>Karyawan · tokoh fiktif</small></div></div><p class="quote">“Informasi nominal dan estimasi cicilan ditampilkan dengan jelas sehingga simulasi mudah dipahami.”</p></article>
-              <article class="testimonial"><span class="fiction">CONTOH TESTIMONI · DATA FIKTIF</span><div class="person"><div class="avatar">BW</div><div><strong>Bima Wijaya</strong><small>Profesional · tokoh fiktif</small></div></div><p class="quote">“Tahapan demo tersusun rapi dan membantu memahami struktur antarmuka pengajuan.”</p></article>
+              <article class="testimonial"><span class="fiction">CONTOH TESTIMONI · DATA FIKTIF</span><div class="person"><div class="avatar">AP</div><div><strong>Andi Pratama</strong><small>Wiraswasta · tokoh fiktif</small></div></div><p class="quote">“Alur pengajuan pada prototype mudah dipahami dan tampilannya praktis digunakan dari ponsel.”</p></article>
+              <article class="testimonial"><span class="fiction">CONTOH TESTIMONI · DATA FIKTIF</span><div class="person"><div class="avatar">SR</div><div><strong>Siti Rahma</strong><small>Karyawan · tokoh fiktif</small></div></div><p class="quote">“Informasi nominal dan estimasi cicilan ditampilkan dengan jelas sehingga prototype mudah dipahami.”</p></article>
+              <article class="testimonial"><span class="fiction">CONTOH TESTIMONI · DATA FIKTIF</span><div class="person"><div class="avatar">BW</div><div><strong>Bima Wijaya</strong><small>Profesional · tokoh fiktif</small></div></div><p class="quote">“Tahapan prototype tersusun rapi dan membantu memahami struktur antarmuka pengajuan.”</p></article>
             </div>
           </section>
         </div>
 
         <aside class="stack">
           <section class="card" id="status" aria-labelledby="statusTitle">
-            <div class="section-head"><div><h2 id="statusTitle">Status Proses Demo</h2><p class="card-sub">Progress UI, bukan hasil credit scoring.</p></div><span class="tiny-demo">5 / 5</span></div>
+            <div class="section-head"><div><h2 id="statusTitle">Status Proses</h2><p class="card-sub">Progress UI, bukan hasil credit scoring.</p></div><span class="tiny-demo">5 / 5</span></div>
             <ol class="stepper">
-              <li><span class="check">✓</span><div><strong>Data Demo</strong><small>Form simulasi telah dilalui.</small></div></li>
-              <li><span class="check">✓</span><div><strong>Verifikasi Demo</strong><small>Interaksi 6 digit simulasi selesai.</small></div></li>
-              <li><span class="check">✓</span><div><strong>Profil Pengajuan</strong><small>Profil pekerjaan/usaha demo.</small></div></li>
-              <li><span class="check">✓</span><div><strong>Detail Pinjaman</strong><small>Nominal, tenor, dan jenis demo.</small></div></li>
-              <li><span class="check">✓</span><div><strong>Simulasi Selesai</strong><small>Tidak berarti kredit disetujui.</small></div></li>
+              <li><span class="check">✓</span><div><strong>Data Contoh</strong><small>Form prototype telah dilalui.</small></div></li>
+              <li><span class="check">✓</span><div><strong>Verifikasi</strong><small>Interaksi 6 digit selesai.</small></div></li>
+              <li><span class="check">✓</span><div><strong>Profil Pengajuan</strong><small>Profil pekerjaan/usaha contoh.</small></div></li>
+              <li><span class="check">✓</span><div><strong>Detail Pinjaman</strong><small>Nominal, tenor, dan jenis contoh.</small></div></li>
+              <li><span class="check">✓</span><div><strong>Proses Selesai</strong><small>Tidak berarti kredit disetujui.</small></div></li>
             </ol>
           </section>
 
           <section class="card account-form" id="rekening" aria-labelledby="accountTitle">
-            <div class="section-head"><div><h2 id="accountTitle">Rekening Pencairan Demo</h2><p class="card-sub">Masukkan nomor rekening KB Bank Demo untuk melanjutkan simulasi antarmuka pencairan.</p></div></div>
+            <div class="section-head"><div><h2 id="accountTitle">Rekening Pencairan Contoh</h2><p class="card-sub">Masukkan nomor rekening contoh untuk melanjutkan prototype antarmuka pencairan.</p></div></div>
             <form id="demoAccountForm" novalidate autocomplete="off">
-              <label for="demoAccount">Nomor Rekening KB Bank Demo</label>
+              <label for="demoAccount">Nomor Rekening Contoh</label>
               <div class="input-wrap"><input id="demoAccount" name="demoAccount" type="text" inputmode="numeric" maxlength="11" placeholder="Contoh dummy: 99912345678" aria-describedby="accountHelp accountMessage" /></div>
-              <p class="help" id="accountHelp"><strong>Gunakan nomor contoh/dummy.</strong> Jangan memasukkan nomor rekening bank sebenarnya. Format demo: tepat 11 angka dan diawali <strong>999</strong>.</p>
+              <p class="help" id="accountHelp"><strong>Gunakan nomor contoh/dummy.</strong> Jangan memasukkan nomor rekening bank sebenarnya. Format contoh: tepat 11 angka dan diawali <strong>999</strong>.</p>
               <div id="accountMessage" class="error" role="status" aria-live="polite"></div>
-              <button class="primary" type="submit">Simpan Rekening Demo</button>
+              <button class="primary" type="submit">Simpan Rekening Contoh</button>
             </form>
             <p class="disclaimer">Tombol hanya mengubah state UI sementara di halaman ini. Tidak ada transfer, validasi rekening nyata, API bank, pencairan uang, atau pengiriman nomor rekening ke server.</p>
           </section>
         </aside>
       </div>
     </section>
-    <footer>SIMULASI · DATA DEMO · Bukan kanal resmi bank, bukan keputusan kredit, dan bukan halaman transaksi atau pencairan nyata.</footer>
+    <footer>PROTOTYPE UI · BUKAN LAYANAN PERBANKAN RESMI · Bukan keputusan kredit dan bukan halaman transaksi atau pencairan nyata.</footer>
   </main>
 
   <script>
@@ -199,7 +199,7 @@
       // Tahap 1–9 tidak mempersist data lintas dokumen. Dashboard menggunakan fallback demo yang eksplisit.
       // Jika di masa depan data non-sensitif diberikan melalui mekanisme state yang disetujui, objek ini dapat diisi tanpa mengubah layout.
       const demoData = Object.freeze({
-        name:"Pengguna Demo",
+        name:"Pengguna",
         amount:50000000,
         type:"Kredit Serba Guna",
         tenorMonths:36,
@@ -237,7 +237,7 @@
           return;
         }
         message.className="success";
-        message.textContent="Format Rekening Demo valid untuk tampilan ini. Tidak ada data yang dikirim atau disimpan ke penyimpanan apa pun.";
+        message.textContent="Format Rekening Contoh valid untuk tampilan ini. Tidak ada data yang dikirim atau disimpan ke penyimpanan apa pun.";
       });
     })();
   </script>
