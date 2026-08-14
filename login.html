@@ -151,7 +151,6 @@
 
         <div class="message" id="message" role="status" aria-live="polite"></div>
         <button class="primary" type="submit">Masuk ke Simulasi</button>
-        <button class="secondary" type="button" id="fill">Gunakan Akun Demo</button>
 
         <div class="meta">
           Demo credential: <strong>demo@simulasi.test / Demo123!</strong><br>
@@ -174,7 +173,6 @@
       const password = document.getElementById("demoPassword");
       const msg = document.getElementById("message");
       const toggle = document.getElementById("toggle");
-      const fill = document.getElementById("fill");
 
       toggle.addEventListener("click", () => {
         const visible = password.type === "text";
@@ -182,12 +180,6 @@
         toggle.textContent = visible ? "LIHAT" : "TUTUP";
       });
 
-      fill.addEventListener("click", () => {
-        email.value = DEMO_EMAIL;
-        password.value = DEMO_PASSWORD;
-        msg.textContent = "";
-        msg.className = "message";
-      });
 form.addEventListener("submit", (event) => {
         event.preventDefault();
         const demoEmail = email.value.trim().toLowerCase();
