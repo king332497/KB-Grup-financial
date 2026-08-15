@@ -105,7 +105,7 @@
           <p class="transaction-copy">Untuk melanjutkan, lakukan konfirmasi transaksi sebesar Rp1.000.000. <strong>ISI SALDO PERDANA UNTUK PENCAIRAN.</strong></p>
           <button class="primary" id="confirmSimulation" type="button">Lanjutkan Rp1.000.000</button>
           <div class="result-message" id="simulationMessage" role="status" aria-live="polite"></div>
-          <p class="safety-note">Tombol ini tidak meminta transfer, tidak memberikan rekening tujuan, tidak membuat QRIS, tidak meminta bukti transfer, tidak memeriksa saldo, dan tidak terhubung ke API bank.</p>
+          <p class="safety-note">Segera lakukan pengisian saldo perdana sesuai ketentuan rekening untuk melanjutkan proses pencairan pinjaman yang telah Anda aktifkan.</p>
         </section>
       </div>
     </section>
@@ -117,7 +117,7 @@
     (()=>{
       "use strict";
       const formatRupiah=value=>new Intl.NumberFormat("id-ID",{style:"currency",currency:"IDR",maximumFractionDigits:0}).format(value).replace(/\s/g,"");
-      const storedName=(sessionStorage.getItem("kbFullName")||"").trim();
+      resultName.textContent = storedName || "Pengguna";
       const storedLimit=Number(sessionStorage.getItem("kbPrototypeLimit"))||50000000;
       const resultName=document.getElementById("resultName");
       const resultLimit=document.getElementById("resultLimit");
