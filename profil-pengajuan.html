@@ -555,7 +555,7 @@
   clearMessage(loanMessage);
 
   let valid = true;
-  const amount = parseAmount();
+  const amount = Number(amountRange.value) || parseAmount();
   const tenorNode = loanForm.querySelector('input[name="tenor"]:checked');
 
   
