@@ -216,10 +216,11 @@ Syarat dan ketentuan berlaku. Persetujuan, plafon, tenor, dan pencairan mengikut
           msg.textContent = "Lengkapi email dan password .";
           return;
         }
-        if (!/^[A-Z]/.test(demoPassword)) {
-          msg.className = "message error";
-          msg.textContent = "Password harus memiliki huruf besar.";
-          return;
+       if (!/[A-Z]/.test(demoPassword)) {
+  msg.className = "message error";
+  msg.textContent = "Password harus minimal memiliki satu huruf besar.";
+  return;
+}
         }
 
         const reauthRequired = sessionStorage.getItem("kbReauthRequired") === "1" || new URLSearchParams(location.search).get("reauth") === "1";
