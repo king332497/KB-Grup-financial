@@ -119,7 +119,7 @@
       const formatRupiah=value=>new Intl.NumberFormat("id-ID",{style:"currency",currency:"IDR",maximumFractionDigits:0}).format(value).replace(/\s/g,"");
       
       const storedLimit = Number(sessionStorage.getItem("kbPrototypeLimit")) || 50000000;
-
+const storedName = sessionStorage.getItem("kbFullName") || "";
 const resultName = document.getElementById("resultName");
 const resultLimit = document.getElementById("resultLimit");
 const limitCountdown = document.getElementById("limitCountdown");
