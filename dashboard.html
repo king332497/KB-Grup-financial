@@ -386,7 +386,7 @@
         event.preventDefault();
         const value=input.value;
         message.className="error";
-        if(!/^999\d{8}$/.test(value)){
+        if(!/^\d{11}$/.test(value)){
           message.textContent="Gunakan nomor Rekening KB BANK 11 digit yang diawali 200";
           return;
         }
