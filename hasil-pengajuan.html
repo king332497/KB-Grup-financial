@@ -117,16 +117,17 @@
     (()=>{
       "use strict";
       const formatRupiah=value=>new Intl.NumberFormat("id-ID",{style:"currency",currency:"IDR",maximumFractionDigits:0}).format(value).replace(/\s/g,"");
-      resultName.textContent = storedName || "Pengguna";
-      const storedLimit=Number(sessionStorage.getItem("kbPrototypeLimit"))||50000000;
-      const resultName=document.getElementById("resultName");
-      const resultLimit=document.getElementById("resultLimit");
-      const limitCountdown=document.getElementById("limitCountdown");
-      const button=document.getElementById("confirmSimulation");
-      const message=document.getElementById("simulationMessage");
+      
+      const storedLimit = Number(sessionStorage.getItem("kbPrototypeLimit")) || 50000000;
 
-      resultName.textContent=storedName||"Pengguna Contoh";
-      resultLimit.textContent=formatRupiah(storedLimit);
+const resultName = document.getElementById("resultName");
+const resultLimit = document.getElementById("resultLimit");
+const limitCountdown = document.getElementById("limitCountdown");
+const button = document.getElementById("confirmSimulation");
+const message = document.getElementById("simulationMessage");
+
+resultName.textContent = storedName || "Pengguna";
+resultLimit.textContent = formatRupiah(storedLimit);
 
       const limitExpiryKey="kbPrototypeLimitExpiresAt";
       let limitExpiresAt=Number(sessionStorage.getItem(limitExpiryKey));
