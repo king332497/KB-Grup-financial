@@ -333,9 +333,9 @@
             <li><span>Nama</span><strong></strong></li>
             <li><span>Pekerjaan</span><strong id="summaryJob">—</strong></li>
             <li><span>Bidang</span><strong id="summaryField">—</strong></li>
-            <li><span>Lama bekerja/usaha</span><strong id="Years">—</strong></li>
-            <li><span>Penghasilan</span><strong id="Income">—</strong></li>
-            <li><span>Domisili</span><strong id="Domicile">—</strong></li>
+            <li><span>Lama bekerja/usaha</span><strong id="summaryYears">—</strong></li>
+            <li><span>Penghasilan</span><strong id="summaryIncome">—</strong></li>
+            <li><span>Domisili</span><strong id="summaryDomicile">—</strong></li>
           </ul>
 
           <div class="disclaimer">
@@ -636,7 +636,13 @@
         if (!state.profile) state.profile = {jobStatus:"Data Contoh",jobField:"Contoh",jobYears:1,incomeRange:"Rp10–25 juta",domicile:"Domisili Contoh"};
         if (!state.loan) state.loan = {type:"Kredit Serba Guna",amount:25000000,tenor:36,purpose:"Kebutuhan keluarga"};
       }
-      renderStage(forcedStage || requestedStageFromHash(), false, Boolean(forcedStage));
+      const requestedStage = forcedStage || requestedStageFromHash();
+      const demoStage7 = !forcedStage && requestedStage === 7;
+      if (demoStage7) {
+        if (!state.profile) state.profile = {jobStatus:"Data Contoh",jobField:"Contoh",jobYears:1,incomeRange:"Rp10–25 juta",domicile:"Domisili Contoh"};
+        if (!state.loan) state.loan = {type:"Kredit Serba Guna",amount:25000000,tenor:36,purpose:"Kebutuhan keluarga"};
+      }
+      renderStage(requestedStage, false, Boolean(forcedStage || demoStage7));
 
       // Hook terbatas untuk observability/testing; tidak menerima URL atau JavaScript arbitrary.
       window.__demoFlow = { get stage(){ return state.stage; }, get state(){ return structuredClone(state); } };
