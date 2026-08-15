@@ -241,7 +241,7 @@
       // 
       const demoData = Object.freeze({
         name:"Pengguna",
-        amount:50000000,
+        amount:Number(sessionStorage.getItem("kbPrototypeLimit")) || 50000000,
         type:"Kredit Serba Guna",
         tenorMonths:36,
         installment:1388889
