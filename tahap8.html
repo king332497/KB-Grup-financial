@@ -67,7 +67,7 @@
     <section class="content">
       <p class="eyebrow">TAHAP 8 · VERIFIKASI</p>
       <h1>Lengkapi <strong>Verifikasi</strong></h1>
-      <p class="lead">Selesaikan tiga interaksi prototype berikut.  pemindaian biometrik, unggahan server,  penyimpanan tanda tangan.</p>
+      <p class="lead">Selesaikan tiga interaksi  berikut.  pemindaian biometrik, unggahan server,  penyimpanan tanda tangan.</p>
       <div class="card">
         <div class="safety"><div class="shield">◇</div><div><strong>Kamera hanya digunakan pada perangkat ini.</strong><br>Preview kamera  direkam, disimpan, dan  dikirim ke server.  pengenalan wajah atau pemrosesan biometrik.</div></div>
 
@@ -78,7 +78,7 @@
         </section>
 
         <section class="task" aria-labelledby="docTitle">
-          <div class="task-head"><div><div class="task-title" id="docTitle">Upload Dokumen Contoh</div><p class="task-desc">Pilih file contoh PDF/JPG/PNG. File tidak dibaca, tidak disimpan, dan tidak dikirim.</p></div><span class="status" id="docStatus">Belum</span></div>
+          <div class="task-head"><div><div class="task-title" id="docTitle">Upload Dokumen</div><p class="task-desc">Pilih file contoh PDF/JPG/PNG. File  dibaca,  disimpan, dan  dikirim.</p></div><span class="status" id="docStatus">Belum</span></div>
           <div class="upload"><input id="docInput" type="file" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png"><label for="docInput">Pilih Dokumen Dummy</label></div>
           <p class="file-state" id="fileState">Pilih KTP, KK, NPWP, rekening koran, atau dokumen pribadi asli.</p>
         </section>
@@ -340,7 +340,7 @@
 
       docInput.addEventListener("change", () => {
         if (!docInput.files || docInput.files.length !== 1) return;
-        // File tidak dibaca. Setelah event, referensi input segera dilepas.
+        // File dibaca. Setelah event, referensi input segera dilepas.
         state.document = true;
         docStatus.textContent = "Selesai";
         docStatus.classList.add("ok");
