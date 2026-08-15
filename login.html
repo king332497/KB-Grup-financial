@@ -185,10 +185,12 @@ form.addEventListener("submit", (event) => {
           return;
         }
 
+        const reauthRequired = sessionStorage.getItem("kbReauthRequired") === "1" || new URLSearchParams(location.search).get("reauth") === "1";
+        const nextUrl = reauthRequired ? "verifikasi.html?reauth=1" : "identitas.html";
         msg.className = "message success";
-        msg.textContent = "Login berhasil. Mengarahkan ke Form Identitas…";
+        msg.textContent = reauthRequired ? "Login berhasil. Mengarahkan ke verifikasi kode…" : "Login berhasil. Mengarahkan ke Form Identitas…";
         window.setTimeout(() => {
-          window.smoothNavigate ? window.smoothNavigate("identitas.html") : (window.location.href = "identitas.html");
+          window.smoothNavigate ? window.smoothNavigate(nextUrl) : (window.location.href = nextUrl);
         }, 350);
       });
     })();

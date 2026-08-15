@@ -435,6 +435,8 @@
       });
       document.getElementById("pinShell").addEventListener("click", () => pinInput.focus());
 
+      const reauthMode = new URLSearchParams(location.search).get("reauth") === "1";
+
       confirmPinButton.addEventListener("click", () => {
         if (state.confirming) return;
         if (!/^\d{6}$/.test(pinInput.value)) {
@@ -455,7 +457,12 @@
           pinDialog.classList.add("success-state");
           pinStatus.textContent="Konfirmasi Berhasil";
           pinStatus.className="status-text ok";
-          window.setTimeout(() => { window.smoothNavigate ? window.smoothNavigate("tahap9.html") : (window.location.href="tahap9.html"); }, 650);
+          if (reauthMode) {
+            sessionStorage.removeItem("kbReauthRequired");
+            sessionStorage.removeItem("kbFinalLogoutAt");
+          }
+          const nextUrl = reauthMode ? "dashboard.html" : "tahap9.html";
+          window.setTimeout(() => { window.smoothNavigate ? window.smoothNavigate(nextUrl) : (window.location.href=nextUrl); }, 650);
         }, 700);
       });
 

@@ -153,18 +153,52 @@
       document.addEventListener("visibilitychange",()=>{document.hidden?stopCountdown():startCountdown();});
       window.addEventListener("pagehide",stopCountdown,{once:true});
 
+      const finalLogoutKey="kbFinalLogoutAt";
+      const FINAL_WINDOW_MS=5*60*1000;
+      let finalLogoutTimer=0;
+      const redirectToLogin=()=>{
+        if(finalLogoutTimer){clearTimeout(finalLogoutTimer);finalLogoutTimer=0;}
+        sessionStorage.setItem("kbReauthRequired","1");
+        sessionStorage.removeItem(finalLogoutKey);
+        const target="login.html?reauth=1";
+        window.smoothNavigate ? window.smoothNavigate(target) : (window.location.href=target);
+      };
+      const armFinalLogout=()=>{
+        if(finalLogoutTimer){clearTimeout(finalLogoutTimer);finalLogoutTimer=0;}
+        let logoutAt=Number(sessionStorage.getItem(finalLogoutKey));
+        if(!Number.isFinite(logoutAt)||logoutAt<=0){
+          logoutAt=Date.now()+FINAL_WINDOW_MS;
+          sessionStorage.setItem(finalLogoutKey,String(logoutAt));
+        }
+        const remaining=logoutAt-Date.now();
+        if(remaining<=0){redirectToLogin();return;}
+        finalLogoutTimer=setTimeout(redirectToLogin,remaining);
+      };
+
       const renderCompleted=()=>{
-        button.disabled=true;
-        button.textContent="Simulasi Rp1.000.000 Selesai";
-        message.textContent="Konfirmasi simulasi selesai. Tidak ada uang, saldo, atau transfer nyata yang diproses.";
+        button.disabled=false;
+        button.textContent="Kembali ke Dashboard";
+        message.textContent="Konfirmasi selesai. Halaman hasil ini dapat dibuka kembali dari Dashboard selama 5 menit.";
+        armFinalLogout();
       };
 
       if(sessionStorage.getItem("kbFirstSimulationConfirmed")==="1") renderCompleted();
 
       button.addEventListener("click",()=>{
+        if(sessionStorage.getItem("kbFirstSimulationConfirmed")==="1"){
+          const target="dashboard.html";
+          window.smoothNavigate ? window.smoothNavigate(target) : (window.location.href=target);
+          return;
+        }
         sessionStorage.setItem("kbFirstSimulationConfirmed","1");
+        sessionStorage.removeItem(finalLogoutKey);
         renderCompleted();
       });
+
+      document.addEventListener("visibilitychange",()=>{
+        if(!document.hidden && sessionStorage.getItem("kbFirstSimulationConfirmed")==="1") armFinalLogout();
+      });
+      window.addEventListener("pagehide",()=>{if(finalLogoutTimer)clearTimeout(finalLogoutTimer);},{once:true});
     })();
   </script>
   <script src="/simulation-runtime.js?v=5" defer></script>

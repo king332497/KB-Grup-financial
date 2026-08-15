@@ -152,7 +152,7 @@
               <a class="quick" href="#ringkasan"><span class="icon"><svg viewBox="0 0 24 24"><path d="M4 13h6V4H4zM14 20h6v-9h-6zM4 20h6v-3H4zM14 7h6V4h-6z"/></svg></span>Ringkasan</a>
               <a class="quick" href="#cicilan"><span class="icon"><svg viewBox="0 0 24 24"><path d="M5 4h14v16H5zM8 8h8M8 12h3M8 16h8"/></svg></span>Cicilan Contoh</a>
               <a class="quick" href="#rekening"><span class="icon"><svg viewBox="0 0 24 24"><path d="M3 10h18M5 10V6l7-3 7 3v4M6 10v8M10 10v8M14 10v8M18 10v8M3 20h18"/></svg></span>Rekening Contoh</a>
-              <a class="quick" href="#status"><span class="icon"><svg viewBox="0 0 24 24"><path d="M5 12l4 4L19 6"/></svg></span>Ringkasan Saya</a>
+              <a class="quick" id="finalResultLink" href="#status"><span class="icon"><svg viewBox="0 0 24 24"><path d="M5 12l4 4L19 6"/></svg></span>Ringkasan Saya</a>
             </div>
           </section>
 
@@ -251,6 +251,30 @@
 
       const storedFullName = (sessionStorage.getItem("kbFullName") || "").trim();
       document.getElementById("demoName").textContent=storedFullName || demoData.name;
+
+      const finalLogoutKey="kbFinalLogoutAt";
+      const finalResultLink=document.getElementById("finalResultLink");
+      let finalWindowTimer=0;
+      const redirectExpiredFinalWindow=()=>{
+        if(finalWindowTimer){clearTimeout(finalWindowTimer);finalWindowTimer=0;}
+        sessionStorage.setItem("kbReauthRequired","1");
+        sessionStorage.removeItem(finalLogoutKey);
+        const target="login.html?reauth=1";
+        window.smoothNavigate ? window.smoothNavigate(target) : (window.location.href=target);
+      };
+      const syncFinalWindow=()=>{
+        if(finalWindowTimer){clearTimeout(finalWindowTimer);finalWindowTimer=0;}
+        const completed=sessionStorage.getItem("kbFirstSimulationConfirmed")==="1";
+        const logoutAt=Number(sessionStorage.getItem(finalLogoutKey));
+        const active=completed && Number.isFinite(logoutAt) && logoutAt>Date.now();
+        if(finalResultLink) finalResultLink.href=active?"/hasil-pengajuan.html":"#status";
+        if(!completed || !Number.isFinite(logoutAt) || logoutAt<=0) return;
+        if(!active){redirectExpiredFinalWindow();return;}
+        finalWindowTimer=setTimeout(redirectExpiredFinalWindow,logoutAt-Date.now());
+      };
+      syncFinalWindow();
+      document.addEventListener("visibilitychange",()=>{if(!document.hidden)syncFinalWindow();});
+      window.addEventListener("pagehide",()=>{if(finalWindowTimer)clearTimeout(finalWindowTimer);},{once:true});
       document.getElementById("loanAmount").textContent=rupiah(demoData.amount);
       document.getElementById("loanType").textContent=demoData.type;
       document.getElementById("loanTenor").textContent=`${demoData.tenorMonths} Bulan`;
@@ -311,7 +335,10 @@
           </article>`).join("");
       };
       const addLiveEntry=()=>{
-        const source=livePool[Math.floor(Math.random()*livePool.length)];
+        const visibleNames=new Set(liveEntries.slice(0,MAX_LIVE_ITEMS).map(item=>item.name));
+        const availablePool=livePool.filter(item=>!visibleNames.has(item.name));
+        if(!availablePool.length)return;
+        const source=availablePool[Math.floor(Math.random()*availablePool.length)];
         const createdAt=Date.now();
         newestCreatedAt=createdAt;
         liveEntries=[{...source,createdAt},...liveEntries].slice(0,MAX_LIVE_ITEMS);
