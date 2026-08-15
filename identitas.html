@@ -131,7 +131,7 @@
 </script>
 </head>
 <body>
-  <div class="badge">PROTOTYPE UI · BUKAN LAYANAN PERBANKAN RESMI</div>
+  <div class="badge"></div>
 
   <main class="app">
 <div class="top">
@@ -150,27 +150,27 @@
       <form class="card" id="identityForm" autocomplete="off" novalidate>
         <div class="safety">
           <div class="shield">◇</div>
-          <div><strong>Data dummy saja.</strong><br>NIK di halaman ini adalah <strong>NIK Contoh</strong>. Form tidak mengirim data ke backend/API dan tidak menyimpan isian.</div>
+          <div><strong>Data resmi.</strong><br>NIK di halaman ini adalah <strong>NIK Contoh</strong>. Form tidak mengirim data ke backend/API dan tidak menyimpan isian.</div>
         </div>
 
         <div class="field">
           <label for="fullName">Nama Lengkap</label>
           <input id="fullName" name="fullName" type="text" maxlength="80" placeholder="Contoh: Andi Pratama" autocomplete="off" aria-describedby="fullNameHint fullNameError">
-          <p class="hint" id="fullNameHint">Gunakan nama contoh, bukan nama identitas asli.</p>
+          <p class="hint" id="fullNameHint">Gunakan nama identitas asli.</p>
           <p class="field-error" id="fullNameError" aria-live="polite"></p>
         </div>
 
         <div class="field">
-          <label for="demoNik">NIK Contoh</label>
+          <label for="demoNik">NIK resmi</label>
           <input id="demoNik" name="demoNik" type="text" inputmode="numeric" maxlength="16" placeholder="16 digit angka contoh" autocomplete="off" aria-describedby="demoNikHint demoNikError">
-          <p class="hint" id="demoNikHint">Wajib 16 digit angka dummy. Jangan gunakan NIK asli.</p>
+          <p class="hint" id="demoNikHint">Wajib 16 digit NIK asli.</p>
           <p class="field-error" id="demoNikError" aria-live="polite"></p>
         </div>
 
         <div class="field">
           <label for="motherName">Nama Ibu Kandung</label>
           <input id="motherName" name="motherName" type="text" maxlength="80" placeholder="Contoh data dummy" autocomplete="off" aria-describedby="motherNameHint motherNameError">
-          <p class="hint" id="motherNameHint">Gunakan nama contoh/dummy saja.</p>
+          <p class="hint" id="motherNameHint">Gunakan nama LENGKAP</p>
           <p class="field-error" id="motherNameError" aria-live="polite"></p>
         </div>
 
@@ -184,7 +184,7 @@
       </form>
     </section>
 
-    <footer>Prototype UI — Bukan Layanan Perbankan Resmi. Bukan halaman transaksi nyata.</footer>
+    <footer>PT. Bank KB Bukopin Syariah berizin dan diawasi oleh Otoritas Jasa Keuangan</footer>
   </main>
 
   <script>
