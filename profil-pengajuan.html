@@ -550,12 +550,15 @@
         });
       });
 
-      loanForm.addEventListener("submit", (event) => {
-        event.preventDefault();
-        clearMessage(loanMessage);
-        let valid = true;
-        const amount = parseAmount();
-        const tenorNode = loanForm.querySelector('input[name="tenor"]:checked');
+     loanForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  clearMessage(loanMessage);
+
+  let valid = true;
+  const amount = parseAmount();
+  const tenorNode = loanForm.querySelector('input[name="tenor"]:checked');
+
+  
 
         if (!loanType.value) { setError(loanType, errors.loanType, "Pilih Jenis Pinjaman."); valid = false; } else setError(loanType, errors.loanType, "");
         if (amount < 5000000 || amount > 500000000) { setError(loanAmount, errors.loanAmount, "Nominal harus berada pada rentang Rp5 juta–Rp500 juta."); valid = false; } else setError(loanAmount, errors.loanAmount, "");
@@ -568,7 +571,7 @@
           loanForm.querySelector('[aria-invalid="true"]')?.focus();
           return;
         }
-
+sessionStorage.setItem("kbPrototypeLimit", String(amount));
         state.loan = {
           type: loanType.value,
           amount,
