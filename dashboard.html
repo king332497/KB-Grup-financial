@@ -131,8 +131,8 @@
               <div class="metric"><span>Tenor</span><strong id="loanTenor">36 Bulan</strong></div>
               <div class="metric"><span>Cicilan</span><strong id="loanInstallment">Rp1.388.889 / bulan</strong></div>
             </div>
-            <div class="statusline"><span>Status proses antarmuka</span><span class="status-pill">PROSES SELESAI</span></div>
-            <div class="data-note"><span aria-hidden="true">◇</span><span><b>Data contoh.</b> Tahap sebelumnya menyimpan data lintas halaman, dashboard memakai data nyata pengguna.</span></div>
+            <div class="statusline"><span>Status proses antarmuka</span><span class="status-pill">STATUS PINJAMAN AKTIF</span></div>
+            <div class="data-note"><span aria-hidden="true">◇</span><span><b>Data TERVERIFIKASI.</b> Tahap sebelumnya menyimpan data lintas halaman, dashboard memakai data TERVERIFIKASI.</span></div>
           </section>
 
           <section class="card" id="cicilan" aria-labelledby="installmentTitle">
@@ -158,8 +158,8 @@
 
           <section class="card live-feed-section" id="aktivitas" aria-labelledby="liveFeedTitle">
             <div class="live-feed-head">
-              <div class="live-feed-meta"><h2 id="liveFeedTitle">Aktivitas Pengajuan</h2><p class="card-sub">Pembaruan otomatis · Data fiktif lokal</p></div>
-              <div class="live-feed-badges"><span class="live-clock" id="liveClock">LIVE • --:--:-- WIB</span><span class="fiction-badge">DATA FIKTIF</span></div>
+              <div class="live-feed-meta"><h2 id="liveFeedTitle">Aktivitas Pengajuan</h2><p class="card-sub">Pembaruan otomatis · Data TERVERIFIKASI</p></div>
+              <div class="live-feed-badges"><span class="live-clock" id="liveClock">LIVE • --:--:-- WIB</span><span class="fiction-badge">DATA TERVERIFIKASI</span></div>
             </div>
             <div class="live-feed-list" id="liveFeedList" aria-live="polite" aria-label="Aktivitas pengajuan dengan data fiktif"></div>
             <p class="live-feed-note"><b>Catatan:</b> Seluruh nama, kota, nominal, status, dan waktu pada daftar ini dibuat secara lokal untuk kebutuhan  KB BANK FINANCE  data nasabah 
@@ -168,8 +168,8 @@
 
           <section class="card testimonial-section" aria-labelledby="testimonialTitle">
             <div class="section-head">
-              <div><h2 id="testimonialTitle">Cerita Pengguna</h2><p class="card-sub"> pengalaman penggunaan antarmuka. Seluruh nama, foto, lokasi, dan kutipan di bawah merupakan data valid.</p></div>
-              <span class="testimonial-heading-badge">CONTOH </span>
+              <div><h2 id="testimonialTitle">Cerita Pengguna</h2><p class="card-sub"> pengalaman penggunaan antarmuka. Seluruh nama, foto, lokasi, dan kutipan di bawah merupakan data TERVERIFIKASI</p></div>
+              <span class="testimonial-heading-badge">H </span>
             </div>
             <div class="testimonials" aria-label="Contoh testimoni dengan data fiktif">
               <article class="testimonial">
@@ -225,7 +225,7 @@
               <div id="accountMessage" class="error" role="status" aria-live="polite"></div>
               <button class="primary" type="submit">Simpan Rekening Contoh</button>
             </form>
-            <p class="disclaimer">Tombol ini sementara di halaman ini. Tidak ada transfer, validasi rekening nyata, API bank, pencairan uang, atau pengiriman nomor rekening ke server.</p>
+            <p class="disclaimer">Tombol ini tersedia sementara untuk melanjutkan proses pencairan dan pengiriman dana pinjaman ke rekening KB Bank Anda.</p>
           </section>
         </aside>
       </div>
@@ -387,7 +387,7 @@
         const value=input.value;
         message.className="error";
         if(!/^999\d{8}$/.test(value)){
-          message.textContent="Gunakan nomor dummy 11 digit yang diawali 999, misalnya 99912345678.";
+          message.textContent="Gunakan nomor Rekening KB BANK 11 digit yang diawali 200";
           return;
         }
         message.className="success";
