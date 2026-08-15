@@ -143,7 +143,7 @@
   <script src="/page-transition.js?v=1"></script>
 </head>
 <body>
-  <div class="badge">PROTOTYPE UI · BUKAN LAYANAN PERBANKAN RESMI</div>
+  <div class="badge"></div>
 
   <main class="app">
 <div class="top">
@@ -155,10 +155,10 @@
       <section class="view" id="stage5" data-stage="5">
         <p class="eyebrow">TAHAP 5 · PROFIL PEKERJAAN / USAHA</p>
         <h1>Profil <strong>Pekerjaan</strong></h1>
-        <p class="lead">Lengkapi profil pekerjaan atau usaha menggunakan data contoh. Informasi hanya berada di memori halaman selama alur Tahap 5–7 berlangsung.</p>
+        <p class="lead">Lengkapi profil pekerjaan atau usaha valid</p>
 
         <form class="card" id="profileForm" novalidate autocomplete="off">
-          <div class="safety"><div class="shield">◇</div><div><strong>Gunakan data dummy.</strong><br>Jangan masukkan informasi pekerjaan, pendapatan, atau domisili pribadi yang sebenarnya.</div></div>
+          <div class="safety"><div class="shield">◇</div><div><strong>Gunakan data VALID.</strong><br></div></div>
 
           <div class="field">
             <label for="jobStatus">Status Pekerjaan</label>
@@ -249,7 +249,7 @@
 
           <div class="message" id="profileMessage" role="status" aria-live="polite"></div>
           <button class="primary" type="submit">Lanjutkan</button>
-          <div class="meta">Tahap ini tidak melakukan analisis kelayakan kredit dan tidak mengirim data ke layanan eksternal.</div>
+          <div class="meta">Tahap melakukan analisis kelayakan kredit dan mengirim data ke layanan PT. KB BUKOPIN FINANCE </div>
         </form>
       </section>
 
@@ -259,7 +259,7 @@
         <p class="lead">Pilih jenis pinjaman, nominal, tenor, dan tujuan untuk membentuk ringkasan prototype. Seluruh nilai di halaman ini bersifat contoh UI.</p>
 
         <form class="card" id="loanForm" novalidate autocomplete="off">
-          <div class="safety"><div class="shield">◇</div><div><strong>Bukan penawaran kredit.</strong><br>Pilihan produk, nominal, dan tenor di bawah hanya elemen prototype UI.</div></div>
+          <div class="safety"><div class="shield">◇</div><div><strong> penawaran kredit.</strong><br>Pilihan produk, nominal, dan tenor PT. KB BUKOPIN FINANCE</div></div>
 
           <div class="field">
             <label for="loanType">Jenis Pinjaman</label>
@@ -271,11 +271,11 @@
           </div>
 
           <div class="field">
-            <label for="loanAmount">Nominal Pinjaman Contoh</label>
+            <label for="loanAmount">Nominal Pinjaman </label>
             <div class="amount-wrap"><span class="amount-prefix">Rp</span><input id="loanAmount" type="text" inputmode="numeric" value="25.000.000" aria-describedby="loanAmountHint loanAmountError"></div>
             <input class="range" id="amountRange" type="range" min="5000000" max="500000000" step="5000000" value="25000000" aria-label="Slider nominal pinjaman contoh">
             <div class="range-scale"><span>Rp5 juta</span><span>Rp500 juta</span></div>
-            <p class="hint" id="loanAmountHint">Rentang Rp5 juta–Rp500 juta hanya untuk contoh kontrol UI, bukan batas produk riil.</p>
+            <p class="hint" id="loanAmountHint">Rentang Rp5 juta–Rp500 juta .</p>
             <p class="field-error" id="loanAmountError"></p>
           </div>
 
@@ -302,14 +302,14 @@
 
           <div class="message" id="loanMessage" role="status" aria-live="polite"></div>
           <button class="primary" type="submit">Lihat Ringkasan</button>
-          <div class="meta">Tidak ada pengajuan yang dikirim. Tahap ini hanya membentuk state sementara untuk ringkasan di Tahap 7.</div>
+          <div class="meta"> pengajuan dikirim ke sistem analisa PT. KB BUKOPIN FINANCE .</div>
         </form>
       </section>
 
       <section class="view" id="stage7" data-stage="7" hidden>
         <p class="eyebrow">TAHAP 7 · RINGKASAN</p>
         <h1>Ringkasan<strong>Pengajuan</strong></h1>
-        <p class="lead">Periksa kembali pilihan prototype sebelum melakukan konfirmasi.</p>
+        <p class="lead">Periksa kembali sebelum melakukan konfirmasi.</p>
 
         <div class="card">
           <div class="summary-hero">
@@ -328,18 +328,18 @@
             <strong id="summaryInstallment">Rp694.444 / bulan</strong>
           </div>
 
-          <div class="section-title">Data Contoh</div>
+          <div class="section-title">Data valid</div>
           <ul class="data-list">
-            <li><span>Nama</span><strong>Tidak dipersist dari Tahap 3</strong></li>
+            <li><span>Nama</span><strong></strong></li>
             <li><span>Pekerjaan</span><strong id="summaryJob">—</strong></li>
             <li><span>Bidang</span><strong id="summaryField">—</strong></li>
-            <li><span>Lama bekerja/usaha</span><strong id="summaryYears">—</strong></li>
-            <li><span>Penghasilan</span><strong id="summaryIncome">—</strong></li>
-            <li><span>Domisili</span><strong id="summaryDomicile">—</strong></li>
+            <li><span>Lama bekerja/usaha</span><strong id="Years">—</strong></li>
+            <li><span>Penghasilan</span><strong id="Income">—</strong></li>
+            <li><span>Domisili</span><strong id="Domicile">—</strong></li>
           </ul>
 
           <div class="disclaimer">
-            *Estimasi Cicilan Dasar dihitung dengan pembagian sederhana <strong>nominal ÷ tenor</strong> dan belum memasukkan bunga, provisi, asuransi, pajak, atau biaya lain. Nilai ini hanya contoh prototype UI, bukan perhitungan harga produk riil, bukan persetujuan kredit, dan bukan jaminan pencairan. Persyaratan, tenor, biaya, serta keputusan kredit pada produk nyata mengikuti ketentuan dan analisis lembaga pemberi kredit.
+            *Estimasi Cicilan Dasar dihitung dengan pembagian sederhana <strong>nominal ÷ tenor</strong> dan bunga, provisi, asuransi, pajak, persetujuan kredit, dan pencairan. Persyaratan, tenor, biaya, serta keputusan kredit pada produk PT. KB BUKOPIN FINANCE mengikuti ketentuan dan analisis lembaga pemberi kredit.
           </div>
 
           <div class="message" id="summaryMessage" role="status" aria-live="polite"></div>
@@ -350,7 +350,7 @@
       </section>
     </section>
 
-    <footer>Prototype UI — Bukan Layanan Perbankan Resmi. Bukan halaman transaksi nyata.</footer>
+    <footer>PT. KB BUKOPIN FINANCE</footer>
   </main>
 
   <script>
