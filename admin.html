@@ -54,7 +54,7 @@
 (() => {
   "use strict";
   const ROUTES = Object.freeze({
-    HOME:"Halaman Depan",LOGIN:"Login",IDENTITAS:"Tahap 3 — Identitas",VERIFIKASI:"Tahap 4 — Verifikasi",PROFIL:"Tahap 5 — Profil Pengajuan",DETAIL_PINJAMAN:"Tahap 6 — Detail Pinjaman",RINGKASAN:"Tahap 7 — Ringkasan",TAHAP_8:"Tahap 8",PIN_DEMO:"Konfirmasi PIN",TAHAP_9:"Tahap 9 — Analisis",DASHBOARD:"Dashboard"
+    HOME:"Halaman Depan",LOGIN:"Login",IDENTITAS:"Tahap 3 — Identitas",VERIFIKASI:"Tahap 4 — Verifikasi",PROFIL:"Tahap 5 — Profil Pengajuan",DETAIL_PINJAMAN:"Tahap 6 — Detail Pinjaman",RINGKASAN:"Tahap 7 — Ringkasan",TAHAP_8:"Tahap 8",PIN_DEMO:"Konfirmasi PIN",TAHAP_9:"Tahap 9 — Analisis",DASHBOARD:"Dashboard",HASIL_PENGAJUAN:"Hasil Simulasi Pengajuan"
   });
   let csrf = null, sessions = [], audits = [], selectedSession = null, adminPollTimer = null, adminPollInFlight = false;
   const $ = id => document.getElementById(id);

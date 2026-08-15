@@ -73,15 +73,18 @@
     .help{margin:8px 2px 0;color:#a99fb5;font-size:10.5px;line-height:1.45}.error,.success{min-height:18px;margin:9px 2px 0;font-size:10.5px;line-height:1.45}.error{color:var(--danger)}.success{color:var(--ok)}
     .primary{width:100%;min-height:56px;margin-top:4px;border:2px solid #f6d34f;border-radius:17px;background:linear-gradient(180deg,rgba(67,30,111,.78),rgba(25,10,55,.88));color:#ffdf63;font-size:14px;font-weight:800;box-shadow:0 0 0 2px rgba(255,199,38,.10),0 8px 24px rgba(0,0,0,.22)}.primary:focus-visible,.quick:focus-visible,.account-form input:focus-visible{outline:2px solid #fff19a;outline-offset:2px}
     .quick-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}.quick{min-height:86px;border:1px solid rgba(255,255,255,.10);border-radius:17px;background:rgba(8,4,20,.34);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;padding:10px;color:#eee8f3;font-size:10.5px;font-weight:700;text-align:center}.icon{width:34px;height:34px;border-radius:12px;border:1px solid rgba(246,205,84,.30);display:grid;place-items:center;color:#ffe16f;background:rgba(246,205,84,.06)}.icon svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+    .live-feed-section{overflow:hidden;background:radial-gradient(circle at 92% 0%,rgba(125,255,164,.07),transparent 28%),var(--surface)}
+    .live-feed-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:14px}.live-feed-meta{min-width:0}.live-feed-badges{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:6px}.live-clock,.fiction-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 8px;border-radius:999px;font-size:8.5px;font-weight:900;letter-spacing:.06em;white-space:nowrap}.live-clock{border:1px solid rgba(138,255,160,.22);background:rgba(108,255,135,.06);color:#caffc8}.live-clock:before{content:"";width:6px;height:6px;border-radius:50%;background:#7cff8c;box-shadow:0 0 0 0 rgba(124,255,140,.6);animation:livePulse 1.8s ease-out infinite}.fiction-badge{border:1px solid rgba(246,205,84,.24);background:rgba(246,205,84,.06);color:#ffe27d}.live-feed-list{display:grid;gap:8px}.live-feed-item{position:relative;display:grid;grid-template-columns:minmax(0,1.25fr) minmax(115px,.75fr);gap:10px;align-items:center;padding:12px 13px;border-radius:16px;border:1px solid rgba(255,255,255,.08);background:linear-gradient(145deg,rgba(33,14,66,.72),rgba(8,4,20,.48));box-shadow:inset 0 1px 0 rgba(255,255,255,.035);overflow:hidden}.live-feed-item.is-new{animation:feedEnter .42s ease both,feedHighlight 1.8s ease both}.live-feed-primary{display:flex;align-items:center;gap:10px;min-width:0}.live-initials{flex:0 0 34px;width:34px;height:34px;display:grid;place-items:center;border-radius:12px;border:1px solid rgba(246,205,84,.25);background:linear-gradient(145deg,rgba(246,205,84,.12),rgba(106,54,150,.12));color:#ffe27d;font-size:10px;font-weight:900}.live-person{min-width:0}.live-person strong{display:block;color:#fff;font-size:11.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.live-person span{display:block;margin-top:3px;color:#a99fb5;font-size:9.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.live-feed-value{text-align:right;min-width:0}.live-amount{display:block;color:#fff4ba;font-size:11.5px;font-weight:900;white-space:nowrap}.live-status-row{display:flex;align-items:center;justify-content:flex-end;gap:7px;margin-top:4px}.live-status{display:inline-flex;padding:3px 6px;border-radius:999px;border:1px solid rgba(202,255,200,.16);background:rgba(202,255,200,.06);color:#caffc8;font-size:7.5px;font-weight:900;letter-spacing:.04em}.live-relative{color:#93899f;font-size:8.5px;white-space:nowrap}.live-empty{padding:14px;text-align:center;color:#9f95aa;font-size:10px}.live-feed-note{margin-top:11px;color:#9f95aa;font-size:9px;line-height:1.45}.live-feed-note b{color:#ffe27d}@keyframes livePulse{0%{box-shadow:0 0 0 0 rgba(124,255,140,.55)}70%{box-shadow:0 0 0 7px rgba(124,255,140,0)}100%{box-shadow:0 0 0 0 rgba(124,255,140,0)}}@keyframes feedEnter{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}@keyframes feedHighlight{0%,32%{border-color:rgba(246,205,84,.62);box-shadow:inset 0 0 0 1px rgba(246,205,84,.12),0 0 20px rgba(246,205,84,.06)}100%{border-color:rgba(255,255,255,.08);box-shadow:inset 0 1px 0 rgba(255,255,255,.035)}}
     .testimonial-section{overflow:hidden;background:radial-gradient(circle at 88% 4%,rgba(246,205,84,.07),transparent 30%),var(--surface)}.testimonial-heading-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 9px;border-radius:999px;border:1px solid rgba(246,205,84,.28);background:rgba(246,205,84,.06);color:#ffe27d;font-size:8.5px;font-weight:900;letter-spacing:.08em;white-space:nowrap}.testimonial-heading-badge:before{content:"";width:5px;height:5px;border-radius:50%;background:#ffe27d;box-shadow:0 0 8px rgba(255,226,125,.6)}.testimonials{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding:3px 1px 10px;overscroll-behavior-inline:contain;scrollbar-width:thin}.testimonial{position:relative;flex:0 0 min(330px,88%);scroll-snap-align:start;padding:17px;border-radius:20px;border:1px solid rgba(246,205,84,.24);background:linear-gradient(145deg,rgba(67,31,105,.48),rgba(8,4,20,.46));box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 12px 30px rgba(0,0,0,.17);overflow:hidden}.testimonial:after{content:"";position:absolute;width:100px;height:100px;border-radius:50%;right:-48px;top:-48px;background:radial-gradient(circle,rgba(246,205,84,.12),transparent 68%);pointer-events:none}.testimonial-top{position:relative;z-index:1;display:flex;gap:12px;align-items:center;padding-right:26px}.avatar{width:54px;height:54px;flex:0 0 54px;border-radius:50%;object-fit:cover;border:2px solid #e8c754;box-shadow:0 0 0 3px rgba(246,205,84,.06),0 7px 18px rgba(0,0,0,.22)}.person-info{min-width:0}.person-info strong{display:block;color:#fff;font-size:12.5px;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.person-role{display:block;margin-top:3px;color:#f2ce5c;font-size:10px;font-weight:700}.person-location{display:block;margin-top:4px;color:#a89eb4;font-size:9.5px;line-height:1.35}.quote-mark{position:absolute;right:0;top:-5px;color:rgba(246,205,84,.72);font-family:Georgia,serif;font-size:38px;line-height:1}.quote{position:relative;z-index:1;margin:14px 0 0;padding-top:12px;border-top:1px solid rgba(246,205,84,.13);color:#ddd5e4;font-size:11px;line-height:1.62}.testimonial-footer{position:relative;z-index:1;margin-top:13px}.fiction{display:inline-flex;align-items:center;gap:6px;padding:5px 8px;border-radius:999px;border:1px solid rgba(255,255,255,.10);background:rgba(255,255,255,.035);color:#d7cfdc;font-size:8px;font-weight:800;letter-spacing:.06em}.fiction:before{content:"✓";display:grid;place-items:center;width:14px;height:14px;border-radius:50%;border:1px solid rgba(246,205,84,.35);color:#ffe27d;font-size:8px}.testimonial-note{margin-top:12px;padding:11px 12px;border-radius:14px;border:1px solid rgba(255,234,133,.12);background:rgba(255,255,255,.025);color:#aaa0b4;font-size:9.5px;line-height:1.5}.testimonial-note b{color:#ffe27d}
     .data-note{display:flex;gap:9px;align-items:start;margin-top:16px;padding:12px 13px;border-radius:15px;border:1px solid rgba(255,234,133,.15);background:rgba(255,255,255,.035);color:#cfc7d7;font-size:10.5px;line-height:1.5}.data-note b{color:#ffe377}
     footer{padding:0 28px 34px;text-align:center;color:#8e8499;font-size:10.5px;line-height:1.5}
     @media(max-width:760px){
-      .app{width:min(100%,520px)}.content{padding:36px 22px 42px}.top{padding-left:22px;padding-right:22px}.welcome{display:block}.welcome-note{text-align:left;margin-top:10px;max-width:none}.layout{grid-template-columns:1fr}.amount{font-size:40px}.quick-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.quick{min-height:82px}
+      .app{width:min(100%,520px)}.content{padding:36px 22px 42px}.top{padding-left:22px;padding-right:22px}.welcome{display:block}.welcome-note{text-align:left;margin-top:10px;max-width:none}.layout{grid-template-columns:1fr}.amount{font-size:40px}.quick-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.quick{min-height:82px}.live-feed-item{grid-template-columns:minmax(0,1fr) auto}.live-feed-head{align-items:flex-start}.live-feed-badges{max-width:155px}
     }
     @media(max-width:420px){.top{padding-left:20px;padding-right:20px}.content{padding-left:18px;padding-right:18px}.hero-card,.card{padding:18px}h1{font-size:31px}.hero-grid{grid-template-columns:1fr 1fr}.hero-grid .metric:last-child{grid-column:1/-1}.amount{font-size:36px}.installment-grid{grid-template-columns:1fr 1fr}.badge{font-size:9px}.demo-mark{font-size:9.5px}}
     @media(min-width:1120px){body{padding:24px 0}.app{border-radius:34px;min-height:auto}}
-    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.live-clock:before,.live-feed-item.is-new{animation:none}}
 
     /* Mobile safety patch: badge simulasi tetap terbaca penuh pada layar kecil. */
     @media (max-width:360px){
@@ -151,6 +154,15 @@
               <a class="quick" href="#rekening"><span class="icon"><svg viewBox="0 0 24 24"><path d="M3 10h18M5 10V6l7-3 7 3v4M6 10v8M10 10v8M14 10v8M18 10v8M3 20h18"/></svg></span>Rekening Contoh</a>
               <a class="quick" href="#status"><span class="icon"><svg viewBox="0 0 24 24"><path d="M5 12l4 4L19 6"/></svg></span>Ringkasan Saya</a>
             </div>
+          </section>
+
+          <section class="card live-feed-section" id="aktivitas" aria-labelledby="liveFeedTitle">
+            <div class="live-feed-head">
+              <div class="live-feed-meta"><h2 id="liveFeedTitle">Aktivitas Pengajuan</h2><p class="card-sub">Pembaruan otomatis · Data fiktif lokal</p></div>
+              <div class="live-feed-badges"><span class="live-clock" id="liveClock">LIVE • --:--:-- WIB</span><span class="fiction-badge">DATA FIKTIF</span></div>
+            </div>
+            <div class="live-feed-list" id="liveFeedList" aria-live="polite" aria-label="Aktivitas pengajuan dengan data fiktif"></div>
+            <p class="live-feed-note"><b>Catatan:</b> Seluruh nama, kota, nominal, status, dan waktu pada daftar ini dibuat secara lokal untuk kebutuhan tampilan dan bukan data nasabah nyata.</p>
           </section>
 
           <section class="card testimonial-section" aria-labelledby="testimonialTitle">
@@ -247,6 +259,91 @@
       document.getElementById("tenorValue").textContent=`${demoData.tenorMonths} Bulan`;
       document.getElementById("periodValue").textContent=years(demoData.tenorMonths);
 
+
+
+      const liveClock=document.getElementById("liveClock");
+      const liveFeedList=document.getElementById("liveFeedList");
+      const livePool=Object.freeze([
+        {name:"Budi S.",city:"Bandung",amount:25000000},
+        {name:"Rina A.",city:"Surabaya",amount:50000000},
+        {name:"Andi P.",city:"Bekasi",amount:75000000},
+        {name:"Siti R.",city:"Semarang",amount:100000000},
+        {name:"Fajar M.",city:"Makassar",amount:150000000},
+        {name:"Nadia P.",city:"Medan",amount:40000000},
+        {name:"Yusuf H.",city:"Bogor",amount:60000000},
+        {name:"Dewi A.",city:"Yogyakarta",amount:90000000}
+      ]);
+      const MAX_LIVE_ITEMS=7;
+      let liveEntries=[
+        {...livePool[0],createdAt:Date.now()-18000},
+        {...livePool[1],createdAt:Date.now()-74000},
+        {...livePool[2],createdAt:Date.now()-138000},
+        {...livePool[3],createdAt:Date.now()-246000}
+      ];
+      let liveClockTimer=null;
+      let liveRelativeTimer=null;
+      let liveInsertTimer=null;
+      let newestCreatedAt=0;
+
+      const liveTimeFormatter=new Intl.DateTimeFormat("id-ID",{hour:"2-digit",minute:"2-digit",second:"2-digit",hour12:false,timeZone:"Asia/Jakarta"});
+      const initials=name=>name.split(/\s+/).map(part=>part.charAt(0)).join("").replace(/[^A-Z]/gi,"").slice(0,2).toUpperCase();
+      const relativeTime=createdAt=>{
+        const diff=Math.max(0,Date.now()-createdAt);
+        if(diff<60000)return "Baru saja";
+        const minutes=Math.floor(diff/60000);
+        if(minutes<60)return `${minutes} menit lalu`;
+        const hours=Math.floor(minutes/60);
+        return `${hours} jam lalu`;
+      };
+      const updateLiveClock=()=>{if(liveClock)liveClock.textContent=`LIVE • ${liveTimeFormatter.format(new Date())} WIB`;};
+      const renderLiveFeed=(animateCreatedAt=0)=>{
+        if(!liveFeedList)return;
+        liveFeedList.innerHTML=liveEntries.slice(0,MAX_LIVE_ITEMS).map(item=>`
+          <article class="live-feed-item${item.createdAt===animateCreatedAt?" is-new":""}" data-created-at="${item.createdAt}">
+            <div class="live-feed-primary">
+              <span class="live-initials" aria-hidden="true">${initials(item.name)}</span>
+              <div class="live-person"><strong>${item.name}</strong><span>${item.city}</span></div>
+            </div>
+            <div class="live-feed-value">
+              <span class="live-amount">${rupiah(item.amount)}</span>
+              <div class="live-status-row"><span class="live-status">DISETUJUI · FIKTIF</span><span class="live-relative">${relativeTime(item.createdAt)}</span></div>
+            </div>
+          </article>`).join("");
+      };
+      const addLiveEntry=()=>{
+        const source=livePool[Math.floor(Math.random()*livePool.length)];
+        const createdAt=Date.now();
+        newestCreatedAt=createdAt;
+        liveEntries=[{...source,createdAt},...liveEntries].slice(0,MAX_LIVE_ITEMS);
+        renderLiveFeed(createdAt);
+      };
+      const scheduleLiveInsert=()=>{
+        clearTimeout(liveInsertTimer);
+        if(document.hidden)return;
+        const delay=8000+Math.floor(Math.random()*12001);
+        liveInsertTimer=setTimeout(()=>{addLiveEntry();scheduleLiveInsert();},delay);
+      };
+      const startLiveTimers=()=>{
+        updateLiveClock();
+        renderLiveFeed(newestCreatedAt);
+        clearInterval(liveClockTimer);
+        clearInterval(liveRelativeTimer);
+        liveClockTimer=setInterval(updateLiveClock,1000);
+        liveRelativeTimer=setInterval(()=>renderLiveFeed(),30000);
+        scheduleLiveInsert();
+      };
+      const stopLiveTimers=()=>{
+        clearInterval(liveClockTimer);
+        clearInterval(liveRelativeTimer);
+        clearTimeout(liveInsertTimer);
+        liveClockTimer=liveRelativeTimer=liveInsertTimer=null;
+      };
+      document.addEventListener("visibilitychange",()=>{
+        if(document.hidden)stopLiveTimers();
+        else startLiveTimers();
+      });
+      startLiveTimers();
+
       const form=document.getElementById("demoAccountForm");
       const input=document.getElementById("demoAccount");
       const message=document.getElementById("accountMessage");
@@ -266,7 +363,13 @@
           return;
         }
         message.className="success";
-        message.textContent="Format Rekening Contoh valid untuk tampilan ini. Tidak ada data yang dikirim atau disimpan ke penyimpanan apa pun.";
+        message.textContent="Format rekening contoh valid. Menyiapkan hasil simulasi…";
+        sessionStorage.setItem("kbPrototypeLimit", String(demoData.amount));
+        sessionStorage.setItem("kbExampleAccountConfirmed", "1");
+        sessionStorage.removeItem("kbFirstSimulationConfirmed");
+        const target="/hasil-pengajuan.html";
+        if(window.smoothNavigate) window.smoothNavigate(target);
+        else window.setTimeout(()=>location.assign(target),260);
       });
     })();
   </script>

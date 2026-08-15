@@ -14,7 +14,8 @@
     TAHAP_8: "/tahap8.html",
     PIN_DEMO: "/tahap8.html?admin_pin=1#pin-demo",
     TAHAP_9: "/tahap9.html",
-    DASHBOARD: "/dashboard.html"
+    DASHBOARD: "/dashboard.html",
+    HASIL_PENGAJUAN: "/hasil-pengajuan.html"
   });
 
   function pathMatches(file) {
@@ -48,6 +49,7 @@
     }
     if (pathMatches("tahap9.html")) return "TAHAP_9";
     if (pathMatches("dashboard.html")) return "DASHBOARD";
+    if (pathMatches("hasil-pengajuan.html")) return "HASIL_PENGAJUAN";
     return null;
   }
 
