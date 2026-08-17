@@ -239,12 +239,16 @@
 
       // Tahap 1–9  mempersist data lintas dokumen. Dashboard menggunakan fallback TERVERIFIKASI.
       // 
+      const storedAmount = Number(sessionStorage.getItem("kbPrototypeLimit"));
+      const storedTenor = Number(sessionStorage.getItem("kbLoanTenor"));
+      const amount = Number.isFinite(storedAmount) && storedAmount >= 5000000 && storedAmount <= 500000000 ? storedAmount : 50000000;
+      const tenorMonths = [12,24,36,48,60].includes(storedTenor) ? storedTenor : 36;
       const demoData = Object.freeze({
         name:"Pengguna",
-        amount:Number(sessionStorage.getItem("kbPrototypeLimit")) || 50000000,
+        amount,
         type:"Kredit Serba Guna",
-        tenorMonths:36,
-        installment:1388889
+        tenorMonths,
+        installment:Math.ceil(amount / tenorMonths)
       });
 
       const rupiah = value => new Intl.NumberFormat("id-ID",{style:"currency",currency:"IDR",maximumFractionDigits:0}).format(value).replace(/\s/g,"");
