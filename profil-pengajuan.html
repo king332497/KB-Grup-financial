@@ -555,7 +555,7 @@
   clearMessage(loanMessage);
 
   let valid = true;
-  const amount = parseAmount();
+  const amount = Number(amountRange.value) || parseAmount();
   const tenorNode = loanForm.querySelector('input[name="tenor"]:checked');
 
   
@@ -571,13 +571,11 @@
           loanForm.querySelector('[aria-invalid="true"]')?.focus();
           return;
         }
-        const tenor = Number(tenorNode.value);
-        sessionStorage.setItem("kbPrototypeLimit", String(amount));
-        sessionStorage.setItem("kbLoanTenor", String(tenor));
+sessionStorage.setItem("kbPrototypeLimit", String(amount));
         state.loan = {
           type: loanType.value,
           amount,
-          tenor,
+          tenor: Number(tenorNode.value),
           purpose: loanPurpose.value
         };
         loanMessage.className = "message success";
