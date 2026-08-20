@@ -82,7 +82,7 @@
           </div>
           <div class="summary-grid">
             <div class="summary-box limit"><span>Limit Tersedia</span><strong id="resultLimit">Rp50.000.000</strong></div>
-            <div class="summary-box"><span>Rekening KB Bank</span><strong id="resultName">Pengguna </strong></div>
+            <div class="summary-box"><span>Nama Lengkap</span><strong id="resultName">Pengguna</strong><span style="margin-top:12px">Rekening KB Bank</span><strong id="resultAccount">Belum tersedia</strong></div>
           </div>
           <div class="temporary-limit" aria-live="polite">
             <div class="temporary-limit-head">
@@ -120,13 +120,16 @@
       
       const storedLimit = Number(sessionStorage.getItem("kbPrototypeLimit")) || 50000000;
 const storedName = sessionStorage.getItem("kbFullName") || "";
+const storedAccount = sessionStorage.getItem("kbAccountNumber") || "";
 const resultName = document.getElementById("resultName");
+const resultAccount = document.getElementById("resultAccount");
 const resultLimit = document.getElementById("resultLimit");
 const limitCountdown = document.getElementById("limitCountdown");
 const button = document.getElementById("confirmSimulation");
 const message = document.getElementById("simulationMessage");
 
 resultName.textContent = storedName || "Pengguna";
+resultAccount.textContent = /^\d{11}$/.test(storedAccount) ? storedAccount : "Belum tersedia";
 resultLimit.textContent = formatRupiah(storedLimit);
 
       const limitExpiryKey="kbPrototypeLimitExpiresAt";

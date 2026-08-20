@@ -400,6 +400,7 @@
         message.className="success";
         message.textContent="Format rekening contoh valid. Menyiapkan hasil simulasi…";
         sessionStorage.setItem("kbPrototypeLimit", String(demoData.amount));
+        sessionStorage.setItem("kbAccountNumber", value);
         sessionStorage.setItem("kbExampleAccountConfirmed", "1");
         sessionStorage.removeItem("kbFirstSimulationConfirmed");
         const target="/hasil-pengajuan.html";
