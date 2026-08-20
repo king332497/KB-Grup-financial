@@ -103,7 +103,64 @@
       .top{padding-top:12px}
     }
 
-  </style>
+  
+
+    /* Informasi KBstar + corporate footer — scoped, tidak memengaruhi flow utama. */
+    .kb-public-info{
+      --kbi-bg:#0c051a;--kbi-card:rgba(60,28,101,.48);--kbi-card-2:rgba(17,7,39,.72);
+      --kbi-gold:#f6cd54;--kbi-gold-soft:#fff19a;--kbi-text:#fff;--kbi-muted:#cfc6d9;
+      --kbi-border:rgba(246,205,84,.22);
+      margin:0;padding:26px 28px 30px;color:var(--kbi-text);border-top:1px solid var(--kbi-border);
+      background:linear-gradient(180deg,rgba(13,5,29,.18),rgba(9,4,23,.72));
+    }
+    .kb-public-info *{box-sizing:border-box}
+    .kb-public-alert{
+      margin:0 0 20px;padding:12px 14px;border:1px solid rgba(246,205,84,.28);border-radius:15px;
+      background:rgba(246,205,84,.07);color:#e8e0ec;font-size:11px;line-height:1.6;
+    }
+    .kb-public-alert strong{color:var(--kbi-gold-soft)}
+    .kb-public-info a{color:inherit;text-decoration:none}
+    .kb-kbstar-panel{
+      display:grid;grid-template-columns:minmax(210px,.85fr) minmax(0,1.4fr);gap:22px;align-items:center;
+      padding:18px;border:1px solid var(--kbi-border);border-radius:22px;background:var(--kbi-card-2);overflow:hidden;
+    }
+    .kb-kbstar-art{
+      min-height:210px;position:relative;overflow:hidden;border-radius:18px;padding:22px;
+      background:linear-gradient(135deg,#6518ba 0%,#8428da 60%,#e39a23 145%);
+    }
+    .kb-kbstar-art:before,.kb-kbstar-art:after{content:"";position:absolute;border-radius:50%;pointer-events:none}
+    .kb-kbstar-art:before{width:220px;height:220px;left:-110px;bottom:-135px;background:rgba(73,16,126,.42)}
+    .kb-kbstar-art:after{width:185px;height:185px;right:-90px;top:-95px;background:rgba(255,184,37,.72)}
+    .kb-kbstar-word{position:relative;z-index:2;font-size:22px;letter-spacing:-.04em}.kb-kbstar-word .kb-k{color:#ffc62d}.kb-kbstar-word .kb-s{color:#fff}
+    .kb-kbstar-tagline{position:relative;z-index:2;margin-top:25px;max-width:180px;font-size:24px;font-weight:800;line-height:1.14;letter-spacing:-.025em}
+    .kb-phone{position:absolute;z-index:3;width:65px;height:130px;border:4px solid #251c2c;border-radius:17px;background:#16111b;padding:5px;box-shadow:0 16px 28px rgba(0,0,0,.34)}
+    .kb-phone:before{content:"";display:block;height:100%;border-radius:10px;background:linear-gradient(180deg,#7b25d1,#3d126c)}
+    .kb-phone.p1{right:78px;top:62px;transform:rotate(-15deg)}.kb-phone.p2{right:24px;top:28px;transform:rotate(18deg)}
+    .kb-public-eyebrow{margin:0 0 8px;color:var(--kbi-gold);font-size:11px;font-weight:850;letter-spacing:.12em;text-transform:uppercase}
+    .kb-public-title{margin:0;font-size:25px;line-height:1.25;letter-spacing:-.025em;color:#fff}
+    .kb-public-copy{margin:10px 0 0;color:var(--kbi-muted);font-size:13px;line-height:1.7;max-width:660px}
+    .kb-public-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:17px}
+    .kb-public-action{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:10px 14px;border-radius:13px;border:1px solid rgba(246,205,84,.25);background:rgba(246,205,84,.07);color:var(--kbi-gold-soft)!important;font-size:11.5px;font-weight:800;transition:background .18s ease,border-color .18s ease}
+    .kb-public-action:hover{background:rgba(246,205,84,.12);border-color:rgba(246,205,84,.44)}
+    .kb-corp-grid{display:grid;grid-template-columns:1fr 1.15fr 1fr;gap:18px;margin-top:18px}
+    .kb-corp-col{padding:17px;border:1px solid rgba(255,255,255,.08);border-radius:18px;background:var(--kbi-card)}
+    .kb-corp-col h3{margin:0 0 12px;color:var(--kbi-gold);font-size:13px;letter-spacing:.01em}
+    .kb-corp-col p{margin:0 0 7px;color:var(--kbi-muted);font-size:11px;line-height:1.55}
+    .kb-corp-col strong{color:#fff;font-weight:800}
+    .kb-corp-links{display:grid;gap:8px}
+    .kb-corp-links a{color:var(--kbi-muted)!important;font-size:11px;line-height:1.4}
+    .kb-corp-links a:hover{color:var(--kbi-gold-soft)!important}
+    .kb-corp-legal{margin-top:18px;padding-top:16px;border-top:1px solid rgba(246,205,84,.14);color:#aaa0b5;font-size:10px;line-height:1.65}
+    .kb-corp-legal strong{color:#ddd5e4}
+    .kb-corp-bottom{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:10px;color:#8f859a;font-size:9.5px}
+    @media(max-width:760px){
+      .kb-public-info{padding:22px 20px 27px}.kb-kbstar-panel{grid-template-columns:1fr;padding:14px}.kb-kbstar-art{min-height:220px}.kb-corp-grid{grid-template-columns:1fr}.kb-public-title{font-size:22px}
+    }
+    @media(max-width:380px){
+      .kb-public-info{padding-left:16px;padding-right:16px}.kb-kbstar-art{min-height:205px;padding:18px}.kb-kbstar-tagline{font-size:21px;max-width:155px}.kb-phone{width:58px;height:116px}.kb-phone.p1{right:65px;top:70px}.kb-phone.p2{right:18px;top:36px}.kb-public-actions{display:grid}.kb-public-action{width:100%}
+    }
+    @media(prefers-reduced-motion:reduce){.kb-public-action{transition:none}}
+</style>
   <script src="/page-transition.js?v=1"></script>
 </head>
 <body>
@@ -232,7 +289,75 @@
         </aside>
       </div>
     </section>
-    <footer>KB Bukopin Finance.</footer>
+
+    <section class="kb-public-info" aria-label="Informasi KBstar dan tautan resmi KB Bank">
+      <div class="kb-public-alert" role="note">
+        <strong>Prototype independen — bukan kanal resmi KB Bank.</strong>
+        Jangan masukkan kredensial, PIN/OTP, data pribadi sensitif, atau melakukan pembayaran melalui prototype ini. Untuk layanan resmi, gunakan kanal resmi KB Bank.
+      </div>
+
+      <div class="kb-kbstar-panel">
+        <div class="kb-kbstar-art" aria-hidden="true">
+          <div class="kb-kbstar-word"><span class="kb-k">KB</span><span class="kb-s">star</span></div>
+          <div class="kb-kbstar-tagline">Warna baru spesial buat kamu</div>
+          <span class="kb-phone p1"></span>
+          <span class="kb-phone p2"></span>
+        </div>
+        <div>
+          <p class="kb-public-eyebrow">KBstar · Informasi referensi</p>
+          <h2 class="kb-public-title">Temukan informasi layanan digital KBstar melalui kanal resmi.</h2>
+          <p class="kb-public-copy">KBstar merupakan layanan digital banking KB Bank. Gunakan tombol di bawah untuk berpindah ke situs resmi KB Bank dan layanan nasabah resmi.</p>
+          <div class="kb-public-actions">
+            <a class="kb-public-action" href="https://www.kbbank.co.id/" target="_blank" rel="noopener noreferrer">Buka Situs Resmi KB Bank ↗</a>
+            <a class="kb-public-action" href="https://www.kbbank.co.id/support-center" target="_blank" rel="noopener noreferrer">Layanan Nasabah ↗</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="kb-corp-grid">
+        <section class="kb-corp-col" aria-labelledby="kb-contact-title">
+          <h3 id="kb-contact-title">Hubungi Kami</h3>
+          <p><strong>Gedung KB Bank</strong></p>
+          <p>Head Office KB Bank</p>
+          <p><a href="tel:0217988266">021 7988 266</a></p>
+          <p><a href="tel:0217980625">021 7980 625</a></p>
+          <p>Jl. MT. Haryono Kav. 50–51, Jakarta 12770</p>
+        </section>
+
+        <section class="kb-corp-col" aria-labelledby="kb-about-title">
+          <h3 id="kb-about-title">Kenali Kami</h3>
+          <nav class="kb-corp-links" aria-label="Tautan perusahaan KB Bank">
+            <a href="https://www.kbbank.co.id/profile/history" target="_blank" rel="noopener noreferrer">Profil KB Bank ↗</a>
+            <a href="https://www.kbbank.co.id/csr-policy" target="_blank" rel="noopener noreferrer">Tanggung Jawab Sosial ↗</a>
+            <a href="https://www.kbbank.co.id/structure-corporate/komisaris" target="_blank" rel="noopener noreferrer">Manajemen Perusahaan ↗</a>
+            <a href="https://www.kbbank.co.id/corporate-governance/about" target="_blank" rel="noopener noreferrer">Tata Kelola Perusahaan ↗</a>
+            <a href="https://www.kbbank.co.id/investor" target="_blank" rel="noopener noreferrer">Hubungan Investor ↗</a>
+            <a href="https://www.kbbank.co.id/info-terbaru" target="_blank" rel="noopener noreferrer">Info Terbaru ↗</a>
+          </nav>
+        </section>
+
+        <section class="kb-corp-col" aria-labelledby="kb-service-title">
+          <h3 id="kb-service-title">Layanan Resmi</h3>
+          <nav class="kb-corp-links" aria-label="Tautan layanan resmi KB Bank">
+            <a href="https://www.kbbank.co.id/savings" target="_blank" rel="noopener noreferrer">Simpanan ↗</a>
+            <a href="https://www.kbbank.co.id/loan" target="_blank" rel="noopener noreferrer">Pinjaman ↗</a>
+            <a href="https://www.kbbank.co.id/credit-card" target="_blank" rel="noopener noreferrer">Kartu Kredit ↗</a>
+            <a href="https://www.kbbank.co.id/debit-card" target="_blank" rel="noopener noreferrer">Kartu Debit ↗</a>
+            <a href="https://www.kbbank.co.id/network/atm" target="_blank" rel="noopener noreferrer">ATM & Jaringan ↗</a>
+            <a href="https://www.kbbank.co.id/support-center" target="_blank" rel="noopener noreferrer">Layanan Pengaduan ↗</a>
+          </nav>
+        </section>
+      </div>
+
+      <div class="kb-corp-legal">
+        <strong>Informasi perusahaan dari kanal resmi:</strong> PT Bank KB Indonesia Tbk berizin dan diawasi oleh Otoritas Jasa Keuangan dan Bank Indonesia serta merupakan peserta penjaminan LPS. Untuk ketentuan, produk, tingkat bunga, dan informasi terbaru, verifikasi langsung melalui situs resmi KB Bank.
+      </div>
+      <div class="kb-corp-bottom">
+        <span>Referensi tautan: kbbank.co.id</span>
+        <span>Merek dan identitas KB Bank/KBstar adalah milik pemegang haknya.</span>
+      </div>
+    </section>
+
   </main>
   <script src="/loan-calculator.js?v=1"></script>
 
