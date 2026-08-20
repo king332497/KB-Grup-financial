@@ -324,8 +324,9 @@
           </div>
 
           <div class="installment">
-            <span>Estimasi Cicilan Dasar*</span>
-            <strong id="summaryInstallment">Rp694.444 / bulan</strong>
+            <span>Estimasi Cicilan termasuk bunga*</span>
+            <strong id="summaryInstallment">Rp944.445 / bulan</strong>
+            <span id="summaryInterest">Bunga estimasi 12% / tahun (flat) · total Rp9.000.000</span>
           </div>
 
           <div class="section-title">Data valid</div>
@@ -339,7 +340,7 @@
           </ul>
 
           <div class="disclaimer">
-            *Estimasi Cicilan Dasar dihitung dengan pembagian sederhana <strong>nominal ÷ tenor</strong> dan bunga, provisi, asuransi, pajak, persetujuan kredit, dan pencairan. Persyaratan, tenor, biaya, serta keputusan kredit pada produk PT. KB BUKOPIN FINANCE mengikuti ketentuan dan analisis lembaga pemberi kredit.
+            *Estimasi cicilan dihitung dari <strong>nominal + bunga estimasi flat 12% per tahun</strong>, lalu dibagi sesuai tenor. Angka ini bukan suku bunga resmi produk. Provisi, asuransi, pajak, biaya lain, persyaratan, serta keputusan kredit mengikuti ketentuan dan analisis lembaga pemberi kredit.
           </div>
 
           <div class="message" id="summaryMessage" role="status" aria-live="polite"></div>
@@ -352,13 +353,14 @@
 
     <footer>PT. KB BUKOPIN FINANCE</footer>
   </main>
+  <script src="/loan-calculator.js?v=1"></script>
 
   <script>
     (() => {
       "use strict";
 
-      // Seluruh state Tahap 5–7 hanya berada di memori JavaScript halaman ini.
-      // Tidak ada localStorage, sessionStorage, cookie, API, fetch, XHR, atau backend.
+      // State profil tetap berada di memori halaman. Data perhitungan pinjaman yang diperlukan
+      // lintas halaman disimpan di sessionStorage agar nominal, tenor, bunga, dan cicilan konsisten.
       const state = {
         stage: 5,
         profile: null,
@@ -571,11 +573,14 @@
           loanForm.querySelector('[aria-invalid="true"]')?.focus();
           return;
         }
-sessionStorage.setItem("kbPrototypeLimit", String(amount));
+        const loanCalculation = window.KBLoanCalculator.save(amount, Number(tenorNode.value));
         state.loan = {
           type: loanType.value,
-          amount,
-          tenor: Number(tenorNode.value),
+          amount: loanCalculation.amount,
+          tenor: loanCalculation.tenorMonths,
+          annualInterestRate: loanCalculation.annualInterestRate,
+          totalInterest: loanCalculation.totalInterest,
+          installment: loanCalculation.installment,
           purpose: loanPurpose.value
         };
         loanMessage.className = "message success";
@@ -585,12 +590,17 @@ sessionStorage.setItem("kbPrototypeLimit", String(amount));
 
       function renderSummary() {
         if (!state.profile || !state.loan) return;
-        const installment = Math.ceil(state.loan.amount / state.loan.tenor);
-        document.getElementById("summaryAmount").textContent = formatRupiah(state.loan.amount);
+        const calculation = window.KBLoanCalculator.calculate(
+          state.loan.amount,
+          state.loan.tenor,
+          state.loan.annualInterestRate
+        );
+        document.getElementById("summaryAmount").textContent = formatRupiah(calculation.amount);
         document.getElementById("summaryType").textContent = state.loan.type;
-        document.getElementById("summaryTenor").textContent = `${state.loan.tenor} Bulan`;
+        document.getElementById("summaryTenor").textContent = `${calculation.tenorMonths} Bulan`;
         document.getElementById("summaryPurpose").textContent = state.loan.purpose;
-        document.getElementById("summaryInstallment").textContent = `${formatRupiah(installment)} / bulan`;
+        document.getElementById("summaryInstallment").textContent = `${formatRupiah(calculation.installment)} / bulan`;
+        document.getElementById("summaryInterest").textContent = `Bunga estimasi ${(calculation.annualInterestRate * 100).toLocaleString("id-ID", {maximumFractionDigits:2})}% / tahun (flat) · total ${formatRupiah(calculation.totalInterest)}`;
         document.getElementById("summaryJob").textContent = state.profile.jobStatus;
         document.getElementById("summaryField").textContent = state.profile.jobField;
         document.getElementById("summaryYears").textContent = `${state.profile.jobYears} tahun`;

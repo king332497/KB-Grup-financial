@@ -142,6 +142,8 @@
               <div class="info-box"><span>Tenor</span><strong id="tenorValue">36 Bulan</strong></div>
               <div class="info-box"><span>Total Periode</span><strong id="periodValue">3 Tahun</strong></div>
               <div class="info-box"><span>Jatuh Tempo Pertama</span><strong>Data TERVERIFIKASI</strong></div>
+              <div class="info-box"><span>Bunga Estimasi</span><strong id="interestRateValue">12% / tahun</strong></div>
+              <div class="info-box"><span>Total Bunga Estimasi</span><strong id="totalInterestValue">Rp18.000.000</strong></div>
             </div>
             <p class="disclaimer"><strong> penawaran kredit resmi.</strong> Nilai  mencakup bunga, provisi, asuransi, pajak, atau biaya lain dan menunjukkan persetujuan kredit.</p>
           </section>
@@ -232,19 +234,22 @@
     </section>
     <footer>KB Bukopin Finance.</footer>
   </main>
+  <script src="/loan-calculator.js?v=1"></script>
 
   <script>
     (()=>{
       "use strict";
 
-      // Tahap 1–9  mempersist data lintas dokumen. Dashboard menggunakan fallback TERVERIFIKASI.
-      // 
+      // Nominal, tenor, bunga, dan cicilan dibaca dari satu sumber perhitungan yang sama.
+      const storedLoan = window.KBLoanCalculator.load(50000000, 36);
       const demoData = Object.freeze({
         name:"Pengguna",
-        amount:Number(sessionStorage.getItem("kbPrototypeLimit")) || 50000000,
+        amount:storedLoan.amount,
         type:"Kredit Serba Guna",
-        tenorMonths:36,
-        installment:1388889
+        tenorMonths:storedLoan.tenorMonths,
+        annualInterestRate:storedLoan.annualInterestRate,
+        totalInterest:storedLoan.totalInterest,
+        installment:storedLoan.installment
       });
 
       const rupiah = value => new Intl.NumberFormat("id-ID",{style:"currency",currency:"IDR",maximumFractionDigits:0}).format(value).replace(/\s/g,"");
@@ -283,6 +288,8 @@
       document.getElementById("monthlyValue").textContent=rupiah(demoData.installment);
       document.getElementById("tenorValue").textContent=`${demoData.tenorMonths} Bulan`;
       document.getElementById("periodValue").textContent=years(demoData.tenorMonths);
+      document.getElementById("interestRateValue").textContent=`${(demoData.annualInterestRate*100).toLocaleString("id-ID",{maximumFractionDigits:2})}% / tahun`;
+      document.getElementById("totalInterestValue").textContent=rupiah(demoData.totalInterest);
 
 
 
