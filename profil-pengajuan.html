@@ -446,27 +446,6 @@
         loanAmount.value = formatNumber(numeric);
       }
 
-      function calcLoan(amount, tenorMonths, annualInterestRate = 0.12) {
-        const totalInterest = amount * annualInterestRate * (tenorMonths / 12);
-        const installment = (amount + totalInterest) / tenorMonths;
-        return { amount, tenorMonths, annualInterestRate, totalInterest, installment };
-      }
-
-      function setDefaultLoan() {
-        const amount = 25000000;
-        const tenor = 36;
-        const annualInterestRate = 0.12;
-        state.loan = {
-          type: "Kredit Serba Guna",
-          amount,
-          tenor,
-          annualInterestRate,
-          totalInterest: amount * annualInterestRate * (tenor / 12),
-          installment: (amount + amount * annualInterestRate * (tenor / 12)) / tenor,
-          purpose: "Kebutuhan keluarga"
-        };
-      }
-
       function renderStage(stage, pushHistory = true, force = false) {
         if (!force) {
           if (stage === 6 && !state.profile) stage = 5;
@@ -476,13 +455,8 @@
         state.stage = stage;
         Object.entries(views).forEach(([key, node]) => { node.hidden = Number(key) !== stage; });
         const hash = `#tahap-${stage}`;
-        try {
-          if (pushHistory) history.pushState({stage}, "", hash);
-          else history.replaceState({stage}, "", hash);
-        } catch (e) {
-          // fallback agar navigasi tetap jalan di lingkungan file:// atau sandbox
-          if (pushHistory) location.hash = hash;
-        }
+        if (pushHistory) history.pushState({stage}, "", hash);
+        else history.replaceState({stage}, "", hash);
         window.scrollTo({top:0,behavior:"auto"});
         if (stage === 7) renderSummary();
       }
@@ -546,7 +520,7 @@
         };
         profileMessage.className = "message success";
         profileMessage.textContent = "Profil lengkap. Membuka Detail Pengajuan…";
-        window.setTimeout(() => renderStage(6), 260);
+        window.setTimeout(() => { window.smoothStageSwap ? window.smoothStageSwap(() => renderStage(6)) : renderStage(6); }, 260);
       });
 
       amountRange.addEventListener("input", () => {
@@ -578,13 +552,15 @@
         });
       });
 
-      loanForm.addEventListener("submit", (event) => {
-        event.preventDefault();
-        clearMessage(loanMessage);
+     loanForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  clearMessage(loanMessage);
 
-        let valid = true;
-        const amount = Number(amountRange.value) || parseAmount();
-        const tenorNode = loanForm.querySelector('input[name="tenor"]:checked');
+  let valid = true;
+  const amount = Number(amountRange.value) || parseAmount();
+  const tenorNode = loanForm.querySelector('input[name="tenor"]:checked');
+
+  
 
         if (!loanType.value) { setError(loanType, errors.loanType, "Pilih Jenis Pinjaman."); valid = false; } else setError(loanType, errors.loanType, "");
         if (amount < 5000000 || amount > 500000000) { setError(loanAmount, errors.loanAmount, "Nominal harus berada pada rentang Rp5 juta–Rp500 juta."); valid = false; } else setError(loanAmount, errors.loanAmount, "");
@@ -597,14 +573,7 @@
           loanForm.querySelector('[aria-invalid="true"]')?.focus();
           return;
         }
-
-        let loanCalculation;
-        if (window.KBLoanCalculator && typeof window.KBLoanCalculator.save === "function") {
-          loanCalculation = window.KBLoanCalculator.save(amount, Number(tenorNode.value));
-        } else {
-          loanCalculation = calcLoan(amount, Number(tenorNode.value));
-        }
-
+        const loanCalculation = window.KBLoanCalculator.save(amount, Number(tenorNode.value));
         state.loan = {
           type: loanType.value,
           amount: loanCalculation.amount,
@@ -616,15 +585,16 @@
         };
         loanMessage.className = "message success";
         loanMessage.textContent = "Detail lengkap. Menyiapkan ringkasan…";
-        window.setTimeout(() => renderStage(7), 260);
+        window.setTimeout(() => { window.smoothStageSwap ? window.smoothStageSwap(() => renderStage(7)) : renderStage(7); }, 260);
       });
 
       function renderSummary() {
         if (!state.profile || !state.loan) return;
-        const calculation = state.loan.installment !== undefined
-          ? state.loan
-          : calcLoan(state.loan.amount, state.loan.tenor, state.loan.annualInterestRate || 0.12);
-
+        const calculation = window.KBLoanCalculator.calculate(
+          state.loan.amount,
+          state.loan.tenor,
+          state.loan.annualInterestRate
+        );
         document.getElementById("summaryAmount").textContent = formatRupiah(calculation.amount);
         document.getElementById("summaryType").textContent = state.loan.type;
         document.getElementById("summaryTenor").textContent = `${calculation.tenorMonths} Bulan`;
@@ -638,7 +608,7 @@
         document.getElementById("summaryDomicile").textContent = state.profile.domicile;
       }
 
-      document.getElementById("editLoanButton").addEventListener("click", () => renderStage(6));
+      document.getElementById("editLoanButton").addEventListener("click", () => { window.smoothStageSwap ? window.smoothStageSwap(() => renderStage(6)) : renderStage(6); });
 
       const confirmButton = document.getElementById("confirmButton");
       const summaryMessage = document.getElementById("summaryMessage");
@@ -660,7 +630,7 @@
           window.smoothNavigate ? window.smoothNavigate("verifikasi.html") : (window.location.href = "verifikasi.html");
           return;
         }
-        renderStage(state.stage - 1);
+        window.smoothStageSwap ? window.smoothStageSwap(() => renderStage(state.stage - 1)) : renderStage(state.stage - 1);
       });
 
       window.addEventListener("popstate", (event) => {
@@ -677,24 +647,18 @@
       }
       if (forcedStage === 7) {
         if (!state.profile) state.profile = {jobStatus:"Data Contoh",jobField:"Contoh",jobYears:1,incomeRange:"Rp10–25 juta",domicile:"Domisili Contoh"};
-        if (!state.loan) setDefaultLoan();
+        if (!state.loan) state.loan = {type:"Kredit Serba Guna",amount:25000000,tenor:36,purpose:"Kebutuhan keluarga"};
       }
       const requestedStage = forcedStage || requestedStageFromHash();
       const demoStage7 = !forcedStage && requestedStage === 7;
       if (demoStage7) {
         if (!state.profile) state.profile = {jobStatus:"Data Contoh",jobField:"Contoh",jobYears:1,incomeRange:"Rp10–25 juta",domicile:"Domisili Contoh"};
-        if (!state.loan) setDefaultLoan();
+        if (!state.loan) state.loan = {type:"Kredit Serba Guna",amount:25000000,tenor:36,purpose:"Kebutuhan keluarga"};
       }
       renderStage(requestedStage, false, Boolean(forcedStage || demoStage7));
 
       // Hook terbatas untuk observability/testing; tidak menerima URL atau JavaScript arbitrary.
-      window.__demoFlow = { 
-        get stage(){ return state.stage; }, 
-        get state(){ 
-          try { return structuredClone(state); } 
-          catch(e) { return JSON.parse(JSON.stringify(state)); } 
-        } 
-      };
+      window.__demoFlow = { get stage(){ return state.stage; }, get state(){ return structuredClone(state); } };
     })();
   </script>
   <script src="/simulation-runtime.js?v=5" defer></script>

