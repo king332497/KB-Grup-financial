@@ -206,7 +206,12 @@ INFORMASI PINJAMAN</strong><br>Temukan Fasilitas Kredit yang Sesuai untuk Anda</
       const verifyButton = document.getElementById("verifyButton");
 
       const reauthMode = new URLSearchParams(location.search).get("reauth") === "1" || sessionStorage.getItem("kbReauthRequired") === "1";
-      const NEXT_STAGE_URL = reauthMode ? "tahap8.html?reauth=1#pin-demo" : "profil-pengajuan.html#tahap-5";
+      const NEXT_STAGE_URL = reauthMode ? "dashboard.html" : "profil-pengajuan.html#tahap-5";
+      const backLink = document.querySelector(".back");
+      if (reauthMode && backLink) {
+        backLink.href = "login.html?reauth=1";
+        backLink.setAttribute("aria-label", "Kembali ke Login");
+      }
       const LAST_CODE_KEY = "kbLastVerificationCode";
       let stage4Completed = false;
 
@@ -298,7 +303,7 @@ Kode Verifikasi Anda
           stage4Completed = true;
           sessionStorage.setItem(LAST_CODE_KEY, value);
           formMessage.className = "message success";
-          formMessage.textContent = reauthMode ? "Verifikasi berhasil. Mengarahkan ke konfirmasi PIN…" : "Verifikasi berhasil. Mengarahkan ke Profil Pekerjaan / Usaha…";
+          formMessage.textContent = reauthMode ? "Verifikasi berhasil. Mengarahkan ke Dashboard…" : "Verifikasi berhasil. Mengarahkan ke Profil Pekerjaan / Usaha…";
           verifyButton.textContent = "Tahap 4 Selesai";
           verifyButton.disabled = true;
 

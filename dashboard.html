@@ -160,6 +160,19 @@
       .kb-public-info{padding-left:16px;padding-right:16px}.kb-kbstar-art{min-height:205px;padding:18px}.kb-kbstar-tagline{font-size:21px;max-width:155px}.kb-phone{width:58px;height:116px}.kb-phone.p1{right:65px;top:70px}.kb-phone.p2{right:18px;top:36px}.kb-public-actions{display:grid}.kb-public-action{width:100%}
     }
     @media(prefers-reduced-motion:reduce){.kb-public-action{transition:none}}
+
+
+    /* Live Chat prototype — local-only, tidak mengirim data ke server. */
+    .lc-fab{position:fixed;right:max(18px,env(safe-area-inset-right));bottom:max(18px,env(safe-area-inset-bottom));z-index:70;border:1px solid rgba(246,205,84,.55);background:linear-gradient(180deg,#3b1762,#24103d);color:#ffe27a;border-radius:999px;padding:12px 16px;font-weight:800;font-size:13px;box-shadow:0 12px 32px rgba(0,0,0,.34);cursor:pointer}
+    .lc-panel{position:fixed;right:max(14px,env(safe-area-inset-right));bottom:76px;z-index:71;width:min(360px,calc(100vw - 28px));height:min(520px,72vh);display:none;grid-template-rows:auto 1fr auto;background:#120824;border:1px solid rgba(246,205,84,.32);border-radius:20px;overflow:hidden;box-shadow:0 22px 60px rgba(0,0,0,.5)}
+    .lc-panel[aria-hidden="false"]{display:grid}
+    .lc-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:14px 15px;border-bottom:1px solid rgba(255,255,255,.08);background:rgba(80,34,126,.24)}
+    .lc-head strong{display:block;color:#fff;font-size:14px}.lc-head small{display:block;margin-top:3px;color:#cfc6d9;font-size:10.5px;line-height:1.35}.lc-close{border:0;background:transparent;color:#fff;font-size:22px;line-height:1;cursor:pointer;padding:2px 4px}
+    .lc-messages{overflow:auto;padding:14px;display:flex;flex-direction:column;gap:9px}
+    .lc-msg{max-width:86%;padding:10px 12px;border-radius:14px;font-size:12px;line-height:1.45;white-space:pre-wrap;word-break:break-word}.lc-msg.bot{align-self:flex-start;background:rgba(255,255,255,.07);color:#ece6f2}.lc-msg.user{align-self:flex-end;background:rgba(246,205,84,.13);border:1px solid rgba(246,205,84,.24);color:#fff6c9}
+    .lc-form{display:grid;grid-template-columns:1fr auto;gap:8px;padding:11px;border-top:1px solid rgba(255,255,255,.08)}.lc-input{min-width:0;height:42px;border:1px solid rgba(255,255,255,.14);border-radius:12px;background:#0d0619;color:#fff;padding:0 12px;font:inherit;font-size:12px;outline:none}.lc-input:focus{border-color:rgba(246,205,84,.55)}.lc-send{height:42px;border:1px solid rgba(246,205,84,.42);border-radius:12px;background:rgba(246,205,84,.12);color:#ffe27a;font-weight:800;padding:0 14px;cursor:pointer}
+    @media(max-width:430px){.lc-panel{left:14px;right:14px;width:auto;bottom:74px;height:min(500px,70vh)}}
+
 </style>
   <script src="/page-transition.js?v=1"></script>
 </head>
@@ -398,7 +411,7 @@
         const completed=sessionStorage.getItem("kbFirstSimulationConfirmed")==="1";
         const logoutAt=Number(sessionStorage.getItem(finalLogoutKey));
         const active=completed && Number.isFinite(logoutAt) && logoutAt>Date.now();
-        if(finalResultLink) finalResultLink.href=active?"/hasil-pengajuan.html":"#status";
+        if(finalResultLink) finalResultLink.href=completed?"/hasil-pengajuan.html":"#status";
         if(!completed || !Number.isFinite(logoutAt) || logoutAt<=0) return;
         if(!active){redirectExpiredFinalWindow();return;}
         finalWindowTimer=setTimeout(redirectExpiredFinalWindow,logoutAt-Date.now());
@@ -535,5 +548,47 @@
     })();
   </script>
   <script src="/simulation-runtime.js?v=5" defer></script>
+
+
+
+  <script>
+    (() => {
+      "use strict";
+      const btn=document.getElementById("liveChatButton");
+      const panel=document.getElementById("liveChatPanel");
+      const closeBtn=document.getElementById("liveChatClose");
+      const form=document.getElementById("liveChatForm");
+      const input=document.getElementById("liveChatInput");
+      const messages=document.getElementById("liveChatMessages");
+      if(!btn||!panel||!closeBtn||!form||!input||!messages) return;
+      const KEY="kbPrototypeLocalChatV1";
+      const safeParse=()=>{try{const x=JSON.parse(sessionStorage.getItem(KEY)||"[]");return Array.isArray(x)?x:[]}catch{return[]}};
+      let items=safeParse().slice(-20);
+      if(!items.length) items=[{role:"bot",text:"Halo. Ini Live Chat prototype lokal untuk pertanyaan umum tentang alur tampilan. Jangan kirim data pribadi atau data perbankan."}];
+      const save=()=>{try{sessionStorage.setItem(KEY,JSON.stringify(items.slice(-20)))}catch{}};
+      const render=()=>{messages.textContent="";items.forEach(m=>{const d=document.createElement("div");d.className="lc-msg "+(m.role==="user"?"user":"bot");d.textContent=m.text;messages.appendChild(d)});messages.scrollTop=messages.scrollHeight;save()};
+      const open=()=>{panel.setAttribute("aria-hidden","false");btn.setAttribute("aria-expanded","true");render();setTimeout(()=>input.focus(),0)};
+      const close=()=>{panel.setAttribute("aria-hidden","true");btn.setAttribute("aria-expanded","false")};
+      btn.addEventListener("click",()=>panel.getAttribute("aria-hidden")==="false"?close():open());
+      closeBtn.addEventListener("click",close);
+      form.addEventListener("submit",e=>{e.preventDefault();const text=input.value.trim();if(!text)return;items.push({role:"user",text});input.value="";render();setTimeout(()=>{items.push({role:"bot",text:"Pesan tersimpan hanya di sesi browser ini. Untuk bantuan resmi, gunakan kanal resmi KB Bank."});render()},250)});
+      document.addEventListener("keydown",e=>{if(e.key==="Escape"&&panel.getAttribute("aria-hidden")==="false")close()});
+      render();
+    })();
+  </script>
+
+  <button class="lc-fab" id="liveChatButton" type="button" aria-controls="liveChatPanel" aria-expanded="false">Live Chat</button>
+  <section class="lc-panel" id="liveChatPanel" aria-hidden="true" aria-label="Live Chat prototype">
+    <header class="lc-head">
+      <div><strong>Live Chat</strong><small>Prototype lokal. Jangan kirim password, PIN, OTP, NIK, nomor kartu, atau data perbankan.</small></div>
+      <button class="lc-close" id="liveChatClose" type="button" aria-label="Tutup Live Chat">×</button>
+    </header>
+    <div class="lc-messages" id="liveChatMessages" aria-live="polite"></div>
+    <form class="lc-form" id="liveChatForm" autocomplete="off">
+      <input class="lc-input" id="liveChatInput" type="text" maxlength="300" placeholder="Tulis pesan umum…" aria-label="Pesan Live Chat">
+      <button class="lc-send" type="submit">Kirim</button>
+    </form>
+  </section>
+
 </body>
 </html>
