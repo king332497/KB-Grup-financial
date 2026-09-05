@@ -1525,15 +1525,26 @@ h1 em{
       return result;
     }
 
-    if (result.eligible === false) {
-      completePanel.classList.add('is-rejected');
-      resultKicker.textContent = 'Hasil Pra-Kelayakan · Belum Memenuhi';
-      resultTitle.textContent = 'Pengajuan belum memenuhi kriteria awal.';
-      resultEmphasis.textContent = 'PENGAJUAN ANDA DI TOLAK!';
-      resultCopy.textContent = 'Pengajuan belum memenuhi kriteria awal berdasarkan penghasilan dan nominal pinjaman yang dipilih.';
-      return result;
-    }
+if (result.eligible === false) {
 
+  completePanel.classList.add('is-rejected');
+
+  resultKicker.textContent =
+    'Hasil Pra-Kelayakan · Belum Memenuhi';
+
+  resultTitle.textContent =
+    'Pengajuan Ditolak';
+
+  resultEmphasis.textContent =
+    'PENGAJUAN ANDA DITOLAK';
+
+  resultCopy.textContent =
+    'Silakan hubungi admin untuk konsultasi pengajuan ulang.';
+
+  showLoanRejectedHero(result);
+
+  return result;
+}
     completePanel.classList.add('is-unknown');
     resultKicker.textContent = 'Hasil Pra-Kelayakan · Rule Belum Tersedia';
     resultTitle.textContent = 'Hasil belum dapat ditentukan otomatis.';
