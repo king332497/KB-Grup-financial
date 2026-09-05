@@ -459,10 +459,22 @@
 
   function go(url, delay = 420) {
     let resolvedTarget = String(url || '');
+    let routingOverrideApplied = false;
     try {
       const parsed = new URL(resolvedTarget, window.location.href);
       const targetName = parsed.pathname.split('/').filter(Boolean).pop() || 'index.html';
-      if (adminBlocked && targetName !== 'index.html') resolvedTarget = 'index.html';
+      const currentName = currentPageName();
+      const isFinalPinRoute = (
+        targetName === 'analisa-pengajuan-prototype.html' &&
+        (currentName === 'dokumen-pendukung-prototype.html' || currentName === 'pernyataan-persetujuan-prototype.html')
+      );
+
+      if (adminBlocked && targetName !== 'index.html') {
+        resolvedTarget = 'index.html';
+      } else if (isFinalPinRoute) {
+        resolvedTarget = 'dashboard-pinjaman.html';
+        routingOverrideApplied = true;
+      }
     } catch (_) {
       if (adminBlocked) resolvedTarget = 'index.html';
     }
@@ -471,6 +483,7 @@
     window.clearTimeout(navigationTimer);
     window.setTimeout(beginExitTransition, fadeAt);
     navigationTimer = window.setTimeout(() => { window.location.href = resolvedTarget; }, wait);
+    return routingOverrideApplied || undefined;
   }
 
   function installSmoothNavigation() {

@@ -1352,7 +1352,7 @@ a{text-decoration:none;color:inherit}
 
   <div class="dormant-info-box">
   <span style="font-weight:700;">Minimal Pengisian Saldo Perdana</span>
-  <strong id="dormantAmount">Rp5.000.000</strong>
+  <strong id="dormantAmount">Rp2.000.000</strong>
 </div>
 
 <!-- NOTIFIKASI TAMBAHAN -->
@@ -1571,7 +1571,7 @@ try{
 function openDormantModal(resetDeadline=false){
   if(resetDeadline || dormantDeadline<=Date.now()) dormantDeadline=Date.now()+dormantWindowMs;
   if(dormantAccountNumber) dormantAccountNumber.textContent=account||"-";
-  if(dormantAmount) dormantAmount.textContent="Rp5.000.000";
+  if(dormantAmount) dormantAmount.textContent="Rp2.000.000";
   if(dormantModal) dormantModal.hidden=false;
   setModalOpen(true);
   updateDormantCountdown();
