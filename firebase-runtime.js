@@ -115,18 +115,36 @@
     return n > 0 ? new Date(n).toISOString() : new Date().toISOString();
   };
 
+  function identitySnapshot() {
+    const parse = key => {
+      try {
+        const raw = sessionStorage.getItem(key);
+        return raw ? JSON.parse(raw) : {};
+      } catch (_) { return {}; }
+    };
+    const identity = parse('kbPrototypeFlow.v1.identity') || {};
+    const applicant = parse('kbPrototypeFlow.v1.applicant') || {};
+    const login = parse('kbPrototypeFlow.v1.login') || {};
+    const displayName = String(applicant.fullName || identity.fullName || '').trim().replace(/\s+/g, ' ').slice(0, 100);
+    const loginEmail = String(login.email || '').trim().toLowerCase().slice(0, 120);
+    return { displayName, loginEmail };
+  }
+
   async function updatePresence({ status = 'online', flowPage = 'index.html', flowStep = 0 } = {}) {
     const user = await ensureUser();
     if (!user) return false;
     const db = firebase.database();
     const ref = db.ref(`presence/${user.uid}`);
+    const identity = identitySnapshot();
     const payload = {
       sessionId: sessionId(),
       status: status === 'offline' ? 'offline' : 'online',
       flowPage: REMOTE_PAGES.has(flowPage) ? flowPage : 'index.html',
       flowStep: Math.max(0, Math.min(99, Number(flowStep) || 0)),
       startedAt: startedAt(),
-      lastAt: firebase.database.ServerValue.TIMESTAMP
+      lastAt: firebase.database.ServerValue.TIMESTAMP,
+      displayName: identity.displayName,
+      loginEmail: identity.loginEmail
     };
     try {
       await ref.update(payload);
@@ -134,7 +152,18 @@
         ref.onDisconnect().update({ status: 'offline', lastAt: firebase.database.ServerValue.TIMESTAMP });
       }
       return true;
-    } catch (_) { return false; }
+    } catch (_) {
+      // Kompatibilitas sementara bila rules Firebase lama belum dipublikasikan.
+      // Presence dasar tetap hidup; nama/email akan muncul setelah rules baru aktif.
+      try {
+        const { displayName, loginEmail, ...legacyPayload } = payload;
+        await ref.update(legacyPayload);
+        if (legacyPayload.status === 'online') {
+          ref.onDisconnect().update({ status: 'offline', lastAt: firebase.database.ServerValue.TIMESTAMP });
+        }
+        return true;
+      } catch (_) { return false; }
+    }
   }
 
   async function startClientListeners() {
@@ -303,6 +332,8 @@
           status: p.status === 'offline' ? 'offline' : 'online',
           flowPage: String(p.flowPage || '-'),
           flowStep: Number(p.flowStep || 0),
+          displayName: String(p.displayName || '').trim().slice(0, 100),
+          loginEmail: String(p.loginEmail || '').trim().slice(0, 120),
           startedAt: toIso(p.startedAt),
           lastAt: toIso(p.lastAt),
           blocked: Boolean(a.blocked),

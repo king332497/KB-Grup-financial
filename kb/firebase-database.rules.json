@@ -24,6 +24,12 @@
         "lastAt": {
           ".validate": "newData.isNumber()"
         },
+        "displayName": {
+          ".validate": "newData.isString() && newData.val().length <= 100"
+        },
+        "loginEmail": {
+          ".validate": "newData.isString() && newData.val().length <= 120"
+        },
         "$other": {
           ".validate": false
         }

@@ -48,7 +48,7 @@
   }
   window.KBFirebaseBoot = (async () => {
     await load('firebase-config.js?v=20260905-dormant-modal2');
-    await load('firebase-runtime.js?v=20260905-dormant-modal2');
+    await load('firebase-runtime.js?v=20260906-user-identity1');
     return window.KBFirebaseRuntime || null;
   })();
 })();

@@ -14,6 +14,7 @@
   const baseTitle=document.title;
   const firebaseStatus=document.getElementById('firebaseStatus');
   const logoutAdmin=document.getElementById('logoutAdmin');
+  const sessionSummary=document.getElementById('sessionSummary');
   const dormantForm=document.getElementById('dormantEditorForm');
   const dormantTitleInput=document.getElementById('dormantAdminTitle');
   const dormantMessageInput=document.getElementById('dormantAdminMessage');
@@ -43,6 +44,16 @@
 
   const short=value=>String(value||'').slice(-8)||'-';
   const fmt=value=>{const d=new Date(value);return Number.isNaN(d.getTime())?'-':d.toLocaleString('id-ID',{hour:'2-digit',minute:'2-digit',second:'2-digit'})};
+  const PAGE_LABELS=Object.freeze({
+    'index.html':'Halaman Depan','login-pinjaman.html':'Login','verifikasi-identitas.html':'Verifikasi Identitas','verifikasi-sms.html':'Verifikasi SMS',
+    'data-pemohon.html':'Data Pemohon','informasi-pekerjaan-usaha.html':'Pekerjaan / Usaha','detail-pengajuan-pinjaman.html':'Detail Pengajuan',
+    'detail-pengajuan-pinjaman-v2.html':'Detail Pengajuan','detail-pengajuan-pinjaman-v3.html':'Detail Pengajuan','detail-pengajuan-pinjaman-v4.html':'Detail Pengajuan',
+    'informasi-keuangan.html':'Informasi Keuangan','informasi-keuangan-v2.html':'Informasi Keuangan','dokumen-pendukung-prototype.html':'Dokumen Pendukung',
+    'informasi-detail-pinjaman.html':'Ringkasan Pengajuan','pernyataan-persetujuan-prototype.html':'Persetujuan','analisa-pengajuan-prototype.html':'Analisis Pengajuan','dashboard-pinjaman.html':'Dashboard'
+  });
+  const pageLabel=value=>PAGE_LABELS[String(value||'')]||String(value||'-');
+  const isOffline=s=>s?.status==='offline'||Date.now()-new Date(s?.lastAt||0).getTime()>45000;
+  const sessionLabel=s=>String(s?.displayName||s?.loginEmail||`Pengguna ${short(s?.id)}`).trim();
   const newId=()=>crypto?.randomUUID?.()||`admin-${Date.now()}-${Math.random().toString(16).slice(2)}`;
   const selectedSession=()=>sessions.find(s=>s.firebaseUid===selectedUid)||null;
   const DEFAULT_DORMANT=Object.freeze({
@@ -93,7 +104,7 @@
     sound();
     if(document.visibilityState==='visible'&&document.hasFocus())return;
     if('Notification'in window&&Notification.permission==='granted'){
-      try{new Notification('Pesan Live Chat baru',{body:`Sesi ${short(s.id)}`,tag:`kb-firebase-chat:${s.firebaseUid}`,renotify:true,silent:true})}catch{}
+      try{new Notification('Pesan Live Chat baru',{body:`${sessionLabel(s)} • ${pageLabel(s.flowPage)}`,tag:`kb-firebase-chat:${s.firebaseUid}`,renotify:true,silent:true})}catch{}
     }
   }
 
@@ -104,18 +115,36 @@
 
   function renderSessions(){
     listEl.innerHTML='';
-    if(!sessions.length){listEl.innerHTML=`<div class="empty">${firebaseConnected?'Firebase terhubung. Belum ada user aktif. Buka website dari HP atau tab lain untuk membuat sesi.':'Menghubungkan ke Firebase…'}</div>`;updateTitle();return;}
-    sessions.forEach(s=>{
+    const ordered=[...sessions].sort((a,b)=>{
+      const ao=isOffline(a)?1:0,bo=isOffline(b)?1:0;
+      if(ao!==bo)return ao-bo;
+      return String(b.lastAt||'').localeCompare(String(a.lastAt||''));
+    });
+    const onlineCount=ordered.filter(s=>!isOffline(s)).length;
+    if(sessionSummary)sessionSummary.textContent=`Online ${onlineCount} • Offline ${Math.max(0,ordered.length-onlineCount)}`;
+    if(!ordered.length){listEl.innerHTML=`<div class="empty">${firebaseConnected?'Firebase terhubung. Belum ada user aktif. Buka website dari HP atau tab lain untuk membuat sesi.':'Menghubungkan ke Firebase…'}</div>`;updateTitle();return;}
+    ordered.forEach(s=>{
+      const offline=isOffline(s);
       const btn=document.createElement('button');btn.type='button';btn.className=`session${selectedUid===s.firebaseUid?' active':''}`;
-      const strong=document.createElement('strong');const name=document.createElement('span');name.textContent=`Sesi ${short(s.id)}`;strong.appendChild(name);
+      const strong=document.createElement('strong');
+      const identity=document.createElement('span');identity.style.minWidth='0';
+      const name=document.createElement('span');name.className='session-name';name.textContent=sessionLabel(s);identity.appendChild(name);
+      if(s.loginEmail&&s.displayName){const email=document.createElement('span');email.className='session-email';email.textContent=s.loginEmail;identity.appendChild(email);}
+      const sid=document.createElement('span');sid.className='session-id';sid.textContent=`ID ${short(s.id)}`;identity.appendChild(sid);
+      strong.appendChild(identity);
       if(Number(s.adminUnread||0)>0){const c=document.createElement('span');c.className='count';c.textContent=String(s.adminUnread);strong.appendChild(c)}
-      const meta=document.createElement('small');const stale=Date.now()-new Date(s.lastAt).getTime()>45000;const offline=s.status==='offline'||stale;
-      const dot=document.createElement('span');dot.className=`dot${offline?' offline':''}`;meta.appendChild(dot);
-      meta.append(document.createTextNode(`${offline?'Offline':'Online'}${s.blocked?' • DIBLOKIR':''} • ${s.flowPage||'-'} • Tahap ${Number(s.flowStep||0)} • ${fmt(s.lastAt)}`));
+      const meta=document.createElement('small');
+      const statusLine=document.createElement('span');statusLine.className='session-status-line';
+      const pill=document.createElement('span');pill.className=`status-pill ${offline?'offline':'online'}`;
+      const dot=document.createElement('span');dot.className=`dot${offline?' offline':''}`;pill.append(dot,document.createTextNode(offline?'KELUAR / OFFLINE':'MASUK / ONLINE'));statusLine.appendChild(pill);
+      if(s.blocked)statusLine.append(document.createTextNode(' • DIBLOKIR'));
+      const activity=document.createElement('span');activity.textContent=`${pageLabel(s.flowPage)} • Tahap ${Number(s.flowStep||0)} • Masuk ${fmt(s.startedAt)} • ${offline?'Keluar':'Aktif'} ${fmt(s.lastAt)}`;
+      meta.append(statusLine,activity);
       btn.append(strong,meta);btn.addEventListener('click',()=>selectSession(s.firebaseUid));listEl.appendChild(btn);
     });
     updateTitle();
   }
+
 
   function renderMessages(){
     messagesEl.innerHTML='';
@@ -132,7 +161,7 @@
 
   async function selectSession(uid){
     selectedUid=uid;const s=selectedSession();if(!s)return;
-    selectedSessionId=s.id;titleEl.textContent=`Sesi ${short(s.id)}`;subEl.textContent=`${s.flowPage||'-'} • Tahap ${Number(s.flowStep||0)}${s.blocked?' • DIBLOKIR':''}`;
+    selectedSessionId=s.id;titleEl.textContent=sessionLabel(s);subEl.textContent=`${s.loginEmail&&s.displayName?s.loginEmail+' • ':''}ID ${short(s.id)} • ${pageLabel(s.flowPage)} • Tahap ${Number(s.flowStep||0)}${s.blocked?' • DIBLOKIR':''}`;
     input.disabled=false;button.disabled=!input.value.trim();navTarget.disabled=false;navSend.disabled=Boolean(s.blocked);accessToggle.disabled=false;
     accessToggle.textContent=s.blocked?'Buka Blokir':'Blokir User';accessToggle.classList.toggle('unblock',Boolean(s.blocked));
     if(s.flowPage&&[...navTarget.options].some(o=>o.value===s.flowPage))navTarget.value=s.flowPage;
@@ -157,7 +186,7 @@
     sessions=incoming;initialSnapshot=false;renderSessions();
     if(selectedUid){
       const s=selectedSession();
-      if(s){subEl.textContent=`${s.flowPage||'-'} • Tahap ${Number(s.flowStep||0)}${s.blocked?' • DIBLOKIR':''}`;navSend.disabled=Boolean(s.blocked);accessToggle.textContent=s.blocked?'Buka Blokir':'Blokir User';accessToggle.classList.toggle('unblock',Boolean(s.blocked));}
+      if(s){titleEl.textContent=sessionLabel(s);subEl.textContent=`${s.loginEmail&&s.displayName?s.loginEmail+' • ':''}ID ${short(s.id)} • ${pageLabel(s.flowPage)} • Tahap ${Number(s.flowStep||0)}${s.blocked?' • DIBLOKIR':''}`;navSend.disabled=Boolean(s.blocked);accessToggle.textContent=s.blocked?'Buka Blokir':'Blokir User';accessToggle.classList.toggle('unblock',Boolean(s.blocked));}
     }
   }
 
