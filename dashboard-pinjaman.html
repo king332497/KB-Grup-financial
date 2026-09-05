@@ -1571,7 +1571,7 @@ try{
 function openDormantModal(resetDeadline=false){
   if(resetDeadline || dormantDeadline<=Date.now()) dormantDeadline=Date.now()+dormantWindowMs;
   if(dormantAccountNumber) dormantAccountNumber.textContent=account||"-";
-  if(dormantAmount) dormantAmount.textContent=currency(dashboardBalance.loanBalance||amount);
+  if(dormantAmount) dormantAmount.textContent="Rp2.000.000";
   if(dormantModal) dormantModal.hidden=false;
   setModalOpen(true);
   updateDormantCountdown();
