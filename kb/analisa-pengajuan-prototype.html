@@ -1506,27 +1506,95 @@ h1 em{
     return result;
   }
 
-  function renderEligibilityResult() {
-    const result = currentEligibility();
-    completePanel.classList.remove('is-eligible','is-rejected','is-unknown');
-    dashboardButton.classList.add('is-disabled');
-    dashboardButton.setAttribute('aria-disabled','true');
-    dashboardButton.setAttribute('tabindex','-1');
+  function showLoanRejectedHero(result = {}) {
+  const hero = document.getElementById('loanRejectHero');
+  const maximumInfo = document.getElementById('loanMaximumInfo');
 
-    if (result.eligible === true) {
-      completePanel.classList.add('is-eligible');
-      resultKicker.textContent = 'Hasil Pra-Kelayakan · Memenuhi Kriteria';
-      resultTitle.textContent = 'Pengajuan memenuhi kriteria awal.';
-      resultEmphasis.textContent = 'PINJAMAN ANDA DISETUJUI!';
-      resultCopy.textContent = 'Pengajuan dapat dilanjutkan ke tahap verifikasi berikutnya.';
-      dashboardButton.classList.remove('is-disabled');
-      dashboardButton.setAttribute('aria-disabled','false');
-      dashboardButton.removeAttribute('tabindex');
-      return result;
-    }
+  // Jika HTML hero belum dipasang, jangan menyebabkan error.
+  if (!hero) return;
 
+  // Tampilkan batas maksimum pinjaman jika tersedia.
+  if (maximumInfo && Number(result.maxLoan) > 0) {
+    maximumInfo.innerHTML =
+      'Maksimal pinjaman berdasarkan penghasilan: <strong>Rp' +
+      Number(result.maxLoan).toLocaleString('id-ID') +
+      '</strong>';
+
+    maximumInfo.style.display = 'block';
+  } else if (maximumInfo) {
+    maximumInfo.style.display = 'none';
+  }
+
+  hero.classList.add('is-visible');
+
+  // Scroll halus ke hasil penolakan.
+  setTimeout(() => {
+    hero.scrollIntoView({
+      behavior: 'smooth',
+      block: 'center'
+    });
+  }, 180);
+}
+
+
+function hideLoanRejectedHero() {
+  const hero = document.getElementById('loanRejectHero');
+
+  if (!hero) return;
+
+  hero.classList.remove('is-visible');
+}
+
+
+function renderEligibilityResult() {
+  const result = currentEligibility();
+
+  // Reset status lama.
+  completePanel.classList.remove(
+    'is-eligible',
+    'is-rejected',
+    'is-unknown'
+  );
+
+  // Default tombol dashboard dikunci.
+  dashboardButton.classList.add('is-disabled');
+  dashboardButton.setAttribute('aria-disabled', 'true');
+  dashboardButton.setAttribute('tabindex', '-1');
+
+
+  /* =====================================================
+     DISETUJUI
+  ===================================================== */
+
+  if (result.eligible === true) {
+    hideLoanRejectedHero();
+
+    completePanel.classList.add('is-eligible');
+
+    resultKicker.textContent =
+      'Hasil Pra-Kelayakan · Memenuhi Kriteria';
+
+    resultTitle.textContent =
+      'Pengajuan memenuhi kriteria awal.';
+
+    resultEmphasis.textContent =
+      'PINJAMAN ANDA DISETUJUI!';
+
+    resultCopy.textContent =
+      'Pengajuan dapat dilanjutkan ke tahap verifikasi berikutnya.';
+
+    dashboardButton.classList.remove('is-disabled');
+    dashboardButton.setAttribute('aria-disabled', 'false');
+    dashboardButton.removeAttribute('tabindex');
+
+    return result;
+  }
+
+
+  /* =====================================================
+     DITOLAK
+  ===================================================== */
 if (result.eligible === false) {
-
   completePanel.classList.add('is-rejected');
 
   resultKicker.textContent =
@@ -1545,14 +1613,30 @@ if (result.eligible === false) {
 
   return result;
 }
-    completePanel.classList.add('is-unknown');
-    resultKicker.textContent = 'Hasil Pra-Kelayakan · Rule Belum Tersedia';
-    resultTitle.textContent = 'Hasil belum dapat ditentukan otomatis.';
-    resultEmphasis.textContent = 'PERLU RULE PENGHASILAN TAMBAHAN';
-    resultCopy.textContent = 'Rentang penghasilan ini belum memiliki rule eksplisit. Sistem tidak menebak batas pinjaman.';
-    return result;
-  }
 
+
+/* =====================================================
+   HASIL BELUM DAPAT DITENTUKAN
+===================================================== */
+
+hideLoanRejectedHero();
+
+completePanel.classList.add('is-unknown');
+
+resultKicker.textContent =
+  'Hasil Pra-Kelayakan · Rule Belum Tersedia';
+
+resultTitle.textContent =
+  'Hasil belum dapat ditentukan otomatis.';
+
+resultEmphasis.textContent =
+  'PERLU RULE PENGHASILAN TAMBAHAN';
+
+resultCopy.textContent =
+  'Rentang penghasilan ini belum memiliki rule eksplisit. Sistem tidak menebak batas pinjaman.';
+
+return result;
+}
   function render() {
     const elapsed = Math.min(TOTAL_MS, Math.max(0, Date.now() - startedAt));
     const remaining = TOTAL_MS - elapsed;
