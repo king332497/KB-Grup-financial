@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content" />
   <meta name="color-scheme" content="dark" />
   <meta name="theme-color" content="#16082f" />
   <meta http-equiv="Content-Security-Policy"
@@ -98,6 +98,16 @@
     .meta{margin-top:18px;text-align:center;color:#a9a0b4;font-size:11px;line-height:1.55}.meta strong{color:#dfd6e8}
     footer{padding:0 28px 34px;text-align:center;color:#8e8499;font-size:11px;line-height:1.5}
     @media(max-width:420px){.content{padding-left:22px;padding-right:22px}.top{padding-left:20px;padding-right:20px}h1{font-size:43px}.card{padding:18px}}
+    /* Mobile viewport stability: keep the existing visual design while allowing
+       the page to adapt when the on-screen keyboard reduces the viewport. */
+    @media(max-width:759px){
+      html,body{min-height:100%;scroll-padding-bottom:24px}
+      body{min-height:100svh}
+      .app{min-height:100svh;overflow-x:hidden;overflow-y:visible}
+      @supports (min-height:100dvh){
+        body,.app{min-height:100dvh}
+      }
+    }
     @media(min-width:760px){body{padding:24px 0}.app{border-radius:34px;min-height:auto}}
     .code-input{
       text-align:center;letter-spacing:.32em;font-size:24px;font-weight:800;font-variant-numeric:tabular-nums;
