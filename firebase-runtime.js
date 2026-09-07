@@ -279,6 +279,17 @@
     return result.user;
   }
 
+  async function sendAdminPasswordReset(email) {
+    if (!isAdminConfigured()) throw new Error('Firebase Admin belum dikonfigurasi.');
+    const ok = await ensureSdk();
+    if (!ok) throw new Error('Firebase SDK tidak tersedia.');
+    const expected = adminEmail();
+    const inputEmail = String(email || '').trim().toLowerCase();
+    if (!inputEmail || inputEmail !== expected) throw new Error('Email Admin tidak diizinkan.');
+    await firebase.auth().sendPasswordResetEmail(inputEmail);
+    return true;
+  }
+
   async function signInAdminGoogle() {
     if (!isAdminConfigured()) throw new Error('Firebase Admin belum dikonfigurasi.');
     const ok = await ensureSdk();
@@ -495,6 +506,7 @@
     sendUserMessage,
     getUserMessages,
     signInAdminEmailPassword,
+    sendAdminPasswordReset,
     signInAdminGoogle,
     requireAdmin,
     signOutAdmin,
