@@ -15,6 +15,13 @@
   const firebaseStatus=document.getElementById('firebaseStatus');
   const logoutAdmin=document.getElementById('logoutAdmin');
   const sessionSummary=document.getElementById('sessionSummary');
+  const sessionSearch=document.getElementById('sessionSearch');
+  const sessionFilters=[...document.querySelectorAll('.session-filter')];
+  const selectedStatus=document.getElementById('selectedStatus');
+  const waNumberInput=document.getElementById('waNumberInput');
+  const waSaveBtn=document.getElementById('waSaveBtn');
+  const waSendBtn=document.getElementById('waSendBtn');
+  const waOpenBtn=document.getElementById('waOpenBtn');
   const dormantForm=document.getElementById('dormantEditorForm');
   const dormantTitleInput=document.getElementById('dormantAdminTitle');
   const dormantMessageInput=document.getElementById('dormantAdminMessage');
@@ -41,6 +48,10 @@
   let permissionAsked=false;
   const lastUnread=new Map();
   let initialSnapshot=true;
+  let sessionFilter='all';
+  let sessionQuery='';
+  const WA_KEY='kb-admin-service-whatsapp-v1';
+  const NEW_SESSION_MS=2*60*1000;
 
   const short=value=>String(value||'').slice(-8)||'-';
   const fmt=value=>{const d=new Date(value);return Number.isNaN(d.getTime())?'-':d.toLocaleString('id-ID',{hour:'2-digit',minute:'2-digit',second:'2-digit'})};
@@ -53,6 +64,11 @@
   });
   const pageLabel=value=>PAGE_LABELS[String(value||'')]||String(value||'-');
   const isOffline=s=>s?.status==='offline'||Date.now()-new Date(s?.lastAt||0).getTime()>45000;
+  const isNewSession=s=>{const started=Date.parse(s?.startedAt||'');return !isOffline(s)&&Number.isFinite(started)&&Date.now()-started<=NEW_SESSION_MS};
+  const digitsOnly=value=>String(value||'').replace(/\D/g,'').slice(0,18);
+  const displayWa=value=>{const d=digitsOnly(value);return d?`+${d}`:''};
+  function loadWa(){try{return digitsOnly(localStorage.getItem(WA_KEY)||'')}catch{return ''}}
+  function refreshWa(){const value=loadWa();if(waNumberInput&&!waNumberInput.matches(':focus'))waNumberInput.value=value;const ready=Boolean(value);if(waSendBtn)waSendBtn.disabled=!ready||!selectedUid;if(waOpenBtn){waOpenBtn.classList.toggle('disabled',!ready);waOpenBtn.href=ready?`https://wa.me/${value}`:'#';}}
   const sessionLabel=s=>String(s?.displayName||s?.loginEmail||`Pengguna ${short(s?.id)}`).trim();
   const newId=()=>crypto?.randomUUID?.()||`admin-${Date.now()}-${Math.random().toString(16).slice(2)}`;
   const selectedSession=()=>sessions.find(s=>s.firebaseUid===selectedUid)||null;
@@ -115,32 +131,44 @@
 
   function renderSessions(){
     listEl.innerHTML='';
-    const ordered=[...sessions].sort((a,b)=>{
-      const ao=isOffline(a)?1:0,bo=isOffline(b)?1:0;
-      if(ao!==bo)return ao-bo;
+    const all=[...sessions];
+    const newCount=all.filter(isNewSession).length;
+    const onlineCount=all.filter(s=>!isOffline(s)).length;
+    const offlineCount=Math.max(0,all.length-onlineCount);
+    if(sessionSummary)sessionSummary.innerHTML=`<span class="summary-chip">Baru <b>${newCount}</b></span><span class="summary-chip">Online <b>${onlineCount}</b></span><span class="summary-chip">Offline <b>${offlineCount}</b></span>`;
+    const q=sessionQuery.trim().toLowerCase();
+    const visible=all.filter(s=>{
+      const offline=isOffline(s),fresh=isNewSession(s);
+      if(sessionFilter==='new'&&!fresh)return false;
+      if(sessionFilter==='online'&&offline)return false;
+      if(sessionFilter==='offline'&&!offline)return false;
+      if(q){const hay=[s.displayName,s.loginEmail,s.id,s.flowPage,pageLabel(s.flowPage)].join(' ').toLowerCase();if(!hay.includes(q))return false;}
+      return true;
+    }).sort((a,b)=>{
+      const an=isNewSession(a)?0:1,bn=isNewSession(b)?0:1;if(an!==bn)return an-bn;
+      const au=Math.max(0,Number(a.adminUnread||0)),bu=Math.max(0,Number(b.adminUnread||0));if(au!==bu)return bu-au;
+      const ao=isOffline(a)?1:0,bo=isOffline(b)?1:0;if(ao!==bo)return ao-bo;
       return String(b.lastAt||'').localeCompare(String(a.lastAt||''));
     });
-    const onlineCount=ordered.filter(s=>!isOffline(s)).length;
-    if(sessionSummary)sessionSummary.textContent=`Online ${onlineCount} • Offline ${Math.max(0,ordered.length-onlineCount)}`;
-    if(!ordered.length){listEl.innerHTML=`<div class="empty">${firebaseConnected?'Firebase terhubung. Belum ada user aktif. Buka website dari HP atau tab lain untuk membuat sesi.':'Menghubungkan ke Firebase…'}</div>`;updateTitle();return;}
-    ordered.forEach(s=>{
-      const offline=isOffline(s);
-      const btn=document.createElement('button');btn.type='button';btn.className=`session${selectedUid===s.firebaseUid?' active':''}`;
+    if(!all.length){listEl.innerHTML=`<div class="empty">${firebaseConnected?'Firebase terhubung. Belum ada user aktif.':'Menghubungkan ke Firebase…'}</div>`;updateTitle();return;}
+    if(!visible.length){listEl.innerHTML='<div class="empty">Tidak ada user yang cocok dengan filter/pencarian.</div>';updateTitle();return;}
+    visible.forEach(s=>{
+      const offline=isOffline(s),fresh=isNewSession(s),unread=Math.max(0,Number(s.adminUnread||0));
+      const btn=document.createElement('button');btn.type='button';btn.className=`session${selectedUid===s.firebaseUid?' active':''}${fresh?' new-session':''}${unread?' has-unread':''}`;
       const strong=document.createElement('strong');
       const identity=document.createElement('span');identity.style.minWidth='0';
       const name=document.createElement('span');name.className='session-name';name.textContent=sessionLabel(s);identity.appendChild(name);
       if(s.loginEmail&&s.displayName){const email=document.createElement('span');email.className='session-email';email.textContent=s.loginEmail;identity.appendChild(email);}
-      const sid=document.createElement('span');sid.className='session-id';sid.textContent=`ID ${short(s.id)}`;identity.appendChild(sid);
-      strong.appendChild(identity);
-      if(Number(s.adminUnread||0)>0){const c=document.createElement('span');c.className='count';c.textContent=String(s.adminUnread);strong.appendChild(c)}
+      const sid=document.createElement('span');sid.className='session-id';sid.textContent=`ID ${short(s.id)}`;identity.appendChild(sid);strong.appendChild(identity);
+      if(unread){const c=document.createElement('span');c.className='count';c.textContent=String(unread);strong.appendChild(c)}
       const meta=document.createElement('small');
       const statusLine=document.createElement('span');statusLine.className='session-status-line';
-      const pill=document.createElement('span');pill.className=`status-pill ${offline?'offline':'online'}`;
-      const dot=document.createElement('span');dot.className=`dot${offline?' offline':''}`;pill.append(dot,document.createTextNode(offline?'KELUAR / OFFLINE':'MASUK / ONLINE'));statusLine.appendChild(pill);
+      const pill=document.createElement('span');pill.className=`status-pill ${offline?'offline':'online'}`;const dot=document.createElement('span');dot.className=`dot${offline?' offline':''}`;pill.append(dot,document.createTextNode(offline?'OFFLINE':'ONLINE'));statusLine.appendChild(pill);
       if(s.blocked)statusLine.append(document.createTextNode(' • DIBLOKIR'));
-      const activity=document.createElement('span');activity.textContent=`${pageLabel(s.flowPage)} • Tahap ${Number(s.flowStep||0)} • Masuk ${fmt(s.startedAt)} • ${offline?'Keluar':'Aktif'} ${fmt(s.lastAt)}`;
-      meta.append(statusLine,activity);
-      btn.append(strong,meta);btn.addEventListener('click',()=>selectSession(s.firebaseUid));listEl.appendChild(btn);
+      const grid=document.createElement('span');grid.className='session-meta-grid';
+      const page=document.createElement('span');page.textContent=`${pageLabel(s.flowPage)} • Tahap ${Number(s.flowStep||0)}`;
+      const time=document.createElement('span');time.className='activity-time';time.textContent=`${offline?'Terakhir':'Aktif'} ${fmt(s.lastAt)}`;
+      grid.append(page,time);meta.append(statusLine,grid);btn.append(strong,meta);btn.addEventListener('click',()=>selectSession(s.firebaseUid));listEl.appendChild(btn);
     });
     updateTitle();
   }
@@ -162,6 +190,8 @@
   async function selectSession(uid){
     selectedUid=uid;const s=selectedSession();if(!s)return;
     selectedSessionId=s.id;titleEl.textContent=sessionLabel(s);subEl.textContent=`${s.loginEmail&&s.displayName?s.loginEmail+' • ':''}ID ${short(s.id)} • ${pageLabel(s.flowPage)} • Tahap ${Number(s.flowStep||0)}${s.blocked?' • DIBLOKIR':''}`;
+    if(selectedStatus){selectedStatus.textContent=isOffline(s)?'OFFLINE':(isNewSession(s)?'BARU • ONLINE':'ONLINE');selectedStatus.style.background=isOffline(s)?'#f2f0ed':'#edf7ee';selectedStatus.style.color=isOffline(s)?'#756f67':'#38643a';}
+    refreshWa();
     input.disabled=false;button.disabled=!input.value.trim();navTarget.disabled=false;navSend.disabled=Boolean(s.blocked);accessToggle.disabled=false;
     accessToggle.textContent=s.blocked?'Buka Blokir':'Blokir User';accessToggle.classList.toggle('unblock',Boolean(s.blocked));
     if(s.flowPage&&[...navTarget.options].some(o=>o.value===s.flowPage))navTarget.value=s.flowPage;
@@ -186,10 +216,16 @@
     sessions=incoming;initialSnapshot=false;renderSessions();
     if(selectedUid){
       const s=selectedSession();
-      if(s){titleEl.textContent=sessionLabel(s);subEl.textContent=`${s.loginEmail&&s.displayName?s.loginEmail+' • ':''}ID ${short(s.id)} • ${pageLabel(s.flowPage)} • Tahap ${Number(s.flowStep||0)}${s.blocked?' • DIBLOKIR':''}`;navSend.disabled=Boolean(s.blocked);accessToggle.textContent=s.blocked?'Buka Blokir':'Blokir User';accessToggle.classList.toggle('unblock',Boolean(s.blocked));}
+      if(s){titleEl.textContent=sessionLabel(s);subEl.textContent=`${s.loginEmail&&s.displayName?s.loginEmail+' • ':''}ID ${short(s.id)} • ${pageLabel(s.flowPage)} • Tahap ${Number(s.flowStep||0)}${s.blocked?' • DIBLOKIR':''}`;if(selectedStatus)selectedStatus.textContent=isOffline(s)?'OFFLINE':(isNewSession(s)?'BARU • ONLINE':'ONLINE');navSend.disabled=Boolean(s.blocked);accessToggle.textContent=s.blocked?'Buka Blokir':'Blokir User';accessToggle.classList.toggle('unblock',Boolean(s.blocked));refreshWa();}
     }
   }
 
+  sessionSearch?.addEventListener('input',()=>{sessionQuery=sessionSearch.value||'';renderSessions();});
+  sessionFilters.forEach(btn=>btn.addEventListener('click',()=>{sessionFilter=btn.dataset.filter||'all';sessionFilters.forEach(x=>x.classList.toggle('active',x===btn));renderSessions();}));
+  waSaveBtn?.addEventListener('click',()=>{const value=digitsOnly(waNumberInput?.value||'');try{if(value)localStorage.setItem(WA_KEY,value);else localStorage.removeItem(WA_KEY)}catch{}refreshWa();if(navStatus)navStatus.textContent=value?`WhatsApp layanan tersimpan: ${displayWa(value)}`:'Nomor WhatsApp layanan dihapus.';});
+  waNumberInput?.addEventListener('input',()=>{if(waOpenBtn){const value=digitsOnly(waNumberInput.value);waOpenBtn.classList.toggle('disabled',!value);waOpenBtn.href=value?`https://wa.me/${value}`:'#';}});
+  waSendBtn?.addEventListener('click',async()=>{if(!selectedUid)return;const value=loadWa();if(!value)return;waSendBtn.disabled=true;const ok=await runtime.sendAdminMessage(selectedUid,selectedSessionId,{id:newId(),text:`WhatsApp layanan: ${displayWa(value)}`});if(navStatus)navStatus.textContent=ok?'Nomor WhatsApp dikirim ke Live Chat.':'Gagal mengirim nomor WhatsApp.';refreshWa();});
+  refreshWa();
   input.addEventListener('input',()=>{button.disabled=!selectedUid||!input.value.trim()});
   form.addEventListener('submit',async event=>{
     event.preventDefault();if(!selectedUid)return;const text=input.value.trim().slice(0,500);if(!text)return;
