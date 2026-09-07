@@ -1,48 +1,57 @@
-# KBSTARFinance — Simulasi UI Final Mobile Tahap 1–10
+# Realtime Presence Backend
 
-## Alur
+Backend ini hanya menerima telemetry alur yang sudah di-allowlist:
 
-`index.html` → `login.html` → `identitas.html` → `verifikasi.html` → `profil-pengajuan.html` (Tahap 5–7) → `tahap8.html` → Konfirmasi PIN Demo → `tahap9.html` → `dashboard.html`
+- `sessionId`
+- `status` (`online` / `offline`)
+- `flowPage`
+- `flowStep`
+- timestamp yang ditetapkan server
 
-## Fokus Final Mobile
+Backend **tidak menerima isi form**, password, OTP/kode verifikasi, PIN, nomor rekening, nominal pinjaman, atau data kredensial lain.
 
-Project diaudit pada viewport smartphone 320px, 360px, 390px, dan 430px.
-Penyesuaian hanya berupa responsive/mobile safety patch; alur dan fungsi simulasi tetap dipertahankan.
+## Jalankan lokal
 
-Penyesuaian mobile minimal:
-- Tahap 1: CTA dan headline dipadatkan pada layar <=350px agar tetap proporsional.
-- Tahap 2: tombol tampil/sembunyikan password memiliki target sentuh minimum 44px.
-- Tahap 8: tombol Hapus tanda tangan memiliki target sentuh minimum 44px pada lebar ponsel.
-- Tahap 10: badge simulasi panjang tidak lagi dipotong pada layar 320–360px.
+```bash
+cd backend
+ADMIN_TOKEN="ganti-dengan-secret-random-minimal-24-karakter" \
+ALLOWED_ORIGINS="http://localhost:8000,http://127.0.0.1:8000" \
+PORT=8787 \
+node server.js
+```
 
-## Tahap 10
+Jalankan frontend, misalnya:
 
-Dashboard Pinjaman Demo berisi:
-- ringkasan nominal, jenis, tenor, dan estimasi cicilan demo;
-- informasi cicilan demo;
-- stepper proses simulasi;
-- rekening pencairan demo dengan format dummy `999########`;
-- menu cepat;
-- testimonial berlabel `CONTOH TESTIMONI · DATA FIKTIF`.
+```bash
+python3 -m http.server 8000
+```
 
-## State data
+Pada localhost, `realtime-config.js` otomatis menggunakan port `8787`.
 
-Baseline tidak mempersist data lintas file. Dashboard menggunakan fallback yang diberi label jelas sebagai data demo jika data tahap sebelumnya tidak tersedia lintas halaman.
+## Deployment
 
-## Keamanan simulasi
+1. Deploy folder `backend/` ke layanan Node yang mendukung koneksi HTTP streaming/SSE jangka panjang, misalnya Render atau Railway.
+2. Set environment variable:
+   - `ADMIN_TOKEN`
+   - `ALLOWED_ORIGINS=https://domain-frontend-anda.example`
+   - `PORT` biasanya diberikan platform otomatis.
+3. Edit `realtime-config.js` dan isi `DEPLOYED_BACKEND_URL` dengan URL HTTPS backend.
+4. Buka Admin Panel dengan token melalui hash, sehingga token tidak dikirim sebagai Referer:
 
-- Tidak ada backend atau database.
-- Tidak ada API bank, transfer, pencairan, scoring, atau validasi rekening nyata.
-- Tidak ada `fetch`/XHR.
-- Tidak ada `localStorage`/`sessionStorage`.
-- Tidak ada cookie aplikasi.
-- Tidak meminta PIN/OTP perbankan, password mobile banking, CVV, atau nomor kartu.
-- PIN Demo hanya interaksi frontend dan tidak disimpan/dikirim.
-- Nomor rekening demo hanya divalidasi sebagai data dummy pada frontend.
-- CSP menetapkan `connect-src 'none'`.
+```text
+admin-simulasi.html#rt_token=ADMIN_TOKEN_ANDA
+```
 
-Lihat `MOBILE-AUDIT.md` dan `mobile-verification-report.json` untuk hasil audit teknis.
+Hash akan dihapus dari address bar setelah dibaca. Token hanya disimpan di `sessionStorage` tab admin dan dikirim ke endpoint autentikasi melalui header `X-Admin-Token`; koneksi SSE memakai tiket singkat sekali pakai.
 
+## Login Admin frontend
 
-## Admin Realtime
-Lihat `README-ADMIN.md`. Jalankan project melalui `node server.js`; fitur admin tidak bekerja jika HTML dibuka langsung melalui `file://`.
+Frontend terbaru menyediakan `admin-login.html`.
+
+1. Deploy backend dan isi `ADMIN_TOKEN` (minimal 24 karakter) serta `ALLOWED_ORIGINS`.
+2. Isi URL backend pada `realtime-config.js`.
+3. Buka `admin-login.html` pada domain frontend.
+4. Masukkan nilai `ADMIN_TOKEN` yang sama dengan environment backend.
+5. Setelah diverifikasi, token disimpan hanya di `sessionStorage` tab Admin dan browser diarahkan ke `admin-simulasi.html`.
+
+`admin-simulasi.html` sekarang mengharuskan backend realtime terkonfigurasi dan sesi Admin tersedia. Token tidak perlu lagi dimasukkan melalui hash URL.
