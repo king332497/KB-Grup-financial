@@ -11,101 +11,77 @@
   </style>
 </head>
 <body>
-  <iframe id="app" src="app.html" title="KBStar" loading="eager"></iframe>
+  <iframe id="app" src="app.html" title="KBStar" allow="autoplay" loading="eager"></iframe>
   <script>
   (()=>{
     const frame=document.getElementById('app');
     const install=()=>{
-      let d;
-      try{d=frame.contentDocument}catch(e){return}
-      if(!d)return;
+      let d,w;
+      try{d=frame.contentDocument;w=frame.contentWindow;}catch(e){return}
+      if(!d||!w)return;
 
-      d.getElementById('ks-option-a-style')?.remove();
-      d.getElementById('ks-option-a-hero')?.remove();
+      d.getElementById('ks-cardholder-clean-style')?.remove();
+      d.getElementById('ks-cardholder-clean-canvas')?.remove();
 
       const style=d.createElement('style');
-      style.id='ks-option-a-style';
+      style.id='ks-cardholder-clean-style';
       style.textContent=`
-        #kbstar-loan-hero .ks-disbursement-video-hero{position:relative!important;overflow:hidden!important;isolation:isolate!important;background:#16093f!important}
-        #kbstar-loan-hero .ks-disbursement-hero-video,
+        #kbstar-loan-hero .ks-disbursement-video-hero{position:relative!important;isolation:isolate!important;overflow:hidden!important}
         #kbstar-loan-hero .ks-disbursement-video-name,
         #kbstar-loan-hero .ks-disbursement-video-name-mask,
-        #kbstar-loan-hero #ks-disbursement-preview-name,
-        #kbstar-loan-hero #ks-cardholder-clean-canvas,
-        #kbstar-loan-hero #ks-card-video-clean-patch{display:none!important;visibility:hidden!important;opacity:0!important}
-
-        #ks-option-a-hero{position:absolute;inset:0;z-index:50;pointer-events:none;overflow:hidden;border-radius:inherit;color:#fff;background:
-          radial-gradient(circle at 78% 28%,rgba(178,79,255,.46),transparent 28%),
-          radial-gradient(circle at 63% 88%,rgba(255,191,32,.20),transparent 28%),
-          linear-gradient(115deg,#140732 0%,#23105e 44%,#5520a9 72%,#24104c 100%)}
-        #ks-option-a-hero:before{content:"";position:absolute;left:-8%;right:-6%;bottom:10%;height:19%;border-radius:50%;border-top:3px solid rgba(255,202,45,.92);box-shadow:0 -4px 16px rgba(255,191,30,.58),0 -13px 34px rgba(183,80,255,.35);transform:rotate(-5deg);animation:ksRail 5.8s ease-in-out infinite}
-        #ks-option-a-hero:after{content:"";position:absolute;width:42%;height:140%;right:18%;top:-42%;background:linear-gradient(100deg,transparent 35%,rgba(255,255,255,.10) 49%,rgba(255,216,75,.20) 51%,transparent 65%);transform:rotate(22deg);animation:ksSweep 6.5s ease-in-out infinite}
-        .ksa-copy{position:absolute;left:6.1%;top:22%;width:46%;z-index:3;text-shadow:0 2px 18px rgba(15,3,55,.38)}
-        .ksa-kicker{display:flex;align-items:center;gap:10px;font-size:clamp(8px,1.05vw,15px);letter-spacing:.34em;text-transform:uppercase;color:#f6f1ff}
-        .ksa-kicker:before{content:"";display:block;width:22px;height:3px;border-radius:9px;background:#ffd21c;box-shadow:0 0 12px rgba(255,210,28,.75)}
-        .ksa-title{margin:10px 0 4px;font-size:clamp(24px,3.6vw,54px);font-weight:760;line-height:1.03;letter-spacing:-.035em}
-        .ksa-sub{font-size:clamp(10px,1.45vw,20px);opacity:.82}
-        .ksa-badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:17px}
-        .ksa-badge{display:flex;align-items:center;gap:7px;padding:8px 13px;border:1px solid rgba(235,214,255,.45);border-radius:999px;background:linear-gradient(180deg,rgba(116,54,186,.36),rgba(57,23,113,.54));box-shadow:inset 0 1px 0 rgba(255,255,255,.13),0 5px 16px rgba(19,4,54,.20);font-size:clamp(8px,.93vw,13px);white-space:nowrap}
-        .ksa-badge i{font-style:normal;color:#ffd21c}
-        .ksa-stage{position:absolute;right:4.2%;top:13%;width:43%;height:76%;z-index:4;display:flex;align-items:center;justify-content:center;perspective:900px}
-        .ksa-podium{position:absolute;width:83%;height:19%;bottom:0;border-radius:50%;background:radial-gradient(ellipse at center,rgba(255,255,255,.24),rgba(155,68,255,.30) 35%,rgba(42,10,92,.02) 70%);box-shadow:0 0 0 2px rgba(255,213,67,.38) inset,0 -5px 20px rgba(176,73,255,.72),0 8px 32px rgba(9,2,31,.45)}
-        .ksa-card{position:relative;width:66%;aspect-ratio:1.61;border-radius:8%;transform:rotateY(-7deg) rotateZ(-1.3deg);transform-style:preserve-3d;background:
-          radial-gradient(circle at 80% 76%,rgba(245,32,147,.78),transparent 27%),
-          radial-gradient(circle at 49% 69%,rgba(35,120,255,.60),transparent 31%),
-          linear-gradient(135deg,#07104a 0%,#04115f 43%,#481080 70%,#97124e 100%);border:1px solid rgba(255,240,194,.88);box-shadow:0 0 0 2px rgba(255,196,37,.16),0 0 26px rgba(255,202,55,.67),0 20px 34px rgba(17,3,56,.42);animation:ksFloat 4.8s ease-in-out infinite}
-        .ksa-card:before{content:"";position:absolute;inset:0;border-radius:inherit;background:repeating-linear-gradient(112deg,rgba(255,255,255,.045) 0 1px,transparent 1px 5px);mix-blend-mode:screen;opacity:.52}
-        .ksa-card:after{content:"";position:absolute;inset:-1px;border-radius:inherit;background:linear-gradient(104deg,transparent 33%,rgba(255,255,255,.0) 43%,rgba(255,255,255,.38) 50%,rgba(255,255,255,0) 57%,transparent 67%);transform:translateX(-120%);animation:ksCardShine 5.3s ease-in-out infinite}
-        .ksa-logo{position:absolute;left:7%;top:9%;font-size:clamp(12px,1.5vw,22px);font-style:italic;font-weight:700}.ksa-logo b{color:#ffd21c;margin-right:4px}.ksa-chip{position:absolute;right:16%;top:28%;width:14%;height:25%;border-radius:16%;background:linear-gradient(135deg,#f8f6ef,#bdb8ad);box-shadow:inset 0 0 0 1px rgba(36,34,30,.45)}
-        .ksa-chip:before,.ksa-chip:after{content:"";position:absolute;background:rgba(72,67,58,.44)}.ksa-chip:before{left:31%;top:0;bottom:0;width:1px;box-shadow:18px 0 0 rgba(72,67,58,.32)}.ksa-chip:after{top:45%;left:0;right:0;height:1px}
-        .ksa-contact{position:absolute;right:6.2%;top:35%;font-size:clamp(16px,2.1vw,31px);transform:rotate(7deg);opacity:.95}.ksa-visa{position:absolute;left:7%;bottom:8%;font-size:clamp(19px,2.6vw,38px);font-style:italic;font-weight:900;letter-spacing:-.04em;color:#f3f0e9;text-shadow:0 2px 5px rgba(8,5,34,.55)}
-        .ksa-star{position:absolute;right:9%;bottom:3%;font-size:clamp(52px,8vw,120px);line-height:.7;color:rgba(55,4,57,.44);transform:rotate(-9deg)}
-        .ksa-orb{position:absolute;border-radius:50%;background:radial-gradient(circle at 32% 28%,#ffcf54 0 5%,#6e42b2 25%,#220b4e 65%,#f1ae23 100%);box-shadow:0 0 20px rgba(210,107,255,.35)}
-        .ksa-orb.o1{width:5.2%;aspect-ratio:1;left:45%;top:38%;animation:ksOrb 5s ease-in-out infinite}.ksa-orb.o2{width:2.7%;aspect-ratio:1;right:4%;bottom:11%;animation:ksOrb 4.2s ease-in-out .7s infinite}
-        @keyframes ksFloat{0%,100%{transform:translateY(0) rotateY(-7deg) rotateZ(-1.3deg)}50%{transform:translateY(-7px) rotateY(-5deg) rotateZ(-.7deg)}}
-        @keyframes ksCardShine{0%,55%{transform:translateX(-135%)}75%,100%{transform:translateX(135%)}}
-        @keyframes ksSweep{0%,100%{transform:translateX(-12%) rotate(22deg);opacity:.45}50%{transform:translateX(17%) rotate(22deg);opacity:.88}}
-        @keyframes ksRail{0%,100%{transform:rotate(-5deg) translateX(-1%)}50%{transform:rotate(-4deg) translateX(2%)}}
-        @keyframes ksOrb{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
-        @media(max-width:620px){
-          .ksa-copy{left:5%;top:18%;width:49%}.ksa-title{margin-top:7px}.ksa-badges{gap:5px;margin-top:10px}.ksa-badge{padding:5px 8px}.ksa-stage{right:1%;width:47%;top:15%}.ksa-card{width:75%}.ksa-orb.o1{display:none}
+        #kbstar-loan-hero #ks-disbursement-preview-name{
+          display:none!important;visibility:hidden!important;opacity:0!important
         }
-        @media(max-width:420px){.ksa-sub{max-width:92%}.ksa-badge:nth-child(3){display:none}.ksa-stage{right:-2%;width:50%}.ksa-card{width:78%}}
-        @media(prefers-reduced-motion:reduce){#ks-option-a-hero:before,#ks-option-a-hero:after,.ksa-card,.ksa-card:after,.ksa-orb{animation:none!important}}
+        #ks-cardholder-clean-canvas{
+          position:absolute!important;
+          left:60.22%!important;
+          top:51.66%!important;
+          width:6.08%!important;
+          height:5.80%!important;
+          z-index:999999!important;
+          pointer-events:none!important;
+          display:block!important;
+          transform:translateZ(0) rotate(-.15deg)!important;
+          transform-origin:center!important;
+          backface-visibility:hidden!important;
+        }
       `;
       d.head.appendChild(style);
 
       const hero=d.getElementById('ks-disbursement-video-hero');
-      if(!hero)return;
-      const clean=d.createElement('div');
-      clean.id='ks-option-a-hero';
-      clean.setAttribute('aria-hidden','true');
-      clean.innerHTML=`
-        <div class="ksa-copy">
-          <div class="ksa-kicker">Rekening Tujuan</div>
-          <div class="ksa-title">Rekening Pencairan</div>
-          <div class="ksa-sub">Lengkapi rekening tujuan untuk melanjutkan pengajuan.</div>
-          <div class="ksa-badges">
-            <div class="ksa-badge"><i>▣</i> KB BANK - WAJIB</div>
-            <div class="ksa-badge"><i>▭</i> 12 digit nomor rekening</div>
-            <div class="ksa-badge"><i>▯</i> Mobile adaptive</div>
-          </div>
-        </div>
-        <span class="ksa-orb o1"></span><span class="ksa-orb o2"></span>
-        <div class="ksa-stage">
-          <div class="ksa-podium"></div>
-          <div class="ksa-card">
-            <div class="ksa-logo"><b>✳</b>KB Bank</div>
-            <div class="ksa-chip"></div>
-            <div class="ksa-contact">)))</div>
-            <div class="ksa-visa">VISA</div>
-            <div class="ksa-star">✱</div>
-          </div>
-        </div>`;
-      hero.appendChild(clean);
-
       const video=d.getElementById('ks-disbursement-hero-video');
-      if(video){try{video.pause()}catch(e){}}
+      if(!hero||!video)return;
+
+      const patch=d.createElement('canvas');
+      patch.id='ks-cardholder-clean-canvas';
+      patch.width=132;
+      patch.height=42;
+      patch.setAttribute('aria-hidden','true');
+      hero.appendChild(patch);
+      const ctx=patch.getContext('2d',{alpha:false});
+
+      const render=()=>{
+        if(video.readyState<2)return;
+        try{
+          ctx.clearRect(0,0,132,42);
+          ctx.drawImage(video,1308,326,132,42,0,0,132,42);
+        }catch(e){}
+      };
+
+      const start=()=>{
+        render();
+        if(typeof video.requestVideoFrameCallback==='function'){
+          const tick=()=>{render();video.requestVideoFrameCallback(tick)};
+          video.requestVideoFrameCallback(tick);
+        }else{
+          const tick=()=>{render();w.requestAnimationFrame(tick)};
+          w.requestAnimationFrame(tick);
+        }
+      };
+
+      if(video.readyState>=2)start();
+      else video.addEventListener('loadeddata',start,{once:true});
+      const p=video.play();if(p&&typeof p.catch==='function')p.catch(()=>{});
     };
     frame.addEventListener('load',install);
   })();
