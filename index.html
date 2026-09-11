@@ -7,61 +7,68 @@
 <title>KBStar</title>
 <style>
 html,body{width:100%;height:100%;margin:0;background:#f7f5f8;overflow:hidden}
-#app{position:fixed;inset:0;width:100%;height:100dvh;border:0;display:block;background:#f7f5f8}
+#app{position:fixed;inset:0;width:100%;height:100vh;height:100dvh;border:0;display:block;background:#f7f5f8}
 </style>
 </head>
 <body>
 <iframe id="app" src="app.html" title="KBStar" loading="eager"></iframe>
 <script>
-(()=>{
-  const frame=document.getElementById('app');
-  const install=()=>{
-    let d,w;
-    try{d=frame.contentDocument;w=frame.contentWindow}catch(e){return}
-    if(!d||!w)return;
+(() => {
+  'use strict';
+  const frame = document.getElementById('app');
+  const install = () => {
+    let d;
+    try { d = frame.contentDocument; } catch { return; }
+    if (!d || !d.head) return;
+    // The application has a hero CLASS, not an element with that ID.
+    const hero = d.querySelector('#kbstar-loan-hero .ks-disbursement-video-hero');
+    if (!hero || hero.dataset.heroRevision === 'rapi-v2') return;
 
-    d.getElementById('ks-latest-hero-style')?.remove();
-    d.getElementById('ks-latest-hero')?.remove();
-
-    const style=d.createElement('style');
-    style.id='ks-latest-hero-style';
-    style.textContent=`
-      #kbstar-loan-hero .ks-disbursement-video-hero{
-        position:relative!important;overflow:hidden!important;isolation:isolate!important;background:#13052f!important
+    const image = d.createElement('img');
+    image.width = 1280;
+    image.height = 548;
+    image.alt = 'Rekening Pencairan. Lengkapi rekening tujuan untuk melanjutkan pengajuan.';
+    image.decoding = 'async';
+    image.onload = () => {
+      if (!hero.isConnected || hero.dataset.heroRevision === 'rapi-v2') return;
+      const clean = d.createElement('div');
+      clean.id = 'ks-revisi-rapi-hero';
+      clean.appendChild(image);
+      const style = d.createElement('style');
+      style.id = 'ks-revisi-rapi-style';
+      style.textContent = `
+        #kbstar-loan-hero .ks-disbursement-video-hero[data-hero-revision="rapi-v2"]{
+          height:auto!important;aspect-ratio:auto!important;position:relative!important;overflow:hidden!important;
+        }
+        #kbstar-loan-hero [data-hero-revision="rapi-v2"] > .ks-disbursement-hero-video,
+        #kbstar-loan-hero [data-hero-revision="rapi-v2"] > .ks-disbursement-video-name,
+        #kbstar-loan-hero [data-hero-revision="rapi-v2"] > .ks-disbursement-video-name-mask,
+        #kbstar-loan-hero [data-hero-revision="rapi-v2"] > .ks-disbursement-video-overlay{
+          display:none!important;
+        }
+        #ks-revisi-rapi-hero{position:relative;width:100%;overflow:hidden;border-radius:inherit;isolation:isolate;pointer-events:none}
+        #ks-revisi-rapi-hero img{display:block!important;position:relative!important;width:100%!important;height:auto!important;max-width:100%;margin:0!important;transform:none!important;filter:none!important;animation:none!important}
+        #ks-revisi-rapi-hero::after{content:"";position:absolute;left:58%;top:18%;width:29%;height:44%;pointer-events:none;background:linear-gradient(110deg,transparent 33%,rgba(255,239,180,.14) 50%,transparent 67%);opacity:0;transform:translate3d(-110%,0,0);animation:ksRapiShine 10s ease-in-out infinite}
+        @keyframes ksRapiShine{0%,30%{transform:translate3d(-110%,0,0);opacity:0}50%{opacity:.55}70%,100%{transform:translate3d(110%,0,0);opacity:0}}
+        #kbstar-loan-hero.ks-paused #ks-revisi-rapi-hero::after{animation-play-state:paused}
+        @media(prefers-reduced-motion:reduce){#ks-revisi-rapi-hero::after{animation:none!important;opacity:0!important}}
+      `;
+      d.head.appendChild(style);
+      hero.appendChild(clean);
+      // Activate only after the replacement has successfully loaded.
+      hero.dataset.heroRevision = 'rapi-v2';
+      const video = hero.querySelector('video');
+      if (video) {
+        video.pause();
+        video.removeAttribute('autoplay');
+        video.addEventListener('play', () => video.pause());
       }
-      #kbstar-loan-hero .ks-disbursement-hero-video,
-      #kbstar-loan-hero .ks-disbursement-video-name,
-      #kbstar-loan-hero .ks-disbursement-video-name-mask,
-      #kbstar-loan-hero #ks-disbursement-preview-name,
-      #kbstar-loan-hero #ks-cardholder-clean-canvas,
-      #kbstar-loan-hero #ks-card-video-clean-patch,
-      #kbstar-loan-hero #ks-user-clean-hero{
-        display:none!important;visibility:hidden!important;opacity:0!important
-      }
-      #ks-latest-hero{position:absolute;inset:0;z-index:999;overflow:hidden;border-radius:inherit;pointer-events:none;background:#13052f}
-      #ks-latest-hero img{position:absolute;inset:-1%;width:102%;height:102%;object-fit:cover;display:block;transform:translate3d(-.15%,-.08%,0) scale(1.012);will-change:transform,filter;filter:saturate(1.02) contrast(1.01);animation:ksLatestHeroMove 11s cubic-bezier(.22,.61,.36,1) infinite alternate}
-      #ks-latest-hero:before{content:"";position:absolute;z-index:2;inset:-35%;pointer-events:none;background:linear-gradient(108deg,transparent 37%,rgba(255,229,149,.02) 43%,rgba(255,243,194,.20) 49%,rgba(255,197,73,.07) 54%,transparent 62%);mix-blend-mode:screen;filter:blur(2px);transform:translateX(-52%) rotate(2deg);animation:ksLatestSweep 8s ease-in-out infinite}
-      #ks-latest-hero:after{content:"";position:absolute;z-index:1;inset:0;pointer-events:none;background:radial-gradient(circle at 76% 55%,rgba(255,211,89,.09),transparent 26%),radial-gradient(circle at 70% 22%,rgba(172,103,255,.08),transparent 30%);animation:ksLatestGlow 6s ease-in-out infinite}
-      @keyframes ksLatestHeroMove{0%{transform:translate3d(-.18%,-.08%,0) scale(1.012)}100%{transform:translate3d(.18%,.08%,0) scale(1.021)}}
-      @keyframes ksLatestSweep{0%,18%{transform:translateX(-58%) rotate(2deg);opacity:0}45%{opacity:.85}75%,100%{transform:translateX(58%) rotate(2deg);opacity:0}}
-      @keyframes ksLatestGlow{0%,100%{opacity:.6}50%{opacity:1}}
-      @media(max-width:700px){#ks-latest-hero img{inset:-2%;width:104%;height:104%;animation-duration:13s}}
-      @media(prefers-reduced-motion:reduce){#ks-latest-hero img,#ks-latest-hero:before,#ks-latest-hero:after{animation:none!important}}
-    `;
-    d.head.appendChild(style);
-
-    const hero=d.getElementById('ks-disbursement-video-hero');
-    if(!hero)return;
-
-    const clean=d.createElement('div');
-    clean.id='ks-latest-hero';
-    clean.innerHTML='<img src="assets/hero-kb-bank-clean-latest.webp?v=20260912-0205" alt="Rekening Pencairan KB Bank">';
-    hero.appendChild(clean);
-
-    const video=d.getElementById('ks-disbursement-hero-video');
-    if(video){try{video.pause()}catch(e){}}
+    };
+    image.onerror = () => console.warn('[hero] Revised image failed to load; original hero retained.');
+    image.src = new URL('assets/hero-kb-bank-revisi-rapi.avif', d.baseURI).href;
   };
-  frame.addEventListener('load',install);
+  frame.addEventListener('load', install);
+  if (frame.contentDocument && frame.contentDocument.readyState === 'complete') install();
 })();
 </script>
 </body>
