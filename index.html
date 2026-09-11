@@ -65,7 +65,7 @@ html,body{width:100%;height:100%;margin:0;background:#f7f5f8;overflow:hidden}
       }
     };
     image.onerror = () => console.warn('[hero] Revised image failed to load; original hero retained.');
-    image.src = new URL('assets/hero-kb-bank-revisi-rapi.avif', d.baseURI).href;
+    image.src = new URL('assets/hero-kb-bank-revisi-rapi.webp', d.baseURI).href;
   };
   frame.addEventListener('load', install);
   if (frame.contentDocument && frame.contentDocument.readyState === 'complete') install();
