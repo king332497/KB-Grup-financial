@@ -20,10 +20,12 @@
       try{d=frame.contentDocument;w=frame.contentWindow;}catch(e){return}
       if(!d||!w)return;
 
+      d.getElementById('ks-cardholder-premium-patch')?.remove();
       const style=d.createElement('style');
       style.id='ks-cardholder-premium-patch';
       style.textContent=`
         #kbstar-loan-hero .ks-disbursement-video-hero{
+          position:relative!important;isolation:isolate!important;overflow:hidden!important;
           transform:translateZ(0);backface-visibility:hidden;contain:paint;
           box-shadow:0 18px 52px rgba(51,14,94,.16),0 0 0 1px rgba(255,255,255,.07) inset!important;
         }
@@ -32,18 +34,21 @@
           filter:saturate(1.015) contrast(1.005);transition:opacity .45s cubic-bezier(.22,.61,.36,1)!important;
         }
         #kbstar-loan-hero .ks-disbursement-video-name-mask{
+          position:absolute!important;z-index:3!important;pointer-events:none!important;
           left:60.20%!important;top:47.85%!important;width:13.05%!important;height:6.4%!important;border-radius:5px!important;
           background:linear-gradient(90deg,rgba(24,27,82,.965) 0%,rgba(31,27,95,.94) 68%,rgba(47,26,115,.56) 88%,rgba(47,26,115,0) 100%)!important;
           backdrop-filter:blur(1.15px)!important;-webkit-backdrop-filter:blur(1.15px)!important;
           transform:translateZ(0) rotate(-.55deg)!important;transform-origin:left center!important;
         }
         #kbstar-loan-hero .ks-disbursement-video-name{
-          --ks-holder-size:.60vw;left:60.78%!important;top:50.42%!important;width:14.7%!important;
-          color:#fbfaff!important;font-size:clamp(5.2px,var(--ks-holder-size),12px)!important;font-weight:720!important;
+          --ks-holder-size:5.2px;position:absolute!important;z-index:4!important;pointer-events:none!important;
+          left:60.78%!important;top:50.42%!important;width:14.7%!important;
+          overflow:hidden!important;text-overflow:clip!important;white-space:nowrap!important;
+          color:#fbfaff!important;font-size:var(--ks-holder-size)!important;font-weight:720!important;line-height:1!important;
           letter-spacing:.07em!important;text-transform:uppercase!important;
           text-shadow:0 1px 5px rgba(0,0,0,.48),0 0 7px rgba(222,214,255,.16)!important;
           transform:translateY(-50%) translateZ(0) rotate(-.72deg) skewX(-1.1deg)!important;
-          transform-origin:left center!important;backface-visibility:hidden;will-change:opacity,text-shadow;
+          transform-origin:left center!important;backface-visibility:hidden;will-change:opacity,text-shadow,font-size;
           animation:ksCardNameBreath 7.5s cubic-bezier(.4,0,.2,1) infinite!important;
         }
         @keyframes ksCardNameBreath{
@@ -51,30 +56,58 @@
           50%{opacity:1;text-shadow:0 1px 5px rgba(0,0,0,.5),0 0 9px rgba(236,230,255,.22)}
         }
         @media(max-width:660px){
-          #kbstar-loan-hero .ks-disbursement-video-name{font-size:clamp(4.6px,1.22vw,7px)!important;width:16.6%!important;letter-spacing:.045em!important}
+          #kbstar-loan-hero .ks-disbursement-video-name{width:16.6%!important;letter-spacing:.045em!important}
           #kbstar-loan-hero .ks-disbursement-video-name-mask{width:14.4%!important}
         }
-        @media(max-width:360px){#kbstar-loan-hero .ks-disbursement-video-name{font-size:4.5px!important;width:17%!important}}
+        @media(max-width:360px){
+          #kbstar-loan-hero .ks-disbursement-video-name{width:17%!important;letter-spacing:.035em!important}
+        }
         @media(prefers-reduced-motion:reduce){#kbstar-loan-hero .ks-disbursement-video-name{animation:none!important}}
       `;
       d.head.appendChild(style);
 
       const fullName=d.getElementById('ks-demo-fullname');
       const cardName=d.getElementById('ks-disbursement-preview-name');
+      const hero=d.getElementById('ks-disbursement-video-hero');
       const video=d.getElementById('ks-disbursement-hero-video');
+
+      const fitCardName=()=>{
+        if(!cardName||!hero)return;
+        const heroWidth=hero.getBoundingClientRect().width;
+        if(!heroWidth)return;
+
+        const minSize=heroWidth<=420?4.2:5;
+        const maxSize=heroWidth<=420?7:12;
+        const baseSize=Math.max(minSize,Math.min(maxSize,heroWidth*.0074));
+        cardName.style.setProperty('--ks-holder-size',baseSize.toFixed(2)+'px');
+
+        w.requestAnimationFrame(()=>{
+          const available=cardName.clientWidth;
+          const required=cardName.scrollWidth;
+          if(!available||!required||required<=available)return;
+          const fitted=Math.max(3.8,baseSize*(available/required)*.97);
+          cardName.style.setProperty('--ks-holder-size',fitted.toFixed(2)+'px');
+        });
+      };
 
       const syncCardName=()=>{
         if(!cardName)return;
         const name=(fullName?.value||'').trim()||'Nasabah';
-        cardName.textContent=name;
-        const len=name.length;
-        const size=len>32?'.40vw':len>26?'.45vw':len>20?'.50vw':len>16?'.55vw':'.60vw';
-        cardName.style.setProperty('--ks-holder-size',size);
+        if(cardName.textContent!==name)cardName.textContent=name;
         cardName.setAttribute('aria-label','Nama pemilik kartu: '+name);
+        fitCardName();
       };
+
       fullName?.addEventListener('input',syncCardName,{passive:true});
       fullName?.addEventListener('change',syncCardName,{passive:true});
       syncCardName();
+
+      if(hero&&'ResizeObserver' in w){
+        const resizeObserver=new w.ResizeObserver(fitCardName);
+        resizeObserver.observe(hero);
+      }else{
+        w.addEventListener('resize',fitCardName,{passive:true});
+      }
 
       if(video){
         video.defaultPlaybackRate=.94;
