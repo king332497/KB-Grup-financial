@@ -20,117 +20,66 @@
       try{d=frame.contentDocument;w=frame.contentWindow;}catch(e){return}
       if(!d||!w)return;
 
-      d.getElementById('ks-cardholder-premium-patch')?.remove();
-      d.getElementById('ks-card-video-clean-patch')?.remove();
+      d.getElementById('ks-cardholder-clean-style')?.remove();
+      d.getElementById('ks-cardholder-clean-canvas')?.remove();
 
       const style=d.createElement('style');
-      style.id='ks-cardholder-premium-patch';
+      style.id='ks-cardholder-clean-style';
       style.textContent=`
-        #kbstar-loan-hero .ks-disbursement-video-hero{
-          position:relative!important;isolation:isolate!important;overflow:hidden!important;
-          transform:translateZ(0);backface-visibility:hidden;contain:paint;
-        }
-        #kbstar-loan-hero .ks-disbursement-hero-video{
-          transform:translateZ(0)!important;backface-visibility:hidden;will-change:transform;
-        }
+        #kbstar-loan-hero .ks-disbursement-video-hero{position:relative!important;isolation:isolate!important;overflow:hidden!important}
         #kbstar-loan-hero .ks-disbursement-video-name,
         #kbstar-loan-hero .ks-disbursement-video-name-mask,
         #kbstar-loan-hero #ks-disbursement-preview-name{
-          display:none!important;visibility:hidden!important;opacity:0!important;
+          display:none!important;visibility:hidden!important;opacity:0!important
         }
-        #kbstar-loan-hero #ks-card-video-clean-patch{
-          position:absolute!important;z-index:5!important;pointer-events:none!important;
-          left:59.30%!important;top:48.75%!important;width:8.35%!important;height:9.15%!important;
-          display:block!important;transform:translateZ(0) rotate(-.35deg)!important;
-          transform-origin:center center!important;backface-visibility:hidden;
+        #ks-cardholder-clean-canvas{
+          position:absolute!important;
+          left:60.22%!important;
+          top:51.66%!important;
+          width:6.08%!important;
+          height:5.80%!important;
+          z-index:999999!important;
+          pointer-events:none!important;
+          display:block!important;
+          transform:translateZ(0) rotate(-.15deg)!important;
+          transform-origin:center!important;
+          backface-visibility:hidden!important;
         }
       `;
       d.head.appendChild(style);
 
       const hero=d.getElementById('ks-disbursement-video-hero');
       const video=d.getElementById('ks-disbursement-hero-video');
-      if(!video||!hero)return;
+      if(!hero||!video)return;
 
-      const SX=1288,SY=352,SW=182,SH=66,DY=-76,EDGE=16,FEATHER=13;
       const patch=d.createElement('canvas');
-      patch.id='ks-card-video-clean-patch';
-      patch.width=SW;patch.height=SH;
+      patch.id='ks-cardholder-clean-canvas';
+      patch.width=132;
+      patch.height=42;
       patch.setAttribute('aria-hidden','true');
       hero.appendChild(patch);
+      const ctx=patch.getContext('2d',{alpha:false});
 
-      const pctx=patch.getContext('2d',{alpha:true,willReadFrequently:true});
-      const donor=d.createElement('canvas');donor.width=SW;donor.height=SH;
-      const dctx=donor.getContext('2d',{willReadFrequently:true});
-      const sample=d.createElement('canvas');sample.width=SW+EDGE*2;sample.height=SH+EDGE*2;
-      const sctx=sample.getContext('2d',{willReadFrequently:true});
-
-      const renderPatch=()=>{
+      const render=()=>{
         if(video.readyState<2)return;
         try{
-          dctx.clearRect(0,0,SW,SH);
-          dctx.drawImage(video,SX,SY+DY,SW,SH,0,0,SW,SH);
-          const donorData=dctx.getImageData(0,0,SW,SH);
-
-          sctx.clearRect(0,0,sample.width,sample.height);
-          sctx.drawImage(video,SX-EDGE,SY-EDGE,SW+EDGE*2,SH+EDGE*2,0,0,sample.width,sample.height);
-          const sampleData=sctx.getImageData(0,0,sample.width,sample.height);
-
-          const dm=[0,0,0],ds=[0,0,0],rm=[0,0,0],rs=[0,0,0];
-          const dp=donorData.data,sp=sampleData.data;
-          const dn=SW*SH;
-          for(let i=0;i<dp.length;i+=4){dm[0]+=dp[i];dm[1]+=dp[i+1];dm[2]+=dp[i+2]}
-          dm[0]/=dn;dm[1]/=dn;dm[2]/=dn;
-          for(let i=0;i<dp.length;i+=4){ds[0]+=(dp[i]-dm[0])**2;ds[1]+=(dp[i+1]-dm[1])**2;ds[2]+=(dp[i+2]-dm[2])**2}
-          ds[0]=Math.sqrt(ds[0]/dn)||1;ds[1]=Math.sqrt(ds[1]/dn)||1;ds[2]=Math.sqrt(ds[2]/dn)||1;
-
-          let rn=0;
-          const sampleW=SW+EDGE*2,sampleH=SH+EDGE*2;
-          for(let y=0;y<sampleH;y++)for(let x=0;x<sampleW;x++){
-            if(x>=EDGE&&x<EDGE+SW&&y>=EDGE&&y<EDGE+SH)continue;
-            const i=(y*sampleW+x)*4;
-            rm[0]+=sp[i];rm[1]+=sp[i+1];rm[2]+=sp[i+2];rn++;
-          }
-          rm[0]/=rn;rm[1]/=rn;rm[2]/=rn;
-          for(let y=0;y<sampleH;y++)for(let x=0;x<sampleW;x++){
-            if(x>=EDGE&&x<EDGE+SW&&y>=EDGE&&y<EDGE+SH)continue;
-            const i=(y*sampleW+x)*4;
-            rs[0]+=(sp[i]-rm[0])**2;rs[1]+=(sp[i+1]-rm[1])**2;rs[2]+=(sp[i+2]-rm[2])**2;
-          }
-          rs[0]=Math.sqrt(rs[0]/rn)||1;rs[1]=Math.sqrt(rs[1]/rn)||1;rs[2]=Math.sqrt(rs[2]/rn)||1;
-
-          const target=sctx.getImageData(EDGE,EDGE,SW,SH).data;
-          const out=pctx.createImageData(SW,SH);const op=out.data;
-          for(let y=0;y<SH;y++)for(let x=0;x<SW;x++){
-            const i=(y*SW+x)*4;
-            const dist=Math.min(x,SW-1-x,y,SH-1-y);
-            const a=Math.max(0,Math.min(1,dist/FEATHER));
-            for(let c=0;c<3;c++){
-              const matched=Math.max(0,Math.min(255,((dp[i+c]-dm[c])/ds[c])*rs[c]+rm[c]));
-              op[i+c]=Math.round(matched*a+target[i+c]*(1-a));
-            }
-            op[i+3]=255;
-          }
-          pctx.putImageData(out,0,0);
+          ctx.clearRect(0,0,132,42);
+          /* Copy a clean part of the same moving card texture from directly above KEMMY S. */
+          ctx.drawImage(video,1308,326,132,42,0,0,132,42);
         }catch(e){}
       };
 
       const start=()=>{
-        renderPatch();
+        render();
         if(typeof video.requestVideoFrameCallback==='function'){
-          const tick=()=>{renderPatch();video.requestVideoFrameCallback(tick)};
+          const tick=()=>{render();video.requestVideoFrameCallback(tick)};
           video.requestVideoFrameCallback(tick);
         }else{
-          let last=0;
-          const tick=(ts)=>{if(ts-last>40){renderPatch();last=ts}w.requestAnimationFrame(tick)};
+          const tick=()=>{render();w.requestAnimationFrame(tick)};
           w.requestAnimationFrame(tick);
         }
       };
 
-      video.defaultPlaybackRate=.96;
-      video.playbackRate=.96;
-      video.setAttribute('playsinline','');
-      video.setAttribute('webkit-playsinline','');
-      video.preload='auto';
       if(video.readyState>=2)start();
       else video.addEventListener('loadeddata',start,{once:true});
       const p=video.play();if(p&&typeof p.catch==='function')p.catch(()=>{});
