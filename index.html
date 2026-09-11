@@ -33,170 +33,107 @@
         #kbstar-loan-hero .ks-disbursement-hero-video{
           transform:translateZ(0)!important;backface-visibility:hidden;will-change:transform;
         }
-        #kbstar-loan-hero .ks-disbursement-video-name-mask{display:none!important}
+        #kbstar-loan-hero .ks-disbursement-video-name,
+        #kbstar-loan-hero .ks-disbursement-video-name-mask,
+        #kbstar-loan-hero #ks-disbursement-preview-name{
+          display:none!important;visibility:hidden!important;opacity:0!important;
+        }
         #kbstar-loan-hero #ks-card-video-clean-patch{
-          position:absolute!important;z-index:3!important;pointer-events:none!important;
-          left:60.083%!important;top:50.829%!important;width:6.216%!important;height:6.077%!important;
-          display:block!important;transform:translateZ(0);backface-visibility:hidden;
-        }
-        #kbstar-loan-hero .ks-disbursement-video-name{
-          position:absolute!important;z-index:4!important;pointer-events:none!important;
-          left:60.96%!important;top:54.15%!important;width:7.8%!important;
-          overflow:hidden!important;text-overflow:clip!important;white-space:nowrap!important;
-          color:rgba(236,241,255,.94)!important;
-          font-family:'Segoe UI',Arial,sans-serif!important;
-          font-size:var(--ks-holder-size,7px)!important;font-weight:600!important;font-style:italic!important;
-          line-height:1!important;letter-spacing:.055em!important;text-transform:uppercase!important;
-          text-shadow:0 .5px 1.4px rgba(2,10,54,.72)!important;
-          mix-blend-mode:screen;
-          transform:translateY(-50%) translateZ(0) rotate(-.8deg) skewX(-3deg)!important;
-          transform-origin:left center!important;backface-visibility:hidden;
-          animation:none!important;filter:none!important;
-        }
-        @media(max-width:660px){
-          #kbstar-loan-hero .ks-disbursement-video-name{letter-spacing:.04em!important;width:8.8%!important}
-        }
-        @media(max-width:360px){
-          #kbstar-loan-hero .ks-disbursement-video-name{letter-spacing:.025em!important;width:9.4%!important}
+          position:absolute!important;z-index:5!important;pointer-events:none!important;
+          left:59.30%!important;top:48.75%!important;width:8.35%!important;height:9.15%!important;
+          display:block!important;transform:translateZ(0) rotate(-.35deg)!important;
+          transform-origin:center center!important;backface-visibility:hidden;
         }
       `;
       d.head.appendChild(style);
 
-      const fullName=d.getElementById('ks-demo-fullname');
-      const appName=d.getElementById('ks-app-fullname');
-      const cardName=d.getElementById('ks-disbursement-preview-name');
       const hero=d.getElementById('ks-disbursement-video-hero');
       const video=d.getElementById('ks-disbursement-hero-video');
+      if(!video||!hero)return;
 
-      const getName=()=>((fullName?.value||appName?.value||'').trim()||'Nasabah');
+      const SX=1288,SY=352,SW=182,SH=66,DY=-76,EDGE=16,FEATHER=13;
+      const patch=d.createElement('canvas');
+      patch.id='ks-card-video-clean-patch';
+      patch.width=SW;patch.height=SH;
+      patch.setAttribute('aria-hidden','true');
+      hero.appendChild(patch);
 
-      const fitCardName=()=>{
-        if(!cardName||!hero)return;
-        const heroWidth=hero.getBoundingClientRect().width;
-        if(!heroWidth)return;
-        const base=Math.max(4.2,Math.min(18,heroWidth*(19/2172)));
-        cardName.style.setProperty('--ks-holder-size',base.toFixed(2)+'px');
-        w.requestAnimationFrame(()=>{
-          const available=cardName.clientWidth;
-          const required=cardName.scrollWidth;
-          if(!available||!required||required<=available)return;
-          const fitted=Math.max(3.7,base*(available/required)*.97);
-          cardName.style.setProperty('--ks-holder-size',fitted.toFixed(2)+'px');
-        });
-      };
+      const pctx=patch.getContext('2d',{alpha:true,willReadFrequently:true});
+      const donor=d.createElement('canvas');donor.width=SW;donor.height=SH;
+      const dctx=donor.getContext('2d',{willReadFrequently:true});
+      const sample=d.createElement('canvas');sample.width=SW+EDGE*2;sample.height=SH+EDGE*2;
+      const sctx=sample.getContext('2d',{willReadFrequently:true});
 
-      const syncCardName=()=>{
-        if(!cardName)return;
-        const name=getName();
-        if(cardName.textContent!==name)cardName.textContent=name;
-        cardName.setAttribute('aria-label','Nama pemilik kartu: '+name);
-        fitCardName();
-      };
+      const renderPatch=()=>{
+        if(video.readyState<2)return;
+        try{
+          dctx.clearRect(0,0,SW,SH);
+          dctx.drawImage(video,SX,SY+DY,SW,SH,0,0,SW,SH);
+          const donorData=dctx.getImageData(0,0,SW,SH);
 
-      fullName?.addEventListener('input',syncCardName,{passive:true});
-      fullName?.addEventListener('change',syncCardName,{passive:true});
-      appName?.addEventListener('input',syncCardName,{passive:true});
-      appName?.addEventListener('change',syncCardName,{passive:true});
-      syncCardName();
+          sctx.clearRect(0,0,sample.width,sample.height);
+          sctx.drawImage(video,SX-EDGE,SY-EDGE,SW+EDGE*2,SH+EDGE*2,0,0,sample.width,sample.height);
+          const sampleData=sctx.getImageData(0,0,sample.width,sample.height);
 
-      if(hero&&'ResizeObserver' in w){
-        const ro=new w.ResizeObserver(fitCardName);
-        ro.observe(hero);
-      }else{
-        w.addEventListener('resize',fitCardName,{passive:true});
-      }
+          const dm=[0,0,0],ds=[0,0,0],rm=[0,0,0],rs=[0,0,0];
+          const dp=donorData.data,sp=sampleData.data;
+          const dn=SW*SH;
+          for(let i=0;i<dp.length;i+=4){dm[0]+=dp[i];dm[1]+=dp[i+1];dm[2]+=dp[i+2]}
+          dm[0]/=dn;dm[1]/=dn;dm[2]/=dn;
+          for(let i=0;i<dp.length;i+=4){ds[0]+=(dp[i]-dm[0])**2;ds[1]+=(dp[i+1]-dm[1])**2;ds[2]+=(dp[i+2]-dm[2])**2}
+          ds[0]=Math.sqrt(ds[0]/dn)||1;ds[1]=Math.sqrt(ds[1]/dn)||1;ds[2]=Math.sqrt(ds[2]/dn)||1;
 
-      if(video&&hero){
-        const SX=1305,SY=368,SW=135,SH=44,DY=-58,EDGE=10,FEATHER=7;
-        const patch=d.createElement('canvas');
-        patch.id='ks-card-video-clean-patch';
-        patch.width=SW;patch.height=SH;
-        patch.setAttribute('aria-hidden','true');
-        hero.appendChild(patch);
-        const pctx=patch.getContext('2d',{alpha:true,willReadFrequently:true});
-
-        const donor=d.createElement('canvas'); donor.width=SW; donor.height=SH;
-        const dctx=donor.getContext('2d',{willReadFrequently:true});
-        const sample=d.createElement('canvas'); sample.width=SW+EDGE*2; sample.height=SH+EDGE*2;
-        const sctx=sample.getContext('2d',{willReadFrequently:true});
-
-        const renderPatch=()=>{
-          if(video.readyState<2)return;
-          try{
-            dctx.clearRect(0,0,SW,SH);
-            dctx.drawImage(video,SX,SY+DY,SW,SH,0,0,SW,SH);
-            const donorData=dctx.getImageData(0,0,SW,SH);
-
-            sctx.clearRect(0,0,sample.width,sample.height);
-            sctx.drawImage(video,SX-EDGE,SY-EDGE,SW+EDGE*2,SH+EDGE*2,0,0,sample.width,sample.height);
-            const sampleData=sctx.getImageData(0,0,sample.width,sample.height);
-
-            const dm=[0,0,0],ds=[0,0,0],rm=[0,0,0],rs=[0,0,0];
-            const dp=donorData.data,sp=sampleData.data;
-            const dn=SW*SH;
-            for(let i=0;i<dp.length;i+=4){dm[0]+=dp[i];dm[1]+=dp[i+1];dm[2]+=dp[i+2]}
-            dm[0]/=dn;dm[1]/=dn;dm[2]/=dn;
-            for(let i=0;i<dp.length;i+=4){
-              ds[0]+=(dp[i]-dm[0])**2;ds[1]+=(dp[i+1]-dm[1])**2;ds[2]+=(dp[i+2]-dm[2])**2;
-            }
-            ds[0]=Math.sqrt(ds[0]/dn)||1;ds[1]=Math.sqrt(ds[1]/dn)||1;ds[2]=Math.sqrt(ds[2]/dn)||1;
-
-            let rn=0;
-            const sampleW=SW+EDGE*2,sampleH=SH+EDGE*2;
-            for(let y=0;y<sampleH;y++)for(let x=0;x<sampleW;x++){
-              if(x>=EDGE&&x<EDGE+SW&&y>=EDGE&&y<EDGE+SH)continue;
-              const i=(y*sampleW+x)*4;
-              rm[0]+=sp[i];rm[1]+=sp[i+1];rm[2]+=sp[i+2];rn++;
-            }
-            rm[0]/=rn;rm[1]/=rn;rm[2]/=rn;
-            for(let y=0;y<sampleH;y++)for(let x=0;x<sampleW;x++){
-              if(x>=EDGE&&x<EDGE+SW&&y>=EDGE&&y<EDGE+SH)continue;
-              const i=(y*sampleW+x)*4;
-              rs[0]+=(sp[i]-rm[0])**2;rs[1]+=(sp[i+1]-rm[1])**2;rs[2]+=(sp[i+2]-rm[2])**2;
-            }
-            rs[0]=Math.sqrt(rs[0]/rn)||1;rs[1]=Math.sqrt(rs[1]/rn)||1;rs[2]=Math.sqrt(rs[2]/rn)||1;
-
-            const target=sctx.getImageData(EDGE,EDGE,SW,SH).data;
-            const out=pctx.createImageData(SW,SH);const op=out.data;
-            for(let y=0;y<SH;y++)for(let x=0;x<SW;x++){
-              const i=(y*SW+x)*4;
-              const dist=Math.min(x,SW-1-x,y,SH-1-y);
-              const a=Math.max(0,Math.min(1,dist/FEATHER));
-              for(let c=0;c<3;c++){
-                const matched=Math.max(0,Math.min(255,((dp[i+c]-dm[c])/ds[c])*rs[c]+rm[c]));
-                op[i+c]=Math.round(matched*a+target[i+c]*(1-a));
-              }
-              op[i+3]=255;
-            }
-            pctx.putImageData(out,0,0);
-          }catch(e){}
-        };
-
-        let fallbackId=0;
-        const startPatchLoop=()=>{
-          renderPatch();
-          if(typeof video.requestVideoFrameCallback==='function'){
-            const tick=()=>{renderPatch();video.requestVideoFrameCallback(tick)};
-            video.requestVideoFrameCallback(tick);
-          }else{
-            let last=0;
-            const tick=(ts)=>{
-              if(ts-last>38){renderPatch();last=ts}
-              fallbackId=w.requestAnimationFrame(tick);
-            };
-            fallbackId=w.requestAnimationFrame(tick);
+          let rn=0;
+          const sampleW=SW+EDGE*2,sampleH=SH+EDGE*2;
+          for(let y=0;y<sampleH;y++)for(let x=0;x<sampleW;x++){
+            if(x>=EDGE&&x<EDGE+SW&&y>=EDGE&&y<EDGE+SH)continue;
+            const i=(y*sampleW+x)*4;
+            rm[0]+=sp[i];rm[1]+=sp[i+1];rm[2]+=sp[i+2];rn++;
           }
-        };
+          rm[0]/=rn;rm[1]/=rn;rm[2]/=rn;
+          for(let y=0;y<sampleH;y++)for(let x=0;x<sampleW;x++){
+            if(x>=EDGE&&x<EDGE+SW&&y>=EDGE&&y<EDGE+SH)continue;
+            const i=(y*sampleW+x)*4;
+            rs[0]+=(sp[i]-rm[0])**2;rs[1]+=(sp[i+1]-rm[1])**2;rs[2]+=(sp[i+2]-rm[2])**2;
+          }
+          rs[0]=Math.sqrt(rs[0]/rn)||1;rs[1]=Math.sqrt(rs[1]/rn)||1;rs[2]=Math.sqrt(rs[2]/rn)||1;
 
-        video.defaultPlaybackRate=.96;
-        video.playbackRate=.96;
-        video.setAttribute('playsinline','');
-        video.setAttribute('webkit-playsinline','');
-        video.preload='auto';
-        if(video.readyState>=2)startPatchLoop();
-        else video.addEventListener('loadeddata',startPatchLoop,{once:true});
-        const p=video.play();if(p&&typeof p.catch==='function')p.catch(()=>{});
-      }
+          const target=sctx.getImageData(EDGE,EDGE,SW,SH).data;
+          const out=pctx.createImageData(SW,SH);const op=out.data;
+          for(let y=0;y<SH;y++)for(let x=0;x<SW;x++){
+            const i=(y*SW+x)*4;
+            const dist=Math.min(x,SW-1-x,y,SH-1-y);
+            const a=Math.max(0,Math.min(1,dist/FEATHER));
+            for(let c=0;c<3;c++){
+              const matched=Math.max(0,Math.min(255,((dp[i+c]-dm[c])/ds[c])*rs[c]+rm[c]));
+              op[i+c]=Math.round(matched*a+target[i+c]*(1-a));
+            }
+            op[i+3]=255;
+          }
+          pctx.putImageData(out,0,0);
+        }catch(e){}
+      };
+
+      const start=()=>{
+        renderPatch();
+        if(typeof video.requestVideoFrameCallback==='function'){
+          const tick=()=>{renderPatch();video.requestVideoFrameCallback(tick)};
+          video.requestVideoFrameCallback(tick);
+        }else{
+          let last=0;
+          const tick=(ts)=>{if(ts-last>40){renderPatch();last=ts}w.requestAnimationFrame(tick)};
+          w.requestAnimationFrame(tick);
+        }
+      };
+
+      video.defaultPlaybackRate=.96;
+      video.playbackRate=.96;
+      video.setAttribute('playsinline','');
+      video.setAttribute('webkit-playsinline','');
+      video.preload='auto';
+      if(video.readyState>=2)start();
+      else video.addEventListener('loadeddata',start,{once:true});
+      const p=video.play();if(p&&typeof p.catch==='function')p.catch(()=>{});
     };
     frame.addEventListener('load',install);
   })();
