@@ -19,62 +19,57 @@ html,body{width:100%;height:100%;margin:0;background:#f7f5f8;overflow:hidden}
   'use strict';
   const frame = document.getElementById('app');
   if (!frame) return;
-  const installWaitingVideoHero = () => {
+
+  const installDisbursementHero = () => {
     let d;
     try { d = frame.contentDocument; } catch { return; }
-    if (!d || !d.head || !d.body) return;
+    if (!d || !d.body) return;
+
     const apply = () => {
-      const hero = d.querySelector('#ks-waiting-view .ksw-hero');
-      if (!hero || hero.dataset.premiumVideoHero === '1') return Boolean(hero);
-      const style = d.createElement('style');
-      style.id = 'ks-waiting-premium-video-style';
-      style.textContent = `
-        #ks-waiting-view .ksw-hero[data-premium-video-hero="1"]{position:relative!important;overflow:hidden!important;min-height:310px!important;padding:34px 30px!important;border-radius:25px!important;background:#1a0a34!important;isolation:isolate!important}
-        #ks-waiting-premium-video{position:absolute!important;inset:0!important;z-index:1!important;width:100%!important;height:100%!important;display:block!important;object-fit:cover!important;object-position:center center!important;border-radius:inherit!important;pointer-events:none!important;background:#1a0a34!important}
-        #ks-waiting-view .ksw-hero[data-premium-video-hero="1"]::before{content:""!important;position:absolute!important;inset:0!important;z-index:2!important;height:auto!important;border:0!important;border-radius:0!important;box-shadow:none!important;transform:none!important;animation:none!important;background:linear-gradient(90deg,rgba(18,5,39,.96) 0%,rgba(25,7,48,.90) 38%,rgba(32,9,61,.64) 58%,rgba(32,9,61,.12) 78%,transparent 100%)!important;pointer-events:none!important}
-        #ks-waiting-view .ksw-hero[data-premium-video-hero="1"]::after{content:""!important;position:absolute!important;inset:-40%!important;z-index:2!important;background:linear-gradient(112deg,transparent 42%,rgba(255,239,170,.10) 49%,transparent 57%)!important;animation:ksPremiumVideoSweep 7s ease-in-out infinite!important;pointer-events:none!important}
-        #ks-waiting-view .ksw-hero[data-premium-video-hero="1"] .ksw-copy{position:relative!important;z-index:3!important;max-width:560px!important}
-        #ks-waiting-view .ksw-hero[data-premium-video-hero="1"] .ksw-orbit{display:none!important}
-        #ks-waiting-view .ksw-hero[data-premium-video-hero="1"] .ksw-timer-card{background:rgba(22,7,38,.60)!important;border-color:rgba(255,226,102,.25)!important;box-shadow:0 14px 34px rgba(10,2,25,.18),inset 0 1px rgba(255,255,255,.08)!important;backdrop-filter:blur(12px)!important;-webkit-backdrop-filter:blur(12px)!important}
-        @keyframes ksPremiumVideoSweep{0%,20%{transform:translate3d(-50%,0,0);opacity:0}48%{opacity:.55}78%,100%{transform:translate3d(50%,0,0);opacity:0}}
-        @media(max-width:700px){#ks-waiting-view .ksw-hero[data-premium-video-hero="1"]{min-height:355px!important;padding:27px 20px!important}#ks-waiting-premium-video{object-position:58% center!important}#ks-waiting-view .ksw-hero[data-premium-video-hero="1"]::before{background:linear-gradient(90deg,rgba(18,5,39,.97) 0%,rgba(25,7,48,.90) 58%,rgba(31,8,59,.48) 80%,rgba(31,8,59,.16) 100%)!important}}
-        @media(max-width:430px){#ks-waiting-view .ksw-hero[data-premium-video-hero="1"]{min-height:390px!important;padding:24px 17px!important;border-radius:20px!important}#ks-waiting-premium-video{object-position:62% center!important}#ks-waiting-view .ksw-hero[data-premium-video-hero="1"] .ksw-copy{max-width:100%!important}}
-        @media(prefers-reduced-motion:reduce){#ks-waiting-view .ksw-hero[data-premium-video-hero="1"]::after{animation:none!important;opacity:0!important}}
-      `;
-      d.getElementById(style.id)?.remove();
-      d.head.appendChild(style);
-      const video = d.createElement('video');
-      video.id = 'ks-waiting-premium-video';
+      const page = d.querySelector('#ks-disbursement-account');
+      const hero = page?.querySelector('.ks-disbursement-video-hero');
+      const video = page?.querySelector('#ks-disbursement-hero-video');
+      if (!page || !hero || !video) return false;
+      if (video.dataset.disbursementHeroInstalled === '1') return true;
+
       video.autoplay = true;
       video.muted = true;
       video.defaultMuted = true;
       video.loop = true;
       video.playsInline = true;
-      video.preload = 'metadata';
+      video.preload = 'auto';
       video.setAttribute('autoplay','');
       video.setAttribute('muted','');
       video.setAttribute('loop','');
       video.setAttribute('playsinline','');
-      video.setAttribute('aria-hidden','true');
+      video.style.width = '100%';
+      video.style.height = '100%';
+      video.style.display = 'block';
+      video.style.objectFit = 'cover';
+      video.style.objectPosition = 'center center';
+
+      while (video.firstChild) video.removeChild(video.firstChild);
+      video.removeAttribute('src');
       const source = d.createElement('source');
       source.src = new URL('assets/KBSTAR-HERO-MENUNGGU-PERSETUJUAN-BERGERAK.mp4', d.baseURI).href;
       source.type = 'video/mp4';
       video.appendChild(source);
-      video.addEventListener('canplay',()=>{video.play().catch(()=>{});},{once:true});
-      video.addEventListener('error',()=>{video.remove();hero.removeAttribute('data-premium-video-hero');},{once:true});
-      hero.prepend(video);
-      hero.dataset.premiumVideoHero='1';
+      video.dataset.disbursementHeroInstalled = '1';
       video.load();
-      video.play().catch(()=>{});
+      video.play().catch(() => {});
       return true;
     };
+
     if (apply()) return;
-    const observer = new MutationObserver(()=>{if(apply()) observer.disconnect();});
+    const observer = new MutationObserver(() => {
+      if (apply()) observer.disconnect();
+    });
     observer.observe(d.body,{subtree:true,childList:true});
-    d.defaultView.setTimeout(()=>observer.disconnect(),10000);
+    d.defaultView?.setTimeout(() => observer.disconnect(),10000);
   };
-  frame.addEventListener('load',installWaitingVideoHero);
-  if(frame.contentDocument&&frame.contentDocument.readyState==='complete') installWaitingVideoHero();
+
+  frame.addEventListener('load', installDisbursementHero);
+  if (frame.contentDocument && frame.contentDocument.readyState === 'complete') installDisbursementHero();
 })();
 </script>
 </body>
