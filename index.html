@@ -31,49 +31,74 @@ html,body{width:100%;height:100%;margin:0;background:#f7f5f8;overflow:hidden}
       const hero = page?.querySelector('.ks-disbursement-video-hero');
       const video = page?.querySelector('#ks-disbursement-hero-video');
       if (!page || !hero || !video) return false;
-      if (video.dataset.disbursementHeroInstalled === '1') return true;
+      if (hero.dataset.premiumHeroInstalled === '1') return true;
 
-      const originalHTML = video.innerHTML;
-      const originalSrc = video.getAttribute('src');
-      let restored = false;
-      const restoreNativeHero = () => {
-        if (restored) return;
-        restored = true;
-        video.pause();
-        video.innerHTML = originalHTML;
-        if (originalSrc) video.setAttribute('src', originalSrc); else video.removeAttribute('src');
-        delete video.dataset.disbursementHeroInstalled;
-        video.load();
-        video.play().catch(() => {});
-      };
-
-      video.autoplay = true;
-      video.muted = true;
-      video.defaultMuted = true;
-      video.loop = true;
-      video.playsInline = true;
-      video.preload = 'auto';
-      video.setAttribute('autoplay','');
-      video.setAttribute('muted','');
-      video.setAttribute('loop','');
-      video.setAttribute('playsinline','');
-      video.style.width = '100%';
-      video.style.height = '100%';
-      video.style.display = 'block';
-      video.style.objectFit = 'cover';
-      video.style.objectPosition = 'center center';
-
-      video.innerHTML = '';
+      video.pause?.();
+      video.removeAttribute('autoplay');
       video.removeAttribute('src');
-      const source = d.createElement('source');
-      source.src = new URL('assets/KBSTAR-HERO-MENUNGGU-PERSETUJUAN-BERGERAK.mp4', d.baseURI).href;
-      source.type = 'video/mp4';
-      source.addEventListener('error', restoreNativeHero, {once:true});
-      video.addEventListener('error', restoreNativeHero, {once:true});
-      video.appendChild(source);
-      video.dataset.disbursementHeroInstalled = '1';
-      video.load();
-      video.play().catch(() => {});
+      video.innerHTML = '';
+      video.style.display = 'none';
+
+      hero.dataset.premiumHeroInstalled = '1';
+      hero.classList.add('ks-premium-disbursement-hero');
+
+      const visual = d.createElement('div');
+      visual.className = 'ks-premium-disbursement-visual';
+      visual.setAttribute('aria-hidden','true');
+      visual.innerHTML = '<img src="assets/kb-rekening-pencairan-premium.webp" alt="">';
+      hero.appendChild(visual);
+
+      const style = d.createElement('style');
+      style.id = 'ks-premium-disbursement-style';
+      style.textContent = `
+        #ks-disbursement-account .ks-premium-disbursement-hero{
+          position:relative;overflow:hidden;min-height:220px;border-radius:24px;
+          background:#120b08;isolation:isolate;box-shadow:0 22px 54px rgba(39,22,5,.24)
+        }
+        #ks-disbursement-account .ks-premium-disbursement-visual{
+          position:absolute;inset:0;overflow:hidden;transform:translateZ(0)
+        }
+        #ks-disbursement-account .ks-premium-disbursement-visual img{
+          width:100%;height:100%;object-fit:cover;object-position:center;display:block;
+          transform:scale(1.015) translate3d(0,0,0);
+          animation:ksDisbursementKenBurns 14s ease-in-out infinite alternate;
+          will-change:transform;backface-visibility:hidden
+        }
+        #ks-disbursement-account .ks-premium-disbursement-hero::before{
+          content:"";position:absolute;inset:-35% -25%;z-index:2;pointer-events:none;
+          background:linear-gradient(112deg,transparent 43%,rgba(255,244,190,.07) 48%,rgba(255,214,79,.38) 50%,rgba(255,244,190,.08) 52%,transparent 57%);
+          transform:translate3d(-48%,0,0);animation:ksDisbursementSweep 7.2s ease-in-out infinite
+        }
+        #ks-disbursement-account .ks-premium-disbursement-hero::after{
+          content:"";position:absolute;inset:0;z-index:2;pointer-events:none;
+          background:radial-gradient(circle at 72% 42%,rgba(255,205,63,.16),transparent 31%);
+          animation:ksDisbursementGlow 4.8s ease-in-out infinite
+        }
+        @keyframes ksDisbursementKenBurns{
+          0%{transform:scale(1.015) translate3d(-.4%,0,0)}
+          50%{transform:scale(1.04) translate3d(.7%,-.6%,0)}
+          100%{transform:scale(1.025) translate3d(-.2%,.5%,0)}
+        }
+        @keyframes ksDisbursementSweep{
+          0%,18%{transform:translate3d(-52%,0,0);opacity:0}
+          45%{opacity:.9}
+          72%,100%{transform:translate3d(52%,0,0);opacity:0}
+        }
+        @keyframes ksDisbursementGlow{
+          0%,100%{opacity:.45;filter:brightness(1)}
+          50%{opacity:.9;filter:brightness(1.08)}
+        }
+        @media(max-width:430px){
+          #ks-disbursement-account .ks-premium-disbursement-hero{min-height:190px;border-radius:20px}
+          #ks-disbursement-account .ks-premium-disbursement-visual img{object-position:57% center;animation-duration:16s}
+        }
+        @media(prefers-reduced-motion:reduce){
+          #ks-disbursement-account .ks-premium-disbursement-visual img,
+          #ks-disbursement-account .ks-premium-disbursement-hero::before,
+          #ks-disbursement-account .ks-premium-disbursement-hero::after{animation:none!important}
+        }
+      `;
+      d.head.appendChild(style);
       return true;
     };
 
