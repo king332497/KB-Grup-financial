@@ -1848,6 +1848,15 @@ lucide.createIcons({icons});\``);if(typeof c>"u")throw new Error("`createIcons()
   const root = document.getElementById('kbstar-loan-hero');
   if (!root) return;
   const cta = root.querySelector('.ks-cta');
+  const ctaLabel = cta?.querySelector('.ks-cta-label');
+  const RETURNING_COMPLETE_KEY = 'kbCompletedApplication';
+  function isReturningCompletedUser() {
+    try { return window.localStorage.getItem(RETURNING_COMPLETE_KEY) === '1'; } catch (_) { return false; }
+  }
+  function syncPrimaryCtaLabel() {
+    if (ctaLabel) ctaLabel.textContent = isReturningCompletedUser() ? 'Cek Pinjaman Aktif' : 'Coba Ajukan skrng';
+  }
+  syncPrimaryCtaLabel();
   const page = document.getElementById('kb-indonesia-shell');
   const pageNav = page.querySelector('.ki-nav');
   const pageTitle = page.querySelector('.ki-view-title');
@@ -2130,6 +2139,15 @@ lucide.createIcons({icons});\``);if(typeof c>"u")throw new Error("`createIcons()
   revealPassword.addEventListener('click', () => setPasswordVisible(demoPassword.type === 'password'));
   demoLogin.addEventListener('click', () => {
     application.loggedIn = true;
+    if (isReturningCompletedUser()) {
+      application.dataChecked = true;
+      application.codeMatched = false;
+      codeInput.value = '';
+      clearCodeFeedback();
+      showLoanStep('code');
+      status.textContent = 'Pinjaman aktif terdeteksi. Masukkan 6 digit Kode Simulasi untuk membuka Dashboard.';
+      return;
+    }
     showLoanStep('verify');
     status.textContent = 'Verifikasi Data dibuka. Tersedia contoh nama lengkap, NIK KTP, dan nama ibu kandung lengkap.';
   });
@@ -2187,6 +2205,10 @@ lucide.createIcons({icons});\``);if(typeof c>"u")throw new Error("`createIcons()
     }
     application.codeMatched = true;
     clearCodeFeedback();
+    if (isReturningCompletedUser()) {
+      window.location.href = 'dashboard-kbstar-premium.html';
+      return;
+    }
     codeEntry.hidden = true;
     codeSuccess.hidden = false;
     updateProgress('code');
