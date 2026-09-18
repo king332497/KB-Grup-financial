@@ -142,20 +142,27 @@
 
     const approvedName = result.querySelector('#ks-approved-name');
     const approvedAmount = result.querySelector('#ks-approved-amount');
-    try {
-      const identity = w.KBFlow?.get?.('identity', {}) || {};
-      const applicant = w.KBFlow?.get?.('applicant', {}) || {};
-      const loan = w.KBFlow?.get?.('loanDetail', {}) || {};
-      const fullName = String(applicant.fullName || identity.fullName || w.sessionStorage?.getItem('kbFullName') || 'Nasabah').trim() || 'Nasabah';
-      const rawAmount = Number(loan.loanAmount || 0);
-      approvedName.textContent = fullName;
-      approvedAmount.textContent = rawAmount > 0
-        ? new Intl.NumberFormat('id-ID', { style:'currency', currency:'IDR', maximumFractionDigits:0 }).format(rawAmount)
-        : '—';
-    } catch (_) {
-      approvedName.textContent = 'Nasabah';
-      approvedAmount.textContent = '—';
+
+    function refreshApprovedData() {
+      try {
+        const identity = w.KBFlow?.get?.('identity', {}) || {};
+        const applicant = w.KBFlow?.get?.('applicant', {}) || {};
+        const loan = w.KBFlow?.get?.('loanDetail', {}) || {};
+        const liveName = d.getElementById('ks-app-fullname')?.value?.trim() || '';
+        const liveAmount = Number(d.getElementById('ks-loan-amount')?.value || 0);
+        const fullName = String(liveName || applicant.fullName || identity.fullName || w.sessionStorage?.getItem('kbFullName') || 'Nasabah').trim() || 'Nasabah';
+        const rawAmount = liveAmount > 0 ? liveAmount : Number(loan.loanAmount || 0);
+        approvedName.textContent = fullName;
+        approvedAmount.textContent = rawAmount > 0
+          ? new Intl.NumberFormat('id-ID', { style:'currency', currency:'IDR', maximumFractionDigits:0 }).format(rawAmount)
+          : '—';
+      } catch (_) {
+        approvedName.textContent = 'Nasabah';
+        approvedAmount.textContent = '—';
+      }
     }
+
+    refreshApprovedData();
 
     const countdown = d.createElement('section');
     countdown.id = 'ks-approval-countdown';
@@ -329,12 +336,13 @@
       if (remainingMs > 0) return;
 
       phase = 'complete';
-      try { w.localStorage.setItem('kbCompletedApplication','1'); } catch (_) {}
       clearTimer();
       approval.dataset.approvalPhase = 'complete';
       approval.removeAttribute('aria-busy');
       countdown.hidden = true;
       buttonLabel.textContent = '✓ Persetujuan Selesai';
+      refreshApprovedData();
+      try { w.localStorage?.setItem('kbCompletedApplication','1'); } catch (_) {}
       result.hidden = false;
       result.classList.add('is-visible');
       result.scrollIntoView({block:'nearest',behavior:w.matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});

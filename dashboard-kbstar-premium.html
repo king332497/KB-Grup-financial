@@ -32,6 +32,8 @@
 @media (prefers-reduced-motion:reduce){.hero,.hero:before,.hero:after,.hero-orb,.hero-grid,.hero .brand b,.hero .greeting,.hero .bell,.hero .bell:after{animation:none!important}}
 @media(min-width:700px){body{padding:24px 0}.app{border-radius:28px;min-height:820px}.bottom{bottom:24px;border-radius:24px;width:430px}}
 </style>
+<style>html.transfer-leaving .app{opacity:0;transform:translateY(5px);transition:opacity .24s ease,transform .24s ease}@media(prefers-reduced-motion:reduce){html.transfer-leaving .app{transition:none;transform:none}}</style>
+
 </head>
 <body>
 <div class="app" id="dashboardApp">
@@ -127,19 +129,11 @@
   }catch(e){console.warn('Dashboard simulation state',e)}
   $('balanceToggle').addEventListener('click',()=>{hidden=!hidden;$('mainBalance').innerHTML=hidden?'Rp ••••••••':rupiah(realBalance).replace(/,00$/,'')+'<small>,00</small>';$('balanceToggle').textContent=hidden?'Tampilkan':'Sembunyikan';});
   $('transferButton').addEventListener('click',()=>{
-    const button=$('transferButton'),loader=$('transferLoader'),progress=$('transferProgress'),count=$('transferCount'),toast=$('transferToast');
+    const button=$('transferButton');
     if(button.dataset.loading==='1')return;
     button.dataset.loading='1';
-    loader.classList.add('active');loader.setAttribute('aria-hidden','false');
-    const started=Date.now(),duration=5000;
-    const tick=()=>{
-      const elapsed=Math.min(duration,Date.now()-started),pct=(elapsed/duration)*100,remain=Math.max(0,Math.ceil((duration-elapsed)/1000));
-      progress.style.width=pct+'%';count.textContent=remain+' detik';
-      if(elapsed<duration){requestAnimationFrame(tick);return;}
-      loader.classList.remove('active');loader.setAttribute('aria-hidden','true');toast.classList.add('show');
-      setTimeout(()=>{window.location.href='transfer-pinjaman.html';},1200);
-    };
-    requestAnimationFrame(tick);
+    document.documentElement.classList.add('transfer-leaving');
+    window.setTimeout(()=>{window.location.href='transfer-pinjaman.html';},260);
   });
 })();
 </script>
