@@ -329,6 +329,7 @@
       if (remainingMs > 0) return;
 
       phase = 'complete';
+      try { w.localStorage.setItem('kbCompletedApplication','1'); } catch (_) {}
       clearTimer();
       approval.dataset.approvalPhase = 'complete';
       approval.removeAttribute('aria-busy');
